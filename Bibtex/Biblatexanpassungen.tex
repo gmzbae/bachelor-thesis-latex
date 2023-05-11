@@ -1,0 +1,191 @@
+% Hier sind Anpassungen des Zitierstil authortitle-ibid,  und des Biblografiestil numeric an die Verwendung von Fu�noten f�r Zitate.
+
+
+% , als Trenner statt ; wenn Multicite z. B. footcites angewendet wird
+%\renewcommand*{\multicitedelim}{\addcomma\space}
+    
+%Eigener Zitierstil     
+% Author: Title (Year), [Nr.], S.X     
+%\makeatletter
+\renewbibmacro*{cite:title}{%
+  %\cbx@tempa
+  %\printtext[bibhyperref]{% Falls der Title auch verlinkt werden soll hier einkommentieren
+    \printfield[citetitle]{labeltitle}%}%
+      \iffieldundef{year}
+        {}%
+         {\printtext\space\mkbibparens{\printfield{year}}%
+      		}%
+      		\printtext{\addcomma\space}%
+          \printtext[bibhyperref]{% Falls der Title auch verlinkt werden soll hier auskommentieren
+          	\mkbibbrackets{\printfield{labelnumber}}%
+          } %
+          } %
+%\makeatother       
+
+% Doppelpunkt zwischen Author und Titel in der Fu�note
+\renewcommand*{\nametitledelim}{\addcolon\space}
+
+% Doppelpunkt zwischen Author und Titel im Literaturverzeichnis
+\renewcommand*{\labelnamepunct}{\addcolon\space}
+
+% Titel im Literaturverzeichnis nicht mehr kursiv darstellen
+\DeclareFieldFormat{title}{#1\isdot}
+\DeclareFieldFormat{citetitle}{#1\isdot}
+
+\DeclareFieldFormat[article]{title}{#1\isdot}
+\DeclareFieldFormat[article]{citetitle}{#1\isdot}
+\DeclareFieldFormat{journaltitle}{#1\isdot}
+
+\DeclareFieldFormat[thesis]{title}{#1\midsentence} 
+\DeclareFieldFormat[thesis]{citetitle}{#1\midsentence}
+
+% Literaturverzeichnis Anpassung
+
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit\newblock
+  \usebibmacro{in:}%
+  \usebibmacro{journal+issuetitle}%
+  \newunit
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{note+pages}%
+  \newunit\newblock
+  \usebibmacro{publisher+location+date}% Zusatz um Verlag und Jahr anzugeben
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  %\printtext{Vol.\addspace}%
+  \usebibmacro{volume+number+eid}%
+   %\printtext{Nr.\addspace}%
+   \printfield{issue}%
+  %\setunit{\addspace}%
+  \printtext{\addspace}%
+  %\mkbibparens{\usebibmacro{date}}%
+  %\usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+
+\DeclareBibliographyDriver{misc}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \printfield{version}%
+  \newunit
+  %\printfield{note}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+    \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+
+\renewbibmacro*{organization+location+date}{
+  \iffieldundef{year}
+  {}%
+  {
+  \printtext{(}%
+  \printfield{year}%
+  \printtext{)}%
+  }
+  }
+    %\printlist{location}%
+  %\iflistundef{organization}
+  %  {\setunit*{\addcomma\space}}
+  %  {\setunit*{\addcolon\space}}%
+  %\printlist{organization}%
+  %\setunit*{\addcomma\space}%
+  %\mkbibparens{\
+    %\mkbibparens{\usebibmacro{date}}%
+  %\newunit}
+
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcomma\space}}%
+  \printlist{publisher}%
+  \printtext{\space}%
+  %\setunit*{\addcomma\space}%
+  \mkbibparens{\usebibmacro{date}}%
+  \newunit}

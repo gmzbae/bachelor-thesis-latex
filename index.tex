@@ -1,0 +1,295 @@
+%*****************************************						
+% gi004@hdm-stuttgart.de														
+%******************************************
+%
+% Masterdatei für die einzelnen Kapitel
+%********************************************
+% Allgemeine Einstellungen
+%********************************************
+\documentclass[
+               	a4paper, 
+                oneside, 
+                fontsize=12pt,
+                toc=bibliography]
+                {report}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[autostyle,german=quotes]{csquotes}
+\usepackage{setspace} % Package für Zeilenabstand
+
+\onehalfspacing       %% 1,5-zeiliger Zeilenabstand
+\parindent 0pt
+
+\usepackage[
+			left=30mm,
+			right=30mm,
+			top=30mm,
+			bottom=30mm]{geometry}  % Einstellungen für die Seitenränder (links, rechts, oben, unten)
+
+% This is a preliminary title for your thesis.
+\newcommand{\thesisTitle}{Evaluierung von Systemen zur Speicherung und Bereitstellung von Binärdaten im Kontext von Web Services}
+
+% Your full name.
+\newcommand{\name}{Gamze Isik}
+
+% The time frame in which you want to write the thesis.
+\newcommand{\timeFrame}{20. März - \textbf{19. Juni 2023}}
+
+% The primary supervisor. You probably do not need to change this.
+\newcommand{\supervisor}{Erstbetreuer: Prof. Martin Goik}
+
+% The name(s) of your advisor(s). This is probably the PhD student or PostDoc that you are working with.
+\newcommand{\advisor}{Zweitbetreuer: Thomas Maier}
+
+% Select if this is a Bachelor or Master Thesis.
+\newcommand{\thesisType}{Bachelor}
+
+
+%******************************************************************************	
+% Ebenen Einstellungen
+%1.section, 2.subsection, 3.subsubsection, 4.paragraph, 5.subparagraph
+%******************************************************************************
+\setcounter{secnumdepth}{4} % Anzahl der Ebenen für Überschriften einstellen
+\setcounter{tocdepth}{3} % Anzahl der Ebenen für Überschriften im Inhaltsverzeichnis einstellen
+
+
+%*******************************************************************************
+% Grafiken
+%******************************************************************************
+\geometry{verbose}
+\usepackage{graphicx}
+\usepackage{float} 				% Zum Ausrichten von Tabellen und Grafiken
+\usepackage[export]{adjustbox}
+
+%****************************************************************************
+% Tabellen
+%****************************************************************************
+\usepackage{tabularx}	% Ermöglicht Tabellen mit Autoumbruch
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Helfer während der Texterstellung
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{blindtext}      % Blindtext zum Testen von Textausgaben
+\usepackage[]{showkeys} % Anzeige der Referenz-/Labelnamen im Text, Dokument auf final deaktiviert Option
+\usepackage{fixme}  % ermöglicht die Verwendung von FixMes
+\usepackage[pagewise]{lineno} % Zeilennummern beim Korrekturlesen sinnvoll
+
+\usepackage[colorinlistoftodos,obeyDraft,backgroundcolor=red!40,bordercolor=red,linecolor=red,prependcaption]{todonotes}
+% überschreibt die Voreinstellung "noinline" bei TODO Notes sodass diese immer Inline angezeigt werden
+\makeatletter
+\presetkeys{todonotes}{inline}{}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Kopf- und Fußzeile mit fancyhdr
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\fancyhf{}
+%% Einstellungen für Kopf- und Fußzeile
+\fancyhead[L]{\nouppercase{\leftmark}} 
+\fancyfoot[C]{\thepage}
+
+%%Linien für Kopf und Fußzeile sowie die Breite
+\renewcommand{\headrulewidth}{0pt}
+\usepackage[clearempty]{titlesec} % Leerseiten ohne Kopfzeile und ohne Nummerierung!
+
+\titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter}{10pt}{\huge}
+\titlespacing{\chapter}{0pt}{0pt}{20pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	style= authortitle-ibid, 	%Zitierstil
+	bibstyle=numeric, 		%Biblografiestil
+	backend=biber,
+	sortlocale=de_DE,
+	bibencoding=utf8,
+	hyperref,
+	defernumbers=true,
+	ibidtracker=context, 	% damit ebd. funktioniert
+	isbn=false, 			% ISBN im Literaturverzeichnis
+	url=true, 				% Url im Literaturverzeichnis
+	doi=false]{biblatex} 
+
+% Lädt Anpassungen für den Zitierstil/Biblografiestil
+\include{./Bibtex/Biblatexanpassungen}
+
+% Aufteilung des Quellenverzeichnis in verschiedene Abschnitte. 
+\defbibheading{literatur}{\subsection*{Literaturquellen}}
+\defbibheading{pdf}{\subsection*{Elektronische Dokumente}}
+\defbibheading{online}{\subsection*{Internetquellen}}
+
+\addbibresource{./Bibtex/Quellen.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Stichwortverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{idxlayout} %Damit der Abstand der Überschrift genauso hoch wie bei den Sonstigen Überschriften
+\usepackage{makeidx}
+\makeindex
+
+
+% Verlinkung im Dokument 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Einstellungen für das erstellte PDF
+\usepackage[
+	bookmarks=true,
+	bookmarksopen=true,
+	bookmarksnumbered=true,
+	pdftitle={Evaluierung von Systemen zur Speicherung und Bereitstellung von Binaerdaten im Kontext von Web Services}, 
+	pdfauthor={\name},
+	pdfsubject={\thesisType Thesis: Evaluierung von Systemen zur Speicherung und Bereitstellung von Binaerdaten im Kontext von Web Services},
+	pdfkeywords={Speichersysteme},
+	breaklinks=true,
+	colorlinks=true,
+	linkcolor=black,			% links in blau, black
+	anchorcolor=blue,			% black
+	citecolor=blue, 			% black
+	filecolor=blue,				% black
+	menucolor=blue,				% black
+	urlcolor=blue,				% black
+	pdfpagelabels=true,
+	pdfstartview=Fit,
+	hypertexnames=true,
+	draft=false,
+	plainpages=false,
+	pdfpagelabels,
+	hyperfootnotes=false,
+	breaklinks=true]{hyperref}
+
+\usepackage[bottom,hang,multiple]{footmisc} % Fußnoten Einstellungen
+\setlength{\footnotemargin}{0pt}
+\newcommand\fnsep{\textsuperscript{,}} %Komma zum manuellen trennen von Footnotes
+
+\usepackage[all]{hypcap} % Workaaround damit Links auf Abbildungen und Tabellen auf den Beginn und nicht das Ende der Abb/Tab zeigt
+
+% damit Urls an jedem Buchstaben umgebrochen werden, sinnvoll vor allem im Literaturverzeichnis
+\usepackage[]{url}
+\def\UrlBreaks{\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l
+\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\0
+\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\-\do\_\do\I}%
+\urlstyle{same}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Abbildgungen, Tabellen & Formeln pro Kapitel durchnummerieren 
+%Tabelle 1 -> Tabelle 2.1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\makeatother
+\renewcommand{\thefigure}{\thesection.\arabic{figure}} % Abbildung
+\renewcommand{\thetable}{\thesection.\arabic{table}}  % Tabelle
+\renewcommand{\theequation}{\arabic{section}.\arabic{equation}} %Formeln
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Glossaries: Abkürzungsverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+   acronym, % Abkürzungsverzeichnis erstellen
+   toc, % zum Inhaltsverzeichnis hinzufügen
+   shortcuts]{glossaries} 
+
+% Name des Abkürzungsverzeichnis anpassen
+\addto\captionsngerman{\renewcommand\glossaryname{Glossar}}
+\deftranslation[to=ngerman]{Acronyms}{Abkürzungsverzeichnis}
+\deftranslation[to=ngerman]{Glossary}{Glossar}
+
+%-----------------------------------------------------------------
+% Eigener Stil für Abkürzungsverzeichnis
+%-----------------------------------------------------------------
+\newglossarystyle{mylist}{%
+  \renewenvironment{theglossary}%
+     {\begin{longtable}[l]{@{}lp{0.75\textwidth}@{}}} %Damit Tabelle Linksbündig am Rand beginnt
+     {\end{longtable}}%
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand*{\glossaryentryfield}[5]{%
+    \glsentryitem{##1}\textbf{\glstarget{##1}{##2}} & ##3\glspostdescription\space ##5\\}%
+  \renewcommand*{\glossarysubentryfield}[6]{%
+     &
+     \glssubentryitem{##2}%
+     \glstarget{##2}{\strut}##4\glspostdescription\space ##6\\}%
+%  \renewcommand*{\glsgroupskip}{ & \\}%
+	 \renewcommand{\glsgroupskip}{}%
+}
+%-----------------------------------------------------------------
+\renewcommand*{\glspostdescription}{} %Punkt am Ende jeder Beschreibung deaktivieren
+\makeglossaries % Glossar erstellen
+
+
+
+%************************************************************************************************
+\begin{document}
+
+%\linenumbers 			%Zeilennummern; zum Korrekturlesen einkommentieren
+
+\pagestyle{empty}		% Keine Kopf-/Fusszeilen auf den ersten Seiten.
+
+%****************************************
+%Include
+%****************************************
+\include{./Deckblatt/Deckblatt}		% Deckblatt
+\include{./Erklaerung/Erklaerung} 	% Erklärung
+\include{./Abstract/Abstract} 		% Abstract
+\include{./Inhaltsverzeichnis/Inhaltsverzeichnis}
+
+\include{./Abkuerzungsverzeichnis/Abkuerzungsverzeichnis}	
+\glsaddall[types={\acronymtype}] % damit auch nicht benutzte Abkürzungen erscheinen
+\begin{singlespacing}	% Zeilenabstand 1.0
+\printglossary[type=\acronymtype,style=mylist,nonumberlist]
+\end{singlespacing}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbildungsverzeichnis ausgeben
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\phantomsection				
+\addcontentsline{toc}{chapter}{\listfigurename}		
+\listoffigures 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabellenverzeichnis ausgeben
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\phantomsection
+\clearpage
+\phantomsection		
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables 
+\clearpage
+
+\include{./Einleitung/Einleitung} 
+\include{./TheoretischerTeil/TheoretischerTeil}
+\include{./PraktischerTeil/PraktischerTeil}
+\include{./Ergebnisse/Ergebnisse}
+\include{./Diskussion/Diskussion}
+\include{./Fazit/Fazit}
+\include{./Ausblick/Ausblick}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Literaturverzeichnis ausgeben
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Literaturverzeichnis}
+\markboth{Literaturverzeichnis}{Literaturverzeichnis}
+\printbibliography[heading=literatur,keyword=literatur]
+\clearpage
+\printbibliography[heading=pdf,keyword=pdf]
+\clearpage
+\printbibliography[heading=online,keyword=online]
+\clearpage
+\phantomsection
+
+\include{./Anhang/Anhang}
+
+\end{document}
+
+
+
+
+
+
