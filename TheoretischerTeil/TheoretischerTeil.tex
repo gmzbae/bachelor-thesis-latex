@@ -4,6 +4,8 @@ Speichersysteme sind eine entscheidende Komponente der IT Infrastruktur eines Un
 \\ 
 Im nachfolgenden Kapitel werden die unterschiedlichen Typen von Speichersystemen vorgestellt, wobei der Fokus auf den drei Speicherarten File-, Object- und Block Storage liegt. Im Anschluss daran erfolgt ein Vergleich von zwei Cloud-Providern in Bezug auf sicherer Speicherung, Hochverfügbarkeit, Performance, Kosten, API-Anbindung sowie der Dateibereitstellung. Auf Basis dieser Kriterien wird eine Entscheidung darüber getroffen, welcher Provider den Bedürfnissen von "Leoticket" entspricht. Hierbei fließen die Kosten- und Performance-Analysen mit in die Entscheidung ein.
 
+\newpage
+
 \section{Arten von Speichersystemen}
 
 Im folgenden Abschnitt werden die verschiedenen Arten von Speichersystemen vorgestellt, die für die Speicherung von digitalen Daten verwendet werden. Hierbei werden die drei gängigsten Speicherarten File-, Object-, und Blob Storage behandelt.\\
@@ -22,7 +24,7 @@ File Storage, auch dateiebenen- oder dateibasierter Storage genannt \cite{redHat
 	Dieses System wird auch als hierarchischer Storage bezeichnet und gilt als das älteste und am weitesten verbreitete Datenspeichersystem für Direct und Network-Attached Storage. Dateisysteme organisieren Daten in hierarchischen Ordnern und Unterverzeichnissen, ähnlich wie in einem Dateiordner auf einem Computer. Dateien werden in der Regel auf einem Server oder einer Festplatte gespeichert und können von mehreren Benutzern gleichzeitig gelesen und geschrieben werden. Hierbei werden die Informationen in einzelnen Verzeichnisse abgelegt und können über den entsprechenden Pfad aufgerufen werden. Um dies zu ermöglichen, werden begrenzte Mengen an Metadaten genutzt, die dem System den genauen Standort der Dateien mitteilen, vgl. \citeauthor{redHat-storage}.
 \end{quote}
 
-In der folgenden Abbildung wird die hierarchische Struktur des Dateispeichers visualisiert.\\
+In der folgenden Abbildung wird die hierarchische Struktur des Dateispeichers visualisiert.
 
 \begin{figure}[h]
 \centering
@@ -38,6 +40,8 @@ Auch wenn es von Betriebssystemen und Anwendungen gut unterstützt wird, kann di
 \end{quote}
 
 Laut Wahlmann (\citeyear{nx-fileScala}, Übersetzung des Autors) wird die Datenspeicherung bei zu vielen Daten nicht nur teuer, sondern auch unhandlich und zeitaufwändig. Der schnelle und einfache Zugriff auf jede einzelne Datei wird schwierig, wenn man zig Millionen von Dateien in Tausenden von Verzeichnissen auf Hunderten von Speichergrößen speichert. 
+
+\newpage
 
 \subsection{Block Storage}
 
@@ -56,7 +60,7 @@ Typische Anwendungsbereiche des Block Storage sind Datenbanken, Virtualisierungs
 \subsection{Object Storage}
 
 Object Storage hat sich als Speichertechnologie in den letzten Jahren immer stärker etabliert und wird von vielen Unternehmen als Alternative zu traditionellen Speicherlösungen wie Block- oder File Storage angesehen. Die ersten Object Storage Systeme wurden bereits in den 1990er Jahren entwickelt, aber erst mit dem Aufkommen von Big Data, IoT und der Cloud-Nutzung 
- hat es einen breiteren Einsatz gefunden. Heute bieten viele Cloud Provider wie Amazon Web Services (AWS) und Google Cloud Platform (GCP) Object Storage als einen ihrer Haupt-Cloud-Services an.\\
+ hat es einen breiteren Einsatz gefunden. Heute bieten viele Cloud Provider wie Amazon Web Services (AWS) und Google Cloud Platform (GCP) Object Storage als einen ihrer Haupt-Cloud-Services an.
  
 \begin{quote}
 	Object Storage ist für den Umgang mit großen Datenvolumen und unstrukturierten Daten entwickelt wurden. Sie speichert Daten als eigenständige Objekte, die aus Daten und Metadaten bestehen und einen eindeutigen Identifier (UID) haben (\glqq Object storage (aka object-based storage) is a type of data storage used to [...]\grqq, \cite{dataCore-OS}, Übersetzung des Autors).
@@ -76,6 +80,7 @@ Da leoticket Daten wie Rechnungen und Tickets als Dateien speichern und abrufen 
 
 Für leoticket ist die Object Storage Variante die am Besten geeignetste Speicherlösung, da ... %TODO Satz weiterschreiben
 
+\newpage
 
 \section{Aktuelle Speichertechnologien im Markt}
 
@@ -96,6 +101,8 @@ Insgesamt bieten AWS und Google Cloud Platform eine Vielzahl von Speicherlösung
 Im vorliegenden Abschnitt werden Amazon S3 und Google Cloud Storage in Bezug auf verschiedene Kriterien untersucht. Dabei werden zunächst die Eigenschaften von AWS S3 erläutert, gefolgt von einer Betrachtung von GC Storage. Ziel ist es, die Unterschiede zwischen den beiden Anbietern hervorzuheben und eine Entscheidungshilfe zu bieten, welche Plattform für die Anforderungen von \glqq leoticket\grqq am besten geeignet ist. Die Auswahl der Kriterien erfolgt in Anlehnung an die spezifischen Anforderungen von \glqq leoticket\grqq.
 
 %TODO Aws und GCP Definition?
+
+\newpage
 
 \subsubsection{Sichere Speicherung}
 
@@ -121,15 +128,15 @@ Wenn man die SSE-KMS Variante aussucht, kann man auch die S3 Bucket Key Funktion
 
 Zuletzt gibt es noch die SSE-C (server-side encryption with customer-provided keys). Bei der SSE-C stellt der Customer seinen eigenen Schlüssel zur Verfügung. Dieser Schlüssel wird nicht von Amazon S3 gespeichert, im Gegensatz bei AWS KMS. Amazon S3 übernimmt mit dem bereitgestellten Schlüssel die Datenverschlüsselung beim Schreiben sowie die Datenentschlüsselung beim Zugriff auf Objekte. Amazon S3 entfernt anschließend den Schlüssel aus dem Speicher. Da Amazon S3 den Schlüssel nicht speichert, sepeichert er den zufällig generierten HMAC (Hash-baded Message Authentication Code) Wert vom Encryption Key um zukünftige Requests zu validieren."Note: Amazon S3 does not store the encryption key that you provide. [...]", \cite{aws-sse-c}.\\
 
-\newpage
-
 Object Ownership ist eine weitere wichtige Sicherheitsfunktion von Amazon S3. Mit Object Ownership können Benutzer oder Gruppen die Eigentümerschaft von Objekten in S3-Buckets besitzen. Dies bedeutet, dass nur autorisierte Benutzer die Berechtigung haben, Objekte zu löschen oder zu ändern, was die Sicherheit der Daten erhöht.\glqq S3 Object Ownership ist eine Einstellung auf Amazon-S3-Bucket-Ebene, mit der Sie Zugriffskontrolllisten (ACLs) deaktivieren und das Eigentum an jedem Objekt in Ihrem Bucket übernehmen können, [...]." \cite{aws-iam-s3}\\ 
 
-AWS empfiehlt die ACL (Access Control List) auf Bucket-Ebenen deaktiviert zu lassen. Alle Objekte eines Buckets gehört so dem Bucket Owner. Laut \citeauthor{aws-iam-s3} verfügt Object Ownership über drei Einstellungen, mit denen man die Eigentümerschaft von Objekten steuern kann. 
+\newpage
+
+AWS empfiehlt die ACL (Access Control List) auf Bucket-Ebenen deaktiviert zu lassen. Alle Objekte eines Buckets gehört so dem Bucket Owner. Laut \citeauthor{aws-iam-s3} verfügt Object Ownership über drei Einstellungen, mit denen man die Eigentümerschaft von Objekten steuern kann.
 
 \begin{figure}[h]
 \centering
-	\includegraphics[width=16cm,keepaspectratio]{Pictures/objectOwnershipTable.png}
+	\includegraphics[width=13cm,keepaspectratio]{Pictures/objectOwnershipTable.png}
 	\caption{Einstellungen für Object Ownership, \citeurl{aws-iam-s3}}
 \end{figure}
 
@@ -177,9 +184,21 @@ Um eine hohe Verfügbarkeit bereitzustellen, stell Amazon S3 außerdem noch die 
 
 Um die Leistung von Amazon S3 zu überwachen und auf mögliche Probleme reagieren zu können wird CloudWatch bereitgestellt. Dadurch können Ausfallzeiten minimiert werden und herausfinden, an welchen Momenten die Verfügbarkeit am geringsten ist.
 
-Insgesamt bietet Amazon S3 eine hochverfügbare und zuverlässige Speicherlösung, die durch Multi-Availability Zone Architekturen und Fehlerkorrekturmechanismen eine Verfügbarkeit von 99,99 Prozent gewährleistet.\\
+Insgesamt bietet Amazon S3 eine hochverfügbare und zuverlässige Speicherlösung, die durch Multi-Availability Zone Architekturen und Fehlerkorrekturmechanismen eine Verfügbarkeit von 99,99 Prozent gewährleistet.
+
+\newpage
 
 \textbf{Google Cloud Storage}\\
+
+Laut \cite{gcp-sla} wird die Verfügbarkeit von Google Cloud Storage als Service Level Agreement (SLA) angegeben, das die garantierte Verfügbarkeit für den Dienst definiert. Gemäß dem aktuellen SLA von Google Cloud Storage beträgt die garantierte Verfügbarkeit für Multi-Regionaler Speicher 99,95 Prozent und für Regionale Speicher 99,9 Prozent. Diese Zahlen geben an, dass Google Cloud Storage darauf ausgelegt ist, eine sehr hohe Verfügbarkeit zu gewährleisten. In der folgenden Tabelle werden diese Werte nochmals belegt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCSLA.png}
+	\caption{Verfügbarkeit der Speicherklassen gemäß Google Cloud Storage SLA \citeurl{gcp-sla} }
+\end{figure}
+
+Es ist jedoch zu beachten, dass die tatsächliche Verfügbarkeit von Google Cloud Storage von mehreren Faktoren abhängt, einschließlich der spezifischen Konfiguration, dem Datenzugriffsmuster, der Netzwerkverfügbarkeit und anderen betrieblichen Variablen. Es ist daher möglich, dass die tatsächliche Verfügbarkeit in der Praxis leicht von der garantierten Verfügbarkeit abweicht.
 
 Auch Google Cloud Storage bietet die Multi-Region Storage an. Dies ermöglicht die Speicherung von Daten in mehreren Regionen weltweit. Dadurch werden die Daten redundant repliziert und bleiben auch im Falle eines Ausfalls einer Region verfügbar.\\ 
 
@@ -203,7 +222,7 @@ Um das Ganze zu veranschaulichen, werden die Preise durch die untere Tabelle pr�
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=15cm,keepaspectratio]{Pictures/AllgKostenAWS.png}
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/AllgKostenAWS.png}
 	\caption{Übersicht der Kosten der AWS S3 Speicherklassen}
 \end{figure}
 
@@ -230,7 +249,7 @@ Um den Vergleich zwischen Amazon S3 und Google Cloud Storage zu veranschaulichen
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=15cm,keepaspectratio]{Pictures/GCStorageClassKosten.png}
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCStorageClassKosten.png}
 	\caption{Vergleich der Kosten von Google Cloud Storage Speicherklassen}
 \end{figure}
 
@@ -246,11 +265,17 @@ Auch hier fallen Kosten für die Objektversionierung an. Die Kosten setzen sich 
 
 \subsubsection{Performance}
 
-Amazon S3 bietet verschiedene Funktionen und Dienste, die die Performance und Skalierbarkeit der Datenzugriffe verbessern. Die S3 Transfer Acceleration ermöglicht eine schnellere Übertragung großer Dateien. Es nutzt das Amazon CloudFront-Netzwerk. um den Datentransfer zu beschleunigen. Durch die Verwendung von optimierten Netzwerkpfaden und Caching-Techniken kann S3 Transfer Acceleration die Latenz reduzieren und die Übertragungsgeschwindigkeit erhöhen.\\
+\textbf{Amazon S3}\\
+
+Amazon S3 bietet verschiedene Funktionen und Dienste, die die Performance und Skalierbarkeit der Datenzugriffe verbessern.  
+
+Die S3 Transfer Acceleration ermöglicht eine schnellere Übertragung großer Dateien. Es nutzt das Amazon CloudFront-Netzwerk, um den Datentransfer zu beschleunigen. Durch die Verwendung von optimierten Netzwerkpfaden und Caching-Techniken kann S3 Transfer Acceleration die Latenz reduzieren und die Übertragungsgeschwindigkeit erhöhen.\\
 
 S3 Select ermöglicht das effiziente Abrufen von spezifischen Daten aus Objekten in Amazon S3. Anstatt ein gesamtes Objekt herunterladen zu müssen, können mit S3 Select nur die benötigten Daten abgefragt werden. Dies reduziert den Datenverkehr und beschleunigt den Abrufvorgang erheblich,  insbesondere bei großen Daten.\\
 
-S3 Cross-Region Replication ermöglicht die Replikation von Daten zwischen verschiedenen AWS-Regionen. Durch die Replikation in geografisch entfernte Regionen kann die Leistung verbessert werden, indem Daten näher an den Benutzer oder Anwendungen bereitgestellt werden. Dadurch werden niedrigere Latenzzeiten und eine bessere Verfügbarkeit erzielt.\\
+S3 Cross-Region Replication ermöglicht die Replikation von Daten zwischen verschiedenen AWS-Regionen. Durch die Replikation in geografisch entfernte Regionen kann die Leistung verbessert werden, indem Daten näher an den Benutzer oder Anwendungen bereitgestellt werden. Dadurch werden niedrigere Latenzzeiten und eine bessere Verfügbarkeit erzielt.
+
+\newpage
 
 \textbf{Google Cloud Storage}\\
 
@@ -258,16 +283,59 @@ Google Cloud Storage ermöglicht die Auswahl des geeigneten Speicherorts für Da
 
 Durch die Integration mit Content Delivery Networks (CDNs) kann die globale Verteilung von Daten optimiert und die Bereitstellung beschleunigen. Das CDN stellt eine Zwischenspeicherung von Inhalten in Edge-Servern weltweit bereit, um den Zugriff auf Daten schneller und effizienter zu machen.\\
 
-Cloud Storage ermögilcht den parallelen Upload und Download von Daten, um die Übertragunsgeschwindigkeit zu maximieren. Es können mehrere Threads oder Prozesse verwenden werden, um Daten gleichzeitig hochzuladen oder herunterzuladen und so die Leistung zu verbessern.\\
+Bei der Performance spielt die Request Rate auch eine bedeutsame Rolle. Das bietet das Auto-Scaling von GCP an. Cloud Storage ist ein multi-tenant Service, was bedeutet, dass Benutzer die zugrunde liegenden Ressourcen gemeinsam nutzen. Um die gemeinsam genutzten Ressourcen optimal zu nutzen, haben Buckets eine anfängliche I/O Kapazität."Cloud Storage is a multi-tenant service, meaning that users share the same set of underlying resources.[...]", \cite{gcp-autoscale} (Übersetzung aus Google Cloud)
 
-Der Google Cloud Storage Transfer Service ermöglicht den schnellen und effizienten Transfer von großen Datenmengen. Daten können aus anderen Cloud-Speicherlösungen, On-Premise-Speichern oder öffentlichen Datensätzen in Google Cloud Storage übertragen werden, um Zeit und Bandbreite zu sparen.\\
+ \begin{quote}
+ 	Diese Kapazitäten betragen etwa 1000 Schreibzugriffsanfragen pro Sekunde für Objekte, einschließlich Hochladen, Aktualisieren und Löschen von Objekten. Es ist zu beachten, dass Cloud Storage auch eine kleinere Begrenzung für wiederholte Schreibvorgänge mit demselben Objektnamen hat. Auf Lesezugriffsanfragen po Sekunde betragen sie bei 5000, einschließlich Auflisten von Objekte, Lesen von Objektdaten und Lesen von Objektmetadaten, vgl. \cite{gcp-autoscale}.
+ \end{quote}
+ 
+ Wenn die Anfragehäufigkeit für einen bestimmten Bucket steigt, skaliert Cloud Storage automatisch und erhöht die I/O Kapazität für diesen Bucket, indem die Anfragelast auf mehrere Server verteilt wird.\\
+ 
+Cloud Storage ermöglicht den parallelen Upload und Download von Daten, um die Übertragungs-geschwindigkeit zu maximieren. Es können mehrere Threads oder Prozesse verwenden werden, um Daten gleichzeitig hochzuladen oder herunterzuladen und so die Leistung zu verbessern.\\
 
-Es ist zu beachten, dass die Performance auch von anderen Faktoren abhängt, wie die Anwendungsarchitektur, die Netzwerkverbindung und die Implementierung in der Anwendung. Es können spezifische Konfigurationsoptionen genutzt werden, um die Leistung weiter zu optimieren, wie Caching, asynchrone Operationen oder die Nutzung von optimierten Bibliotheken oder Frameworks.
+Der Google Cloud Storage Transfer Service ermöglicht den schnellen und effizienten Transfer von großen Datenmengen. Daten können aus anderen Cloud-Speicherlösungen, On-Premise-Speichern oder öffentlichen Datensätzen in Google Cloud Storage übertragen werden, um Zeit und Bandbreite zu sparen.
 
+\newpage
+
+Während die out-of-the-box Performance bereits stabil ist, gibt es einige Einstellungen und Empfehlungen von Google Cloud, um die Performance auf den Anwendungsfall zu optimieren. Umm die Leistung messen zu können, bietet Google Cloud die "perfdiag" Tool an. Der Autor McAnlis empfiehlt in seinem Block \citetitle{gcp-blog} dieses Tool zu verwenden, dass eine Reihe von Tests durchläuft, die die aktuelle Performance von einem Cloud Bucket protokolliert. Des Weiteren empfiehlt er die Nutzung des "gsutil" Tools von Google Cloud, um kleinere Dateien schneller hochzuladen. Wenn man 20 000 Dateien, die jeweils 1kb groß sind, hochladen möchte, dann dauert der Overhead bei jedem individuellen Upload länger als die gesamte Uploadzeit gemeinsam. Deshalb sollte man Batch Operationen verwenden, da diese den Overhead reduzieren und die Leistung verbessern.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/cloud-storage-performance.png}
+	\caption{GCS Upload Geschwindigkeit, \citeurl{gcp-blog}}
+\end{figure}
+
+Es ist zu beachten, dass die Performance auch von anderen Faktoren abhängt, wie die Anwendungsarchitektur, die Netzwerkverbindung und die Implementierung in der Anwendung. Es können spezifische Konfigurationsoptionen genutzt werden, um die Leistung weiter zu optimieren, wie Caching, asynchrone Operationen oder die Nutzung von optimierten Bibliotheken oder Frameworks. Das gsutil Tool bietet die Option an Batch Operationen durchzuführen. Auf dem folgenden Diagramm wird ein Test mit 100 mal 200 000 Dateien mit individuellem Upload und Batch Upload angezeigt, das mit "gsutil -m cp" in ein Storage Bucket hochgeladen wird.
+
+\newpage
 
 \subsubsection{API Anbindung}
 
+\textbf{Amazon S3}\\
+
+Die API-Anbindung von Amazon S3 ist umfangreich und bietet Entwicklern eine Vielzahl von Möglichkeiten zur Interaktion mit dem Speicherdienst. Amazon S3 bietet eine RESTful API (Application Programming Interface) sowie verschiedene SDKs (Software Development Kits) und Tools, die die Integration und Nutzung erleichtern.\\
+
+Amazon S3 bietet eine RESTful API, die auf dem HTTP-Protokoll basiert. Mit dieser API können Entwickler HTTP-Anfragen wie GET, PUT, POST und DELETE verwenden, um auf Buckets und Objekte in Amazon S3 zuzugreifen, sie zu erstellen, zu lesen, zu aktualisieren und zu löschen.\\
+
+Amazon S3 stellt offizielle SDKs für verschiedene Programmiersprachen bereit, darunter Java, Python, .NET, Ruby, Node.js und mehr. Diese SDKs bieten eine abstrakte Schnittstelle, um die Entwicklung von Anwendungen zu erleichtern und die Interaktion mit Amazon S3 zu vereinfachen. Darüber hinaus gibt es auch Drittanbieter-Tools und Open-Source-Bibliotheken, die die Integration mit Amazon S3 unterstützen. Beispielsweise MinIO %TODO MinIO Anbindung\\
+
+Amazon S3 ermöglicht die Durchführung von Batch-Operationen, um mehrere Objekte in einem einzigen API-Aufruf zu verarbeiten. Dies erleichtert die effiziente Verarbeitung großer Datenmengen und reduziert die Anzahl der API-Anfragen.\\
+
+Die API-Anbindung von Amazon S3 erfordert eine geeignete Authentifizierung und Autorisierung, um sicherzustellen, dass nur autorisierte Benutzer auf die Daten zugreifen können. Dies erfolgt in der Regel mithilfe von Zugriffsschlüsseln, die über AWS Identity and Access Management (IAM) verwaltet werden.
+
+\newpage
+
+\textbf{Google Cloud Storage}\\
+
+Google Cloud Storage bietet sowohl JSON- als auch XML-APIs für die Interaktion mit dem Speicherdienst. Die JSON-API ist die bevorzugte Option und bietet eine moderne, leichtgewichtige Syntax für die Kommunikation mit dem Dienst. Neben der direkten API-Anbindung stellt Google auch das Google Cloud SDK zur Verfügung, das verschiedene Befehlszeilentools enthält, mit denen Sie auf Ihre Speicherressourcen zugreifen und sie verwalten können. Das SDK bietet auch eine Reihe von Clientbibliotheken für verschiedene Programmiersprachen.\\
+
+Die API-Anbindung von Google Cloud Storage erfordert ebenfalls eine Authentifizierung und Autorisierung, um sicherzustellen, dass nur autorisierte Benutzer auf die Daten zugreifen können. Dies wird mithilfe von Google Cloud IAM (Identity and Access Management) verwaltet, das Zugriffsrichtlinien und Rollenverwaltung bietet.
+
+\newpage
+
 \subsection{Bereitstellung der Dateien}
+
+\newpage
 
 \section{Auswahl des Speichersystems}
 
