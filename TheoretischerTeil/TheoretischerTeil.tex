@@ -369,7 +369,7 @@ Für leoticket bedeutet das, Tickets und Rechnungen nicht mehr als Email-Anhäng
 
 \textbf{Google Cloud Storage}
 
-In Google Cloud Storage 
+In Google Cloud Storage funktioniert die signed URL mit dem ähnlichen Prinzip wie in Amazon S3. Durch zeiteingeschränkte Links können Nutzer, die den Link besitzen, auf Objekte und Buckets zugreifen ohne Google Cloud Credentials.
 
 \newpage
 
@@ -379,6 +379,60 @@ Im folgenden Abschnitt wird eine Auswahl des Speichersystem getroffen. Anhand de
 
 In diesem Abschnitt wird durch eine Kosten-, und Performance Analyse die Speichersysteme ausgewertet und eine Auswahl getroffen. Die Kalkulationsergebnisse werden zum Schluss dargestellt.
 
+\newpage
+
 \subsection{Kostenanalyse}
+
+Bei der Kostenanalyse werden die Gebühren aus dem Kosten Abschnitt übernommen und eine Kostenabschätzung für Amazon S3 und Cloud Storage durchgeführt. Es werden die Kosten für die Speicherung, Abrufen und Datenübertragung verglichen und dargestellt. Die Berechnungsdaten stammen aus leoticket und dienen der groben Kosteneinschätzung. Die Kosten können von verschiedenen Faktoren voneinander abweichen. Der aktuelle Stand der Kosten ist gleich dem Abgabedatum der Arbeit.\\
+
+Für die grobe Einschätzung der Kosten wird von 800 000 Bestellungen im Durchschnitt über leoticket pro Jahr ausgegangen. Pro Monat sind das ca. 67 000 Bestellungen mit jeweils 4 Objekten pro Bestellung. Die Größe eines Objektes beträgt dabei im Durchschnitt 100kb. Pro Bestellung werden im Durchschnitt drei Tickets gekauft, wobei noch eine Rechnung hinzugefügt wird. Diese 4 Objekte machen eine Bestellung aus mit insgesamt 400kb. Es wird davon ausgegangen, dass es monatlich ungefähr 268 000 POST Requests nach Amazon S3 verschickt werden. Diese Zahl ergibt sich durch die Anzahl der Bestellungen pro Monat mal vier Objekte. Außerdem wird davon ausgegangen, dass Objekte jeweils zweimal im Monat abgerufen werden können. Einmal von Leomedia aus und von den Kunden aus. Insgesamt werden es 536 000 GET Requests von Amazon S3 aus geben.\\
+
+Die Speichergröße ergibt sich aus den 67 000 Bestellungen pro Monat mal die 400kb Größe pro Bestellung. Diese werden geteilt durch 1024 und das Ergebnis nochmal durch 1024 um die GB Einheit zu bekommmen. Das ergibt 25GB pro Monat an Speicher. Wenn man die Retention von 10 Jahren dabei bedenk, dann sind das ungefähr 3TB Daten die gespeichert werden müssen, wenn Daten erst nach 10 Jahren gelöscht werden. Mit diesen gewonnen Daten werden die Preisrechner von AWS und Google Cloud verwendet und die entsprechenden Daten eingesetzt.\\
+
+
+\textbf{Amazon S3}\\
+
+Im Folgenden wird die folgende Tabelle bereitgestellt, um die Kosten für die verschiedenen Speicherklassen darzustellen.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm,keepaspectratio]{Pictures/AWSGesamtkosten.png}
+\caption{Gesamtkosten der Datenspeicherung in Amazon S3}	
+\end{figure}
+
+Zuerst werden die Einheitsumwandlungen durchgeführt. Dabei werden die angegebenen 3TB im Monat mal die 1024GB multipliziert, um die exakte Menge an GB auszurechnen. Dies ist bei 3072GB. Danach wird die Objektgröße von 100kb in GB umgerechnet, was 0.000095367432 GB ergibt. Anschließend werden die Preise kalkuliert. 
+
+\newpage
+
+\begin{align}
+	\frac{3072 \text{ GB per Month}}{0.000095367432 \text{ GB average item size}} = 32.212.255 \text{ number of objects}\\
+	3072 \text{ GB} \times 0.0135 \text{ USD} = \text{41.472 USD Standard-IA costs}\\
+	268.000 \text{ PUT requests} \times 0.00001 \text{ USD per request} = 2.68 \text{ USD (PUT requests cost)}\\
+	536.000 \text{ GET requests} \times 0.000001 \text{ USD per request} = 0.536 \text{ USD (GET requests cost)}\\
+	50 \text{ GB} \times 0.01 \text{ USD} = 0.50 \text{ USD (data retrievals cost)}\\
+	41.472 \text{ USD} + 2.68 \text{ USD} + 0.536 \text{ USD} + 0.50 \text{ USD} = \underline{\textbf{45.19  USD (Total Standard-IA)}}\\
+	32.212.255 \text{ number of objects} \times 0.00001 \text{ USD} \\ = \text{322.12 USD (Cost for PUT, COPY, POST requests for initial data)}
+\end{align}
+
+Die obigen Formeln sind ähnlich wie bei der Standard und One Zone-IA, wenn man dabei die jeweiligen Gebühren aus dem Kosten Abschnitt übernimmt. Bei der Intelligent Tiering gibt es noch den Unterschied, dass die Kosten für Monitoring und Automation dazu kommt und die Einteilung des Speichers in Prozent auf drei Speicherklassen. In der letzten Zeile der abgebildeten Tabelle werden die Gesamtkosten gemeinsam mit den Kosten des Datentransfers, Vorauszahlung und die puren monatlichen Speicherkosten der jeweiligen Speicherklassen zusammenaddiert. Im ersten Monat kommt es so bei der Standard Speicherklasse zu 255.41 USD, bei dem Intelligent Tiering auf 335.94 USD, beim Standard-IA auf 371.06 USD und beim One Zone-IA auf 363.76 USD.\\
+
+\textbf{Google Cloud Storage}\\
+
+In der folgenden Tabelle werden die Kosten von Google Cloud Storage für drei Speicherklassen zusammengefasst:
+
+\begin{figure}[h]
+\centering
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCGesamtkosten}
+	\caption{Gesamtkosten der Datenspeicherung in Google Cloud Storage}
+\end{figure}
+
+Die teuerste Speicherklasse mit 71.97 Euro ist die Standard Klasse. Die billigste mit 43.20 Euro ist die Coldline Klasse. Die Nearline Speicherklasse ist mit 5.05 Euro Unterschied zur Coldline teurer. Bei der Standard Klasse gibt es keine Gebühren für die Daten Retrieval.
+
+\newpage
+
 \subsection{Performance Analyse}
+
+
+\newpage
+
 \subsection{Kalkulationsergebnisse}
