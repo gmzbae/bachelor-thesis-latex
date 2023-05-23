@@ -60,6 +60,13 @@
 \usepackage{graphicx}
 \usepackage{float} 				% Zum Ausrichten von Tabellen und Grafiken
 \usepackage[export]{adjustbox}
+\usepackage{listings}
+\usepackage{framed,color,verbatim}
+\definecolor{shadecolor}{rgb}{.9, .9, .9}
+
+\newenvironment{code}%
+   {\snugshade\verbatim}%
+   {\endverbatim\endsnugshade}
 
 %****************************************************************************
 % Tabellen
