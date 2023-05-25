@@ -2342,8 +2342,66 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
+    <bcf:datasource type="file" datatype="bibtex" glob="false">./Bibtex/Quellen.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="6">leomedia-web</bcf:citekey>
+    <bcf:citekey order="7">leomedia-web</bcf:citekey>
+    <bcf:citekey order="8">redHat-storage</bcf:citekey>
+    <bcf:citekey order="9">redHat-storage</bcf:citekey>
+    <bcf:citekey order="10">redHat-storage</bcf:citekey>
+    <bcf:citekey order="11">nx-fileScala</bcf:citekey>
+    <bcf:citekey order="12">nx-fileScala</bcf:citekey>
+    <bcf:citekey order="13">ibm-topics</bcf:citekey>
+    <bcf:citekey order="14">ibm-storage</bcf:citekey>
+    <bcf:citekey order="15">dataCore-OS</bcf:citekey>
+    <bcf:citekey order="16">nx-fileScala</bcf:citekey>
+    <bcf:citekey order="17">redHat-storage</bcf:citekey>
+    <bcf:citekey order="18">redHat-storage</bcf:citekey>
+    <bcf:citekey order="19">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="20">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="21">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="22">aws-sse-c</bcf:citekey>
+    <bcf:citekey order="23">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="24">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="25">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="26">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="27">gcp-encrypt</bcf:citekey>
+    <bcf:citekey order="28">aws-availability</bcf:citekey>
+    <bcf:citekey order="29">gcp-sla</bcf:citekey>
+    <bcf:citekey order="30">gcp-sla</bcf:citekey>
+    <bcf:citekey order="31">performance-guide</bcf:citekey>
+    <bcf:citekey order="32">performance-guide</bcf:citekey>
+    <bcf:citekey order="33">performance-guide</bcf:citekey>
+    <bcf:citekey order="34">gcp-autoscale</bcf:citekey>
+    <bcf:citekey order="35">gcp-autoscale</bcf:citekey>
+    <bcf:citekey order="36">gcp-blog</bcf:citekey>
+    <bcf:citekey order="37">gcp-blog</bcf:citekey>
+    <bcf:citekey order="38">aws-api</bcf:citekey>
+    <bcf:citekey order="39">aws-sdk</bcf:citekey>
+    <bcf:citekey order="40">aws-signed-urls</bcf:citekey>
+    <bcf:citekey order="41">aws-signed-urls</bcf:citekey>
+    <bcf:citekey order="42">gc-perfdiag</bcf:citekey>
+    <bcf:citekey order="43">spring-cloud-announce</bcf:citekey>
+    <bcf:citekey order="44">leomedia-web</bcf:citekey>
+    <bcf:citekey order="45">redHat-storage</bcf:citekey>
+    <bcf:citekey order="46">nx-fileScala</bcf:citekey>
+    <bcf:citekey order="47">ibm-topics</bcf:citekey>
+    <bcf:citekey order="48">ibm-storage</bcf:citekey>
+    <bcf:citekey order="49">dataCore-OS</bcf:citekey>
+    <bcf:citekey order="50">aws-iam-s3</bcf:citekey>
+    <bcf:citekey order="51">aws-sse-c</bcf:citekey>
+    <bcf:citekey order="52">gcp-encrypt</bcf:citekey>
+    <bcf:citekey order="53">aws-availability</bcf:citekey>
+    <bcf:citekey order="54">gcp-sla</bcf:citekey>
+    <bcf:citekey order="55">performance-guide</bcf:citekey>
+    <bcf:citekey order="56">gcp-autoscale</bcf:citekey>
+    <bcf:citekey order="57">gcp-blog</bcf:citekey>
+    <bcf:citekey order="58">aws-api</bcf:citekey>
+    <bcf:citekey order="59">aws-sdk</bcf:citekey>
+    <bcf:citekey order="60">aws-signed-urls</bcf:citekey>
+    <bcf:citekey order="61">gc-perfdiag</bcf:citekey>
+    <bcf:citekey order="62">spring-cloud-announce</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
@@ -2375,4 +2433,13 @@
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
+  <bcf:datalist section="0"
+                name="nty/global//global/global"
+                type="entry"
+                sortingtemplatename="nty"
+                sortingnamekeytemplatename="global"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
 </bcf:controlfile>

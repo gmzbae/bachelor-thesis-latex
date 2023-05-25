@@ -1,0 +1,50 @@
+\babel@toc {ngerman}{}\relax 
+\contentsline {chapter}{Abbildungsverzeichnis}{4}{section*.2}%
+\contentsline {chapter}{Tabellenverzeichnis}{5}{section*.5}%
+\contentsline {chapter}{\numberline {1}Einleitung}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problemstellung und Motivation}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Zieldefinition und Vorgehensweise}{7}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Speichersysteme}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Arten von Speichersystemen}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}File Storage}{10}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Block Storage}{11}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Object Storage}{12}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Aktuelle Speichertechnologien im Markt}{13}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Eigenschaften}{14}{subsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.1}Sichere Speicherung}{15}{subsubsection.2.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.2}Hochverfügbarkeit}{20}{subsubsection.2.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.2.1.3}Kosten}{22}{subsubsection.2.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.2.1.4}Performance}{26}{subsubsection.2.2.1.4}%
+\contentsline {subsubsection}{\numberline {2.2.1.5}API Anbindung}{30}{subsubsection.2.2.1.5}%
+\contentsline {subsection}{\numberline {2.2.2}Bereitstellung der Dateien}{33}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Auswahl des Speichersystems}{35}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Kostenanalyse}{38}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Performance Analyse}{40}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Kalkulationsergebnisse}{42}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3}Prototypische Umsetzung}{43}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Überblick und Vorgehensweise}{43}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Eingesetzte Technologien}{44}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Speicherung von Binärdaten}{45}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Bereitstellung der Binärdaten}{45}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Messung der Performance auf Testdaten}{45}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Messungsergebnisse}{45}{subsection.3.5.1}%
+\contentsline {section}{\numberline {3.6}Zusammenfassung der Implementierung}{45}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Ergebnisse dieser Arbeit}{46}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Beschreibung und Funktionalität des Prototyps}{46}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Zusammenfassung der Ergebnisse}{46}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Kalkulationsergebnisse}{46}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Messungsergebnisse}{46}{subsection.4.2.2}%
+\contentsline {chapter}{\numberline {5}Diskussion}{47}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Analyse und Interpretation der Ergebnisse}{47}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Bewertung des Prototyps}{47}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Fazit}{48}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Zusammenfassung der Ergebnisse}{48}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Beantwortung der Forschungsfrage}{48}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Potenzielle Anwendung des Prototyps}{48}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Danksagung}{49}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Literaturverzeichnis}{50}{chapter.8}%
+\contentsline {chapter}{\numberline {9}Anhang}{51}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Prototyp}{51}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}Github Link}{51}{subsection.9.1.1}%
+\contentsline {subsection}{\numberline {9.1.2}Dokumentation}{51}{subsection.9.1.2}%
+\contentsline {subsection}{\numberline {9.1.3}Code Snippets}{51}{subsection.9.1.3}%

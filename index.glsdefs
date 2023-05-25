@@ -1,0 +1,252 @@
+\glsdefs@newdocentry{dt.}%
+{%
+name={dt.},%
+sort={dt.},%
+type={acronym},%
+first={deutsch\glsspace (dt.)},%
+firstplural={deutsch\acrpluralsuffix \glsspace (dt.\acrpluralsuffix )},%
+text={dt.},%
+plural={dt.\acrpluralsuffix },%
+description={deutsch},%
+descriptionplural={deutsch\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={deutsch},%
+longplural={deutschs},%
+short={dt.},%
+shortplural={dt.s},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{engl}%
+{%
+name={engl.},%
+sort={engl.},%
+type={acronym},%
+first={englisch\glsspace (engl.)},%
+firstplural={englisch\acrpluralsuffix \glsspace (engl.\acrpluralsuffix )},%
+text={engl.},%
+plural={engl.\acrpluralsuffix },%
+description={englisch},%
+descriptionplural={englisch\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={englisch},%
+longplural={englischs},%
+short={engl.},%
+shortplural={engl.s},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{USA}%
+{%
+name={USA},%
+sort={USA},%
+type={acronym},%
+first={United States of America\glsspace (USA)},%
+firstplural={United States of America\acrpluralsuffix \glsspace (USA\acrpluralsuffix )},%
+text={USA},%
+plural={USA\acrpluralsuffix },%
+description={United States of America, \acs {dt.} Vereinigte Staaten von Amerika},%
+descriptionplural={United States of America\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={United States of America},%
+longplural={United States of Americas},%
+short={USA},%
+shortplural={USAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{Abb}%
+{%
+name={Abb.},%
+sort={Abb.},%
+type={acronym},%
+first={Abbildung\glsspace (Abb.)},%
+firstplural={Abbildung\acrpluralsuffix \glsspace (Abb.\acrpluralsuffix )},%
+text={Abb.},%
+plural={Abb.\acrpluralsuffix },%
+description={Abbildung},%
+descriptionplural={Abbildung\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Abbildung},%
+longplural={Abbildungs},%
+short={Abb.},%
+shortplural={Abb.s},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{Anm}%
+{%
+name={Anm.},%
+sort={Anm.},%
+type={acronym},%
+first={Anmerkung\glsspace (Anm.)},%
+firstplural={Anmerkung\acrpluralsuffix \glsspace (Anm.\acrpluralsuffix )},%
+text={Anm.},%
+plural={Anm.\acrpluralsuffix },%
+description={Anmerkung},%
+descriptionplural={Anmerkung\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Anmerkung},%
+longplural={Anmerkungs},%
+short={Anm.},%
+shortplural={Anm.s},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{html}%
+{%
+name={HTML},%
+sort={HTML},%
+type={acronym},%
+first={Hypertext Markup Language\glsspace (HTML)},%
+firstplural={Hypertext Markup Language\acrpluralsuffix \glsspace (HTML\acrpluralsuffix )},%
+text={HTML},%
+plural={HTML\acrpluralsuffix },%
+description={Hypertext Markup Language},%
+descriptionplural={Hypertext Markup Language\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Hypertext Markup Language},%
+longplural={Hypertext Markup Languages},%
+short={HTML},%
+shortplural={HTMLs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{URL}%
+{%
+name={URL},%
+sort={URL},%
+type={acronym},%
+first={Uniform Resource Locator\glsspace (URL)},%
+firstplural={Uniform Resource Locator\acrpluralsuffix \glsspace (URL\acrpluralsuffix )},%
+text={URL},%
+plural={URL\acrpluralsuffix },%
+description={Uniform Resource Locator},%
+descriptionplural={Uniform Resource Locator\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Uniform Resource Locator},%
+longplural={Uniform Resource Locators},%
+short={URL},%
+shortplural={URLs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{AWS}%
+{%
+name={AWS},%
+sort={AWS},%
+type={acronym},%
+first={Amazon Web Services\glsspace (AWS)},%
+firstplural={Amazon Web Services\acrpluralsuffix \glsspace (AWS\acrpluralsuffix )},%
+text={AWS},%
+plural={AWS\acrpluralsuffix },%
+description={Amazon Web Services},%
+descriptionplural={Amazon Web Services\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Amazon Web Services},%
+longplural={Amazon Web Servicess},%
+short={AWS},%
+shortplural={AWSs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{GCP}%
+{%
+name={GCP},%
+sort={GCP},%
+type={acronym},%
+first={Google Cloud Platform\glsspace (GCP)},%
+firstplural={Google Cloud Platform\acrpluralsuffix \glsspace (GCP\acrpluralsuffix )},%
+text={GCP},%
+plural={GCP\acrpluralsuffix },%
+description={Google Cloud Platform},%
+descriptionplural={Google Cloud Platform\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Google Cloud Platform},%
+longplural={Google Cloud Platforms},%
+short={GCP},%
+shortplural={GCPs},%
+counter={page},%
+parent={},%
+%
+}%
+

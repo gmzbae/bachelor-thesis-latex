@@ -1,0 +1,17 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'index.blg'
+[51] biber-darwin:340> INFO - === Wed May 24, 2023, 14:24:49
+[62] Biber.pm:418> INFO - Reading 'index.bcf'
+[133] Biber.pm:972> INFO - Found 19 citekeys in bib section 0
+[145] Biber.pm:4383> INFO - Processing section 0
+[152] Biber.pm:4574> INFO - Looking for bibtex file './Bibtex/Quellen.bib' for section 0
+[153] bibtex.pm:1713> INFO - LaTeX decoding ...
+[167] bibtex.pm:1518> INFO - Found BibTeX data source './Bibtex/Quellen.bib'
+[217] Utils.pm:409> ERROR - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 194, syntax error: at end of input, expected end of entry ("}" or ")") (skipping to next "@")
+[217] Biber.pm:130> WARN - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 1, warning: undefined macro "online"
+[217] Biber.pm:130> WARN - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 1, warning: undefined macro "online"
+[217] Biber.pm:130> WARN - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 97, warning: 4 characters of junk seen at toplevel
+[217] Biber.pm:130> WARN - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 106, warning: 4 characters of junk seen at toplevel
+[217] Biber.pm:130> WARN - BibTeX subsystem: /var/folders/_g/knk68g1s24j94kzgw8jw30zc0000gn/T/biber_tmp_WjC3/826576dfe551763dc80d2ee044d5c15c_10092.utf8, line 191, warning: possible runaway string started at line 190
+[217] Biber.pm:132> INFO - WARNINGS: 5
+[217] Biber.pm:135> INFO - ERRORS: 1
