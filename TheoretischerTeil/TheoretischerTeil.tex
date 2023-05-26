@@ -403,10 +403,11 @@ Die Entscheidung zwischen den Cloud Providern liegt sowohl an den Anforderungen 
 
 Bei der Kostenanalyse werden die Gebühren aus dem Kosten Abschnitt übernommen und eine Kostenabschätzung für Amazon S3 und Cloud Storage durchgeführt. Es werden die Kosten für die Speicherung, Abrufen und Datenübertragung verglichen und dargestellt. Die Berechnungsdaten stammen aus leoticket und dienen der groben Kosteneinschätzung. Die Kosten können von verschiedenen Faktoren voneinander abweichen. Der aktuelle Stand der Kosten ist gleich dem Abgabedatum der Arbeit.\\
 
-Für die grobe Einschätzung der Kosten wird von 800 000 Bestellungen im Durchschnitt über leoticket pro Jahr ausgegangen. Pro Monat sind das ca. 67 000 Bestellungen mit jeweils 4 Objekten pro Bestellung. Die Größe eines Objektes beträgt dabei im Durchschnitt 100kb. Pro Bestellung werden im Durchschnitt drei Tickets gekauft, wobei noch eine Rechnung hinzugefügt wird. Diese 4 Objekte machen eine Bestellung aus mit insgesamt 400kb. Es wird davon ausgegangen, dass es monatlich ungefähr 268 000 POST Requests nach Amazon S3 verschickt werden. Diese Zahl ergibt sich durch die Anzahl der Bestellungen pro Monat mal vier Objekte. Außerdem wird davon ausgegangen, dass Objekte jeweils zweimal im Monat abgerufen werden können. Einmal von Leomedia aus und von den Kunden aus. Insgesamt werden es 536 000 GET Requests von Amazon S3 aus geben.\\
+Für die grobe Einschätzung der Kosten wird von 800 000 Bestellungen im Durchschnitt über leoticket pro Jahr ausgegangen. Pro Monat sind das ca. 67 000 Bestellungen mit jeweils 4 Objekten pro Bestellung. Die Größe eines Objektes beträgt dabei im Durchschnitt 100kb. Pro Bestellung werden im Durchschnitt drei Tickets gekauft, wobei noch eine Rechnung hinzugefügt wird. Diese 4 Objekte machen eine Bestellung mit insgesamt 400kb aus. Es wird davon ausgegangen, dass es monatlich ungefähr 67 000 POST Requests nach Amazon S3 verschickt werden. Außerdem wird davon ausgegangen, dass Objekte jeweils zweimal im Monat abgerufen werden können. Einmal von Leomedia und von den Kunden aus. Insgesamt werden es 134 000 GET Requests von Amazon S3 aus geben.\\
 
-Die Speichergröße ergibt sich aus den 67 000 Bestellungen pro Monat mal die 400kb Größe pro Bestellung. Diese werden geteilt durch 1024 und das Ergebnis nochmal durch 1024 um die GB Einheit zu bekommmen. Das ergibt 25GB pro Monat an Speicher. Wenn man die Retention von 10 Jahren dabei bedenk, dann sind das ungefähr 3TB Daten die gespeichert werden müssen, wenn Daten erst nach 10 Jahren gelöscht werden. Mit diesen gewonnen Daten werden die Preisrechner von AWS und Google Cloud verwendet und die entsprechenden Daten eingesetzt.\\
+Die Speichergröße ergibt sich aus den 67 000 Bestellungen pro Monat mal die 400kb Größe pro Bestellung. Diese werden geteilt durch 1024 und das Ergebnis nochmal durch 1024 um die GB Einheit zu bekommmen. Das ergibt 25GB pro Monat an Speicher. Wenn man die Retention von 10 Jahren dabei bedenkt, dann sind das ungefähr 3TB Daten die gespeichert werden müssen, wenn Daten erst nach 10 Jahren gelöscht werden. Mit diesen gewonnen Daten werden die Preisrechner von AWS und Google Cloud verwendet und die entsprechenden Daten eingesetzt.\\
 
+%TODO Preisrechner Links hier einsetzen
 
 \textbf{Amazon S3}\\
 
@@ -414,25 +415,25 @@ Im Folgenden wird die folgende Tabelle bereitgestellt, um die Kosten für die ve
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=12cm,keepaspectratio]{Pictures/AWSGesamtkosten.png}
+\includegraphics[width=12cm,keepaspectratio]{Pictures/AWSKostenOhneGesamt.png}
 \caption{Gesamtkosten der Datenspeicherung in Amazon S3}	
 \end{figure}
 
-Zuerst werden die Einheitsumwandlungen durchgeführt. Dabei werden die angegebenen 3TB im Monat mal die 1024GB multipliziert, um die exakte Menge an GB auszurechnen. Dies ist bei 3072GB. Danach wird die Objektgröße von 100kb in GB umgerechnet, was 0.000095367432 GB ergibt. Anschließend werden die Preise kalkuliert. 
+Zuerst werden die Einheitsumwandlungen durchgeführt. Dabei werden die angegebenen 3TB im Monat mal die 1024GB multipliziert, um die exakte Menge an GB auszurechnen. Dies ist bei 3072GB. Danach wird die Objektgröße von 400kb in GB umgerechnet, was 0.000095367432 GB ergibt. Anschließend werden die Preise kalkuliert. 
 
 \newpage
 
 \begin{align}
-	\frac{3072 \text{ GB per Month}}{0.000095367432 \text{ GB average item size}} = 32.212.255 \text{ number of objects}\\
+	\frac{3072 \text{ GB per Month}}{0.000381469728 \text{ GB average item size}} = 8.053.064 \text{ number of objects}\\
 	3072 \text{ GB} \times 0.0135 \text{ USD} = \text{41.472 USD Standard-IA costs}\\
-	268.000 \text{ PUT requests} \times 0.00001 \text{ USD per request} = 2.68 \text{ USD (PUT requests cost)}\\
-	536.000 \text{ GET requests} \times 0.000001 \text{ USD per request} = 0.536 \text{ USD (GET requests cost)}\\
+	67.000 \text{ PUT requests} \times 0.00001 \text{ USD per request} = 0.67 \text{ USD (PUT requests cost)}\\
+	134.000 \text{ GET requests} \times 0.000001 \text{ USD per request} = 0.134 \text{ USD (GET requests cost)}\\
 	50 \text{ GB} \times 0.01 \text{ USD} = 0.50 \text{ USD (data retrievals cost)}\\
-	41.472 \text{ USD} + 2.68 \text{ USD} + 0.536 \text{ USD} + 0.50 \text{ USD} = \underline{\textbf{45.19  USD (Total Standard-IA)}}\\
-	32.212.255 \text{ number of objects} \times 0.00001 \text{ USD} \\ = \text{322.12 USD (Cost for PUT, COPY, POST requests for initial data)}
+	41.472 \text{ USD} + 0.67 \text{ USD} + 0.134 \text{ USD} + 0.50 \text{ USD} = \underline{\textbf{42.78  USD (Total Standard-IA)}}\\
+	8.053.064 \text{ number of objects} \times 0.00001 \text{ USD} \\ = \text{80.53 USD (Cost for PUT, COPY, POST requests for initial data)}
 \end{align}
 
-Die obigen Formeln sind ähnlich wie bei der Standard und One Zone-IA, wenn man dabei die jeweiligen Gebühren aus dem Kosten Abschnitt übernimmt. Bei der Intelligent Tiering gibt es noch den Unterschied, dass die Kosten für Monitoring und Automation dazu kommt und die Einteilung des Speichers in Prozent auf drei Speicherklassen. In der letzten Zeile der abgebildeten Tabelle werden die Gesamtkosten gemeinsam mit den Kosten des Datentransfers, Vorauszahlung und die puren monatlichen Speicherkosten der jeweiligen Speicherklassen zusammenaddiert. Im ersten Monat kommt es so bei der Standard Speicherklasse zu 255.41 USD, bei dem Intelligent Tiering auf 335.94 USD, beim Standard-IA auf 371.06 USD und beim One Zone-IA auf 363.76 USD.\\
+Die obigen Formeln sind ähnlich wie bei der Standard und One Zone-IA, wenn man dabei die jeweiligen Gebühren aus dem Kosten Abschnitt übernimmt. Bei der Intelligent Tiering gibt es noch den Unterschied, dass die Kosten für Monitoring und Automation dazu kommt und die Einteilung des Speichers in Prozent auf drei Speicherklassen. In der letzten Zeile der abgebildeten Tabelle werden die Gesamtkosten gemeinsam mit den Kosten des Datentransfers, Vorauszahlung und die puren monatlichen Speicherkosten der jeweiligen Speicherklassen addiert.\\
 
 \textbf{Google Cloud Storage}\\
 
@@ -440,17 +441,17 @@ In der folgenden Tabelle werden die Kosten von Google Cloud Storage für drei Sp
 
 \begin{figure}[h]
 \centering
-	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCGesamtkosten}
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCKostenOhneGesamt.png}
 	\caption{Gesamtkosten der Datenspeicherung in Google Cloud Storage}
 \end{figure}
 
-Die teuerste Speicherklasse mit 71.97 Euro ist die Standard Klasse. Die billigste mit 43.20 Euro ist die Coldline Klasse. Die Nearline Speicherklasse ist mit 5.05 Euro Unterschied zur Coldline teurer. Bei der Standard Klasse gibt es keine Gebühren für die Daten Retrieval.
+Die teuerste Speicherklasse mit 64.10 Euro ist die Standard Klasse. Die billigste mit 16.63 Euro ist die Coldline Klasse. Die Nearline Speicherklasse ist mit 36.03 Euro teurer als die Coldline. Bei der Standard Klasse gibt es keine Gebühren für die Daten Retrieval.
 
 \newpage
 
 \subsection{Performance Analyse}
 
-In diesem Abschnitt erfolgt die Messung der Performance für die Dienste von AWS und Google Cloud. Dabei werden 9000 Dateien sowohl für den Upload als auch für den Download betrachtet. Die Anzahl der Dateien ergibt sich aus der monatlichen Gesamtanzahl von 268 000 Objekten, die durch 30 Tage geteilt wird. Um eine realistische Performance-Analyse durchzuführen, bieten beide Cloud-Anbieter verschiedene Diagnose-Tools an, die während der Arbeitszeit eingesetzt und gemessen werden. Dadurch wird eine praxisnahe Bewertung der Performance ermöglicht.\\
+In diesem Abschnitt erfolgt die Messung der Performance für die Dienste von AWS und Google Cloud. Dabei werden 2300 Dateien sowohl für den Upload als auch für den Download betrachtet. Die Anzahl der Dateien ergibt sich aus der monatlichen Gesamtanzahl von 67 000 Objekten, die durch 30 Tage geteilt wird. Um eine realistische Performance-Analyse durchzuführen, bieten beide Cloud-Anbieter verschiedene Diagnose-Tools an, die während der Arbeitszeit eingesetzt und gemessen werden. Dadurch wird eine praxisnahe Bewertung der Performance ermöglicht.\\
 
 \textbf{AWS}\\
 
@@ -472,10 +473,8 @@ GC bietet einen eigenen "gsutil" Tool für die Performance Analyse. Im Abschnitt
 
 Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet werden:
 
-\begin{code} gsutil perfdiag -o test.json -n 67000 -s 100000 gs://leoticket-bucket \end{code}
+\begin{code} gsutil perfdiag -o test.json -n 67000 -s 400kb gs://leoticket-bucket \end{code}
 
 Die -o Option schreibt den Output des Ergebnisses in eine Datei. Die Output Datei ist eine JSON Datei mit System Informationen und enthält die Performance Diagnose Ergebnisse. Die -n Option setzt die Anzahl der Objekte, die heruntergeladen und hochgeladen werden sollen während dem Test. Mit der -s Option kann man die Objektgröße in bytes angeben. Zum Schluss wird der Name des Buckets angegeben. Damit der Befehl erfolgreich ausgeführt werden kann, braucht man die entsprechenden Rechte und muss sich authentifizieren können. Um die Performance auf leoticket zu analysieren, werden 9000 Objekte mit jeweils 100kb Objektgröße verwendet. Diese Daten stammen aus dem Kosten Abschnitt. Anschließend wird die Performance über die SDK von Cloud Storage ähnlich wie bei AWS getestet. 
 
 \newpage
-
-\subsection{Kalkulationsergebnisse}

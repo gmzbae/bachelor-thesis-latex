@@ -72,9 +72,7 @@ Dieser Methode wird der Bucket Name, der Name des Objekts, der Pfad des Objekts 
 
 \newpage
 
-Der obere Code beschreibt den Speichervorgang eines Objekts nach AWS S3. Zuerst wird ein PUT Request Objekt erzeugt, indem die Parameter wie der Bucket Name, Objektname als Key und die Authentifizierungsmethoden angegeben werden. Es wird die AWS KMS Methode verwendet und den entsprechenden Schlüssel bereitgestellt. Zuletzt wird die Speicherklasse angegeben, indem das Objekt gespeichert wird. In diesem Beispiel wird die Standard - IA Klasse verwendet.\\
-
-Anschließend wird der Pfad der angegeben Datei gelesen, als Bytes Array umgewandelt und dem RequestBody übergeben. Dieser RequestBody gemeinsam mit dem PutObjectRequest wird an den S3Client übergeben und mit der AWS .putObject() Methode nach S3 hochgeladen. AWS S3 verschlüsselt das Objekt mit dem angegeben Encryption Key und ladet es nach S3 hoch.\\
+Der obere Code beschreibt den Speichervorgang eines Objekts nach AWS S3. Zuerst wird ein PUT Request Objekt erzeugt, indem die Parameter wie der Bucket Name, Objektname als Key und die Authentifizierungsmethoden angegeben werden. Es wird die AWS KMS Methode verwendet und den entsprechenden Schlüssel bereitgestellt. Zuletzt wird die Speicherklasse angegeben, indem das Objekt gespeichert wird. In diesem Beispiel wird die Standard - IA Klasse verwendet. Anschließend wird der Pfad der angegeben Datei gelesen, als Bytes Array umgewandelt und dem RequestBody übergeben. Dieser RequestBody gemeinsam mit dem PutObjectRequest wird an den S3Client übergeben und mit der AWS .putObject() Methode nach S3 hochgeladen. AWS S3 verschlüsselt das Objekt mit dem angegeben Encryption Key und ladet es nach S3 hoch.\\
 
 Die folgenden Abbildung zeigt den Code Ausschnitt von der Klasse GoogleCloudStorageService. Ähnlich wie bei der Methode für AWS S3 wird auch hier ein Objekt nach Cloud Storage hochgeladen. 
 
@@ -84,12 +82,44 @@ Die folgenden Abbildung zeigt den Code Ausschnitt von der Klasse GoogleCloudStor
 	\caption{Prototyp - Hochladen des Objekt nach Cloud Storage}
 \end{figure}
 
-Dabei werden ähnliche Parameter der Methode wie in AWS S3 übergeben. Um ein Objekt in ein Bucket hochladen zu können, wird eine Referenz zum Bucket erstellt. Dies geschieht durch die BlobId, der den Bucket namen und den Namen des Objekts beinhaltet. Anschließend wird diese b†lobId dem BlobInfo Objekt übergeben und die Speicherklasse NEARLINE definiert. Nach dem überprüft worden ist, ob das Objekt bereits im Bucket existiert oder nicht, wird das Objekt in der Zeile 51 hochgeladen.\\
+Dabei werden ähnliche Parameter der Methode wie in AWS S3 übergeben. Um ein Objekt in ein Bucket hochladen zu können, wird eine Referenz zum Bucket erstellt. Dies geschieht durch die BlobId, der den Bucket namen und den Namen des Objekts beinhaltet. Anschließend wird diese b†lobId dem BlobInfo Objekt übergeben und die Speicherklasse NEARLINE definiert. Anschließend wird über die Metadaten die KMS Encryption Key angegeben. Nach dem überprüft worden ist, ob das Objekt bereits im Bucket existiert oder nicht, wird das Objekt in der Zeile 58 hochgeladen.
 
 Um das Programm zum Laufen zu bringen, wird die Hauptklasse \textbf{HandsonAwsGcApplication} ausgeführt. Damit das Programm erfolgreich läuft, müssen die Environment Variablen im System exportiert werden. Alle Environment Variablen sind in der \glqq application.properties\grqq hinterlegt. Diese werden beim Start des Programms gelesen und angewendet. Außerdem müssen die AWS  und Google Cloud Credentials hinterlegt werden. Dies kann entweder über die AWS Toolkit Plugin gesteuert werden oder mit dem Befehl \glqq aws configure\grqq in der Kommandozeile. Für Google Cloud Credentials kann mit dem Befehl \glqq export GOOGLE\_APPLICATION\_CREDENTIALS=<service-account-json-file> der Service Account hinterlegt werden oder durch Ausführen des Befehls "gcloud auth application-default login\grqq in der Kommandozeile, was die Credentials lokal speichert und für ADC verwendet wird.
 
+\newpage
 
 \section{Bereitstellung der Binärdaten}
+
+Bei der Bereitstellung der Binärdaten geht es dabei um die signed URL Methode, um in leoticket Dateien über Links an den Kunden bereitzustellen. Es werden Code Implementierungen von beiden Cloud Providern vorgestellt und erläutert.\\
+
+Die untere Abbildung zeigt die Methode der Klasse \textbf{AWSS3StorageService}:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm,keepaspectratio]{Pictures/AWSgetSignedUrl.png}
+	\caption{Prototyp - AWS getPresignedUrl() Methode}
+\end{figure}
+
+Die Methode bekommt ähnlich wie beim Upload des Objekts erstmal die beiden Parameter Named des Bucket und Name des Objekts. Anschließend wird eine Zahl als Minuten übergeben, die dafür sorgt, dass der Link nur für diese bestimmte Zeit valide ist. Auch hier muss man den gleichen Encryption Key wie beim Upload für das Entschlüsseln der Daten mitgeben. In Zeile 57 wir das GetObjectRequest Objekt erstellt und den Bucket Namen und Objektnamen mitgegeben. Anschließend wird dieses Objekt dem GetObjectPresignRequest Objekt übergeben und dabei die Signaturdauer angegeben. Die Signaturdauer stellt die signierte URL solange wie die angegeben Minute zur Verfügung. Um nun die signierte URL zu erzeugen, wird die GetObjectPresignRequest dem S3Presigner übergeben, die presignGetObject() Methode darauf aufgerufen und dem PresignedGetObjectReuqest übergeben. In Zeile 69 wird die generierte URL als String gespeichert und anschließend ausgegeben.
+
+\newpage
+
+Bei der Methode von Cloud Storage ist der Vorgang zur Erstellung des signierten URLs kürzer. Folgende Abbildung zeigt die Methode zur Generierung des signierten URLs für Cloud Storage:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCgetSignedUrl.png}
+	\caption{Prototyp - GC getPresignedUrl() Methode} 
+\end{figure}
+
+Ähnlich wie bei S3 wird eine Referenz zum Bucket erstellt, indem man den Bucket Namen und den Namen des Objekts dem BlobInfo Objekt mitgibt. Anschließend kann die URL durch Aufrufen der Methode in Zeile 63 erstellt werden. Hier wird das BlobInfo Objekt, die Minuten in und die Signatur Methode übergeben. Zuletzt wird die URL in der Kommandozeile ausgegeben.\\
+
+Mit signierten URLs können die Anforderungen von leoticket an die sichere Speicherung und Bereitstellung der Daten über signierte URLs berücksichtigt werden. Dies bedeutet, Kunden können über diese Links die Dateien für Tickets und Rechnungen herunterladen ohne das Problem von zu großen Email-Anhängen zu haben.
+
+%TODO Mehrere Tickets müssen in einer PDF vorhanden sein, damit es ein Objekt ergibt. 
+
+
+\newpage
 
 \section{Messung der Performance auf Testdaten}
 
