@@ -165,11 +165,11 @@ STANDARD-IA vs. NEARLINE
 
 1 File---------------------------------------------------------------------------
 
-Elapsed Time for 1  Object Uploads in S3:------------------------------624ms.
-Elapsed Time for 1 Object Uploads in Cloud Storage:--------------------726ms.
+Elapsed Time for 1  Object Upload in S3:-------------------------------624ms.
+Elapsed Time for 1 Object Upload in Cloud Storage:---------------------726ms.
 
-Elapsed Time for 1 Object Downloads in S3:-----------------------------16ms.
-Elapsed Time for 1 Object Downloads in Cloud Storage:------------------21ms.
+Elapsed Time for 1 Object Download in S3:------------------------------16ms.
+Elapsed Time for 1 Object Download in Cloud Storage:-------------------21ms.
 
 10 Files-------------------------------------------------------------------------
 
@@ -203,11 +203,11 @@ STANDARD vs. STANDARD
 
 1 File---------------------------------------------------------------------------
 
-Elapsed Time for 1  Object Uploads in S3:-------------------------------607ms.
-Elapsed Time for 1 Object Uploads in Cloud Storage:---------------------676ms.
+Elapsed Time for 1  Object Upload in S3:--------------------------------607ms.
+Elapsed Time for 1 Object Upload in Cloud Storage:----------------------676ms.
 
-Elapsed Time for 1 Object Downloads in S3:------------------------------32ms.
-Elapsed Time for 1 Object Downloads in Cloud Storage:-------------------19ms.
+Elapsed Time for 1 Object Download in S3:-------------------------------32ms.
+Elapsed Time for 1 Object Download in Cloud Storage:--------------------19ms.
 
 10 Files-------------------------------------------------------------------------
 
@@ -242,11 +242,11 @@ ONEZONE-IA vs. COLDLINE
 
 1 File---------------------------------------------------------------------------
 
-Elapsed Time for 1  Object Uploads in S3:-------------------------------693ms.
-Elapsed Time for 1 Object Uploads in Cloud Storage:---------------------595ms.
+Elapsed Time for 1  Object Upload in S3:--------------------------------693ms.
+Elapsed Time for 1 Object Upload in Cloud Storage:----------------------595ms.
 
-Elapsed Time for 1 Object Downloads in S3:------------------------------17ms.
-Elapsed Time for 1 Object Downloads in Cloud Storage:-------------------22ms.
+Elapsed Time for 1 Object Download in S3:------------------------------17ms.
+Elapsed Time for 1 Object Download in Cloud Storage:-------------------22ms.
 
 10 Files-------------------------------------------------------------------------
 
@@ -279,3 +279,12 @@ Die Ergebnisse werden im Kapitel Zusammenfassung der Ergebnisse zusammengefasst 
 \newpage
 
 \section{Zusammenfassung der Implementierung}
+
+Der Prototyp soll einen Vergleich zwischen den beiden Cloud Providern bieten. Das Ziel dabei ist es, ähnliche Technologien von beiden Providern zu verwenden und die Performance mit Testdaten dabei messen zu können. Es dient für zwei Funktionen. Das Hochladen und Herunterladen von Dateien. Dabei werden die Anforderungen an leoticket mitberücksichtigt. Das bedeutet, das signierte URLs für die Bereitstellung der Dateien verwendet werden. Außerdem wird für die Datenverschlüsselung die SSE KMS von beiden Providern angewendet. Außerdem soll der Prototyp im weiteren Verlauf als externe Library für eigene Anwendungen integriert werden. Für die Implementierung wurden die offiziellen Dokumentationen von AWS und GC verwendet, um die aktuellsten Versionen zum Zeitpunkt der Arbeit bereitzustellen. Des weiteren wurde auf Wunsch von Leomedia Spring Boot als Framework verwendet, um eine Enterprise Anwendung bereitstellen zu können. Terraform wird dabei für die Erstellung von Buckets erstellt und stellt auch ein Vergleich für die Integration der beiden Providern nach Terraform dar. Aus Preferenzgründen wird Java als Programmiersprache gewählt, jedoch stellen beide Provider viele weitere Sprachen, die bereits im Kapitel API Anbindung erwähnt wurden, zur Verfügung.\\
+
+Der Prototyp wurde so aufgebaut, dass man zwischen AWS und GC durch eine Environment Variable wählen kann. Die Klasse \textbf{CloudStorageServiceFactory} stellt die Auswahl zwischen AWS und GC zur Verfügung. Je nachdem welchen Cloud Provider der Nutzer angegeben hat, wird die entsprechende Klasse instanziiert und aufgerufen. Die Klassen \textbf{AWSS3StorageService} und \textbf{GoogleCloudStorageService} implementieren die Methoden des Interfaces \textbf{CloudStorageService}.\\
+
+Die bereitgestellten Tests dienen der Performance Messung. Dabei werden Dateien automatisch als 400kb große Objekte erstellt und durch die Testmethoden verwendet, um Objekte hoch-, und herunterzuladen. Sie unterstützen dabei, die Geschwindigkeit der verschiedenen Funktionen zu messen.\\
+
+Da die Maven Dependencies kein Teil der Spring Cloud Release Train sind, hängt es von der Commmunity ab, die Versionen aktuell zu halten. Für AWS bedeutet dies, dass die AWS SDK 2. Version nicht komplett abgedeckt ist. Jedoch ist sie so weit, dass S3 bereits unterstützt wird. 
+
