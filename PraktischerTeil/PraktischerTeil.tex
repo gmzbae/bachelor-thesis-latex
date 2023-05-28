@@ -150,10 +150,132 @@ Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet wer
 
 Die -o Option schreibt den Output des Ergebnisses in eine Datei. Die Output Datei ist eine JSON Datei mit System Informationen und enthält die Performance Diagnose Ergebnisse. Die -n Option setzt die Anzahl der Objekte, die heruntergeladen und hochgeladen werden sollen während dem Test. Mit der -s Option kann man die Objektgröße in bytes angeben. Zum Schluss wird der Name des Buckets angegeben. Damit der Befehl erfolgreich ausgeführt werden kann, braucht man die entsprechenden Rechte und muss sich authentifizieren können.\\
 
-Um die Performance auf leoticket zu analysieren, werden 2300 Objekte mit jeweils 400kb Objektgröße verwendet. Anschließend wird die Performance über die SDK von Cloud Storage ähnlich wie bei AWS getestet. Der Test wird auf einer virtuellen Maschine ausgeführt. 
+Um die Performance auf leoticket zu analysieren, werden Objekte mit jeweils 400kb Objektgröße in verschiedenen Speicherklassen hoch-, und heruntergeladen. Anschließend wird die Performance über die SDK von Cloud Storage ähnlich wie bei AWS getestet. Der Test wird auf einer virtuellen Maschine ausgeführt.\\
+
+Die Performance wird schrittweise gemessen. Angefangen von einer Datei bis hin zu 1000 Dateien in 10-fach Schritten. Das bedeutet, es werden die Messsungen für eine Datei, für zehn Dateien, für 100 Dateien und für 1000 Dateien untersucht. Um die Messung durchzuführen, wird eine Java Jar Datei des Prototyps erstellt. Dabei werden die Testmethoden ausgeführt. Die Testmethoden generieren zuerst die Testdaten gefüllt mit zufälligen String Werten.
 
 \newpage
 
 \subsection{Messungsergebnisse}
+
+In diesem Abschnitt werden die Messungsergebnisse der Performance Messung in genauen Zahlen in Millisekunden bereitgestellt. Die Speicherklassen Standard, Standard-IA und One Zone-IA von AWS wurden jeweils mit Standard, Nearline und Coldline von GC gemessen und verglichen. Im folgenden werden die Ergebnisse der Upload und Download Geschwindigkeit aller Speicherklassen präsentiert:
+
+\begin{code}
+STANDARD-IA vs. NEARLINE
+
+1 File---------------------------------------------------------------------------
+
+Elapsed Time for 1  Object Uploads in S3:------------------------------624ms.
+Elapsed Time for 1 Object Uploads in Cloud Storage:--------------------726ms.
+
+Elapsed Time for 1 Object Downloads in S3:-----------------------------16ms.
+Elapsed Time for 1 Object Downloads in Cloud Storage:------------------21ms.
+
+10 Files-------------------------------------------------------------------------
+
+Elapsed Time for 10  Object Uploads in S3:-----------------------------2091ms.
+Elapsed Time for 10 Object Uploads in Cloud Storage:-------------------3033ms.
+
+Elapsed Time for 10 Object Downloads in S3:-----------------------------49ms.
+Elapsed Time for 10 Object Downloads in Cloud Storage:------------------95ms.
+
+100 Files------------------------------------------------------------------------
+
+Elapsed Time for 100  Object Uploads in S3:-----------------------------14436ms.
+Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------20935ms.
+
+Elapsed Time for 100 Object Downloads in S3:----------------------------115ms.
+Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------290ms.
+
+1000 Files-----------------------------------------------------------------------
+
+Elapsed Time for 1000  Object Uploads in S3:----------------------------135222ms.
+Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------175828ms.
+
+Elapsed Time for 1000 Object Downloads in S3:---------------------------713 ms.
+Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1528ms.
+\end{code}
+
+\newpage
+
+\begin{code}
+STANDARD vs. STANDARD
+
+1 File---------------------------------------------------------------------------
+
+Elapsed Time for 1  Object Uploads in S3:-------------------------------607ms.
+Elapsed Time for 1 Object Uploads in Cloud Storage:---------------------676ms.
+
+Elapsed Time for 1 Object Downloads in S3:------------------------------32ms.
+Elapsed Time for 1 Object Downloads in Cloud Storage:-------------------19ms.
+
+10 Files-------------------------------------------------------------------------
+
+Elapsed Time for 10  Object Uploads in S3:------------------------------1914ms.
+Elapsed Time for 10 Object Uploads in Cloud Storage:--------------------3090ms.
+
+Elapsed Time for 10 Object Downloads in S3:-----------------------------45ms.
+Elapsed Time for 10 Object Downloads in Cloud Storage:------------------101ms.
+
+100 Files------------------------------------------------------------------------
+
+Elapsed Time for 100  Object Uploads in S3:-----------------------------14389ms.
+Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------21161ms.
+
+Elapsed Time for 100 Object Downloads in S3:----------------------------121ms.
+Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------238ms.
+
+1000 Files-----------------------------------------------------------------------
+
+Elapsed Time for 1000  Object Uploads in S3:----------------------------131907ms.
+Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------172721ms.
+
+Elapsed Time for 1000 Object Downloads in S3:---------------------------627ms.
+Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1451ms.
+
+\end{code}
+
+\newpage
+
+\begin{code}
+ONEZONE-IA vs. COLDLINE
+
+1 File---------------------------------------------------------------------------
+
+Elapsed Time for 1  Object Uploads in S3:-------------------------------693ms.
+Elapsed Time for 1 Object Uploads in Cloud Storage:---------------------595ms.
+
+Elapsed Time for 1 Object Downloads in S3:------------------------------17ms.
+Elapsed Time for 1 Object Downloads in Cloud Storage:-------------------22ms.
+
+10 Files-------------------------------------------------------------------------
+
+Elapsed Time for 10  Object Uploads in S3:------------------------------1702ms.
+Elapsed Time for 10 Object Uploads in Cloud Storage:--------------------2640ms.
+
+Elapsed Time for 10 Object Downloads in S3:-----------------------------56ms.
+Elapsed Time for 10 Object Downloads in Cloud Storage:------------------89ms.
+
+100 Files------------------------------------------------------------------------
+
+Elapsed Time for 100  Object Uploads in S3:-----------------------------14211ms.
+Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------21122ms.
+
+Elapsed Time for 100 Object Downloads in S3:----------------------------171ms.
+Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------266ms.
+
+1000 Files-----------------------------------------------------------------------
+
+Elapsed Time for 1000  Object Uploads in S3:----------------------------138870ms.
+Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------190590ms.
+
+Elapsed Time for 1000 Object Downloads in S3:---------------------------569ms.
+Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1556ms.
+\end{code}
+
+
+Die Ergebnisse werden im Kapitel Zusammenfassung der Ergebnisse zusammengefasst und als Liniendiagramm dargestellt.
+
+\newpage
 
 \section{Zusammenfassung der Implementierung}
