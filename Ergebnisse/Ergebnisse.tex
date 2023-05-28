@@ -1,16 +1,57 @@
 \chapter{Ergebnisse dieser Arbeit}
 
+In diesem Kapitel werden die Funktionalitäten des Prototyps beschrieben. Zum Schluss werden die Kalkulationsergebnisse der Kostenanalyse als Tabelle und die Messungsergebnisse der Performance Messung als Liniendiagramm bereitgestellt und auf einzelne Ergebnisse eingegangen. Außerdem dient dieses Kapitel zur schnellen Information über die Ergebnisse der Performance und Kosten. 
+
 \section{Beschreibung und Funktionalität des Prototyps}
 
-Was kann der Prototyp?
-Für was dient es?
+Der Prototyp hat die Funktionalität des Uploads und Downloads von Objekten nach S3 oder Cloud Storage. Der Nutzer kann sich zwischen AWS und GC entscheiden, indem die cloud\_provider Environment Variable vor dem Ausführen des Programms gesetzt wird. Damit das Programm erfolgreich durchlaufen kann, müssen alle Environment Variablen in der application.properties Datei gesetzt werden. Außerdem wird eine Authentifizierung für GC und AWS verlangt, sonst schlägt das Programm fehl. Die Authentifizierung für GC kann über die ADC erfolgen. In der offiziellen Dokumentation werden die verschiedenen Methoden aufgelistet. Für den Prototypen wurde die lokale Entwicklungsumgebung für die Authentifizierung durch 
+
+	\begin{code}
+		export GOOGLE\_APPLICATION\_CREDENTIALS=jsonKeyPath
+	\end{code} 
+	
+	oder durch das gcloud cli Befehl 
+	
+	\begin{code}gcloud auth application-default login \end{code} 
+	
+	verwendet. Dabei ist der jsonKeyPath der Pfad zum erstellten Service Account, die Rechte für das Uploaden und Downloaden besitzt. Siehe auch: \href{https://cloud.google.com/docs/authentication/provide-credentials-adc}{Set Up ADC Credentials}.\\
+	
+Für die Authentifizierung mit AWS benötigt es lediglich das AWS Toolkit Plugin. Diese Toolkit stellt AWS für einige IDEs zur Verfügung. Unter anderem für Visual Studio, Eclipse und JetBrains. Falls das AWS Toolkit nicht zur Verfügung steht, dann kann die Authentifizierung auch über die aws cli erfolgen. Durch aws configure können die Credentials gesetzt werden. Siehe auch: \href{https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup-basics.html}{Set Up AWS Credentials}. Nachdem die Authentifizierungseinstellungen und die Environment Variablen gesetzt wurden, kann das Programm gestartet werden. Damit die Dateien in die richtige Speicherklasse hochgeladen werden können, muss für GC der richtige Bucket Name angegeben werden. In AWS muss jedoch die gewünschte Speicherklasse angegeben werden, damit das Objekt in die richtige Speicherklasse geschrieben wird. Dieser Unterschied besteht, da in GC die Speicherklasse für ein Bucket ausgewählt werden kann. In AWS ist dies jedoch nicht möglich, deshalb haben alle Buckets in AWS bei Erstellung die Standard Speicherklasse eingestellt. Das Objekt wird durch die SSE KMS verschlüsselt hochgeladen. Die Verschlüsselung wird automatisch von beiden Cloud Providern durchgeführt. Dabei muss der entsprechende KMS Schlüssel des ausgewählten Cloud Providers der Environment Variable sse\_kms\_key\_id\_arn übergeben werden. Beim Herunterladen des Objekts muss dieser Schlüssel erneut mitgegeben werden, damit das Objekt entschlüsselt werden kann. Die Hauptklasse \textbf{HandsonAwsGcApplication} ruft die entsprechende Klasse für AWS oder GC auf und initialisiert diese. Vorher müssen die Parameter für die .uploadObject(bucketName, key, filePath, encryptionKey, storageClass) und .getPresignedUrl(bucketName, key, minutes, encryptionKey) übergeben werden. Die Minuten stellen die Zeit ein, in der die generierte signierte URL gültig ist. Der storageClass Parameter gilt nur für die AWS Funktion und kann die Werte STANDARD, STANDARD\_IA und ONEZONE\_IA annehmen.\\
+
+Über Terraform werden die Buckets erstellt und die Konfigurationen eingestellt. Diese Konfigurationen sorgen für die Einhaltung der Anforderungen an leoticket. Die Buckets müssen vor dem Programmstart bereits existieren. Die Terraform Dateien werden im entsprechenden Ordner bereitgestellt. Diese werden vor dem Programmstart als erstes ausgeführt, um die benötigten Ressourcen zu erstellen.\\
+
+Der Prototyp dient außerdem dazu die APIs miteinander zu vergleichen und jeweils die ähnlichen Funktionalitäten für beide Provider bereitzustellen.
+
+\newpage
 
 \section{Zusammenfassung der Ergebnisse}
 
+In diesem Abschnitt werden die Kosten der verschiedenen Speicherklassen nochmal aufgegriffen und die Gesamtkosten als Tabelle dargestellt. Auch werden die Messungsergebnisse der Performance Analyse als Liniendiagramm bereitgestellt und die Zahlen der Kosten und Messungen untersucht.
+
 \subsection{Kalkulationsergebnisse}
 
-Gesamtkosten anzeigen
+Im folgenden werden die Gesamtkosten der Speicherklasse von beiden Cloud Providern dargestellt und untersucht. Zuerst werden in der unteren Abbildung die Kosten von AWS untersucht:
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm,keepaspectratio]{Pictures/AWSGesamtkosten.png}
+	\caption{Zusammenfassung der Gesamtkosten für AWS S3 pro Speicherklasse}
+\end{figure}
+
+In dieser Abbildung werden in der letzten Zeile der Tabelle die Gesamtkosten der Speicherklassen pro Monat veranschaulicht. Die Gesamtkosten im ersten Monat der Speicherklasse Standard beträgt 123.67 USD. In diesen Kosten stecken die Vorauszahlungskosten, die PUT und GET Request Gebühren und die Datenübertragungsgebühren. Im Intelligent Tiering und Standard sind die Datenabrufgebühren nicht enthalten, da es dafür keine Gebühren abgezogen werden. Die Gesamtkosten des Intelligent Tiering pro Monat beträgt 120.15 USD. Die Kosten des Intelligent Tiering hängen jedoch von der Speicherverteilung ab. Die Kosten sind grobe Werte und können von der Verteilung des Speichers in verschiedene Speicherklassen in Prozent abhängen. Bei der Standard-IA Speicherklasse sind es mit 127.81 USD Kosten die teuersten Kosten im Vergleich zu den anderen Speicherklassen. Die One Zone-IA ist mit 119.51 USD die billigste Speicherklasse.\\        
+
+In Google Cloud gibt es keine Vorauszahlungen im Vergleich zu AWS. Hier unterscheiden sich die Gesamtkosten der verschiedenen Speicherklassen zu AWS. In der folgenden Abbildung werden die Gesamtkosten zusammengefasst:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm,keepaspectratio]{Pictures/GCgesamtkosten.png}
+	\caption{Zusammenfassung der Gesamtkosten für GC Storage pro Speicherklasse}
+\end{figure}
+
+
+
+
+\newpage
 \subsection{Messungsergebnisse}
 
 In diesem Abschnitt werden die Messungsergebnisse der Performance Messung bereitgestellt. Die Speicherklassen Standard, Standard-IA und One Zone-IA von AWS wurden jeweils mit Standard, Nearline und Coldline von GC verglichen. Im folgenden werden die Ergebnisse der Upload Geschwindigkeit aller Speicherklassen als Liniendiagramm dargestellt:
