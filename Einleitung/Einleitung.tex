@@ -4,15 +4,14 @@ Das folgende Kapitel dient der Einführung in die Problemstellung, Motivation so
 
 \section{Problemstellung und Motivation}
 
-Die steigende Menge an Binärdaten im Kontext von Web Services, die in verschiedenen Anwendungen generiert werden, stellt eine große Herausforderung dar. Dabei ist es von großer Bedeutung, dass diese Daten sicher, zuverlässig und schnell gespeichert und abgerufen werden können. Vor diesem Hintergrund stellen sich Fragen nach der Auswahl eines geeigneten Speichersystems, das die Anforderungen wie Performance, Verfügbarkeit, Sicherheit und API-Anbindung erfüllt.  Zudem müssen Mechanismen bereitgestellt werden, um den Zugriff auf die Daten zu beschränken durch sichere, zeitlich begrenzte URL’s.\\
+Die steigende Menge an Daten im Kontext von Web Services, die in verschiedenen Anwendungen generiert werden, stellt eine große Herausforderung dar. Die erfassten Daten umfassen verschiedene Arten von Dokumenten, wie beispielsweise PDF-Dateien, insbesondere Tickets und Rechnungen, die aus dem Kaufprozess über die leoticket-Platform resultieren. Dabei ist es von großer Bedeutung, dass diese Daten von leoticket-Kunden und Leomedia sicher, zuverlässig und schnell gespeichert und abgerufen werden können. Vor diesem Hintergrund stellen sich Fragen nach der Auswahl eines geeigneten Speichersystems, das die Anforderungen wie Performance, Verfügbarkeit, Sicherheit und die Möglichkeit der Integration in Software-Produkten wie leoticket erfüllt. Zudem müssen Mechanismen bereitgestellt werden, um den Zugriff der Daten auf die Ticketbesitzer und Leomedia durch sichere, zeitlich begrenzte URL’s zu beschränken.\\
 
-Diese Bachelorarbeit richtet sich auf das Problem einer Full-Service-Ticketing Software „leoticket“, die vom Unternehmen Leomedia GmbH entwickelt wird. 
+Diese Bachelorarbeit richtet sich auf die Herausforderung einer Full-Service-Ticketing Software „leoticket“, die vom Unternehmen Leomedia GmbH entwickelt wird. 
 Leomedia GmbH ist ein Unternehmen, das Software für Medienunternehmen wie Zeitungsverlage, Radiosender, Veranstalter, Künstler und Kulturvereine entwickelt. \textcite{leomedia-web}\\
 Leoticket ist eines der vielen Produkte von Leomedia, dass Services wie Online-Kartenvorverkäufe, Abendkassen, den Einlass bei der Veranstaltung, Statistiken, Abrechnungen und die Planung der Veranstaltung realisiert.\textcite{leomedia-web}\\ 
 
-% Kontext des Problems beschreiben
-
-Das vorliegende Problem von leoticket betrifft die Speicherung und Bereitstellung von Daten wie Tickets und Rechnungen. Durch die Nutzung von Galera Cluster handelt es sich um replizierte Daten. Durch die geringe Speichergröße von 200GB RAM kommt die Datenbank bereits an ihre Grenzen, was zu einer hohen Belastung des Systems führt. zu hohe Daten müssen verschoben und repliziert werden, wobei die Bandbreite bei der Übertragung begrenzt ist. Ein weiteres Problem ist die Bereitstellung der Daten über Email Anhänge. Anhänge dürfen eine bestimmte Speichergröße nicht überschreiten. Wenn Ticketkäufer mehrere Tickets in einer Bestellung tätigen, dann müssen diese über Email Anhänge bereitgestellt werden.\\
+Die vorliegende Herausforderung von leoticket betrifft die Speicherung und Bereitstellung von Daten wie Tickets und Rechnungen an die Ticketkäufer. Ein Galera Cluster ist eine Multi-Master-Replikationslösung für relationale Datenbanken. Es basiert auf dem Konzept der synchronen Replikation, bei dem mehrere Knoten miteinander verbunden sind und als Cluster fungieren. 
+Im Rahmen des Replikationsprozesses werden zahlreiche Daten synchronisiert, wodurch sich die Leistung normaler Anfragen verringert, da das Datenbanksystem durch die Ausführung des Replikations- bzw. Synchronisierungsjobs beansprucht wird. Dabei erreicht der Arbeitsspeicher seine Kapazitätsgrenze von 200 GB. Die Hauptaufgaben der Datenbank umfassen beispielsweise die Durchführung von JOINS und anderen datenbankbezogenen Aufgaben. Eine weitere Herausforderung ist die Bereitstellung der Dateien über Email Anhänge. Anhänge dürfen eine bestimmte Speichergröße nicht überschreiten. Wenn Ticketkäufer mehrere Tickets in einer Bestellung tätigen, dann müssen diese über Email Anhänge bereitgestellt werden.\\
 
 Leomedia plant eine Neugestaltung der leoticket-Anwendung, bei der sie sich von der Galera Cluster Technologie lösen möchten. In dieser Untersuchung werden keine relationalen Datenbanken berücksichtigt, da die Nachfrage nach neuen Speicherlösungen steigt. Es werden spezifische Anforderungen an die neue Speicherlösung gestellt.
 
@@ -20,16 +19,20 @@ Leomedia plant eine Neugestaltung der leoticket-Anwendung, bei der sie sich von 
 
 \section{Zieldefinition und Vorgehensweise}
 
-Ziel dieser Arbeit besteht darin, anhand der Anforderungen von leoticket eine geeignete Speicherlösung zu empfehlen und einen Prototypen basierend auf den ausgewählten Cloud-Providern zu erstellen. Der Prototyp soll die Bereitstellung von Binärdaten durch sichere und zeitlich begrenzte URLs ermöglichen. Dabei werden folgende Fragen untersucht:
+Ziel dieser Arbeit besteht darin, anhand der Anforderungen von leoticket eine geeignete Speicherlösung zu empfehlen und die Realisierung eines Prototypen basierend auf den ausgewählten Cloud-Providern zu erstellen. Der Prototyp soll die Bereitstellung von den vordefinierten Daten durch sichere und zeitlich begrenzte URLs ermöglichen. 
+
+Dabei werden folgende Fragen gestellt:
+
+% TODO Sollen Daten hier nochmal definiert werden?
 
 \begin{itemize}
-	\item Welches Speichersystem ist im Hinblick auf Kosten, Performance und Verfügbarkeit für die Persistenz von Binärdaten besonders geeignet? 
-	\item Wie können Daten durch sichere, zeitlich begrenzte URL's bereitgestellt werden?
+	\item Welches Speichersystem ist im Hinblick auf Kosten, Performance und Verfügbarkeit für die Persistenz von Daten besonders geeignet? 
+	\item Wie können diese Daten durch sichere, zeitlich begrenzte URL's bereitgestellt werden?
 \end{itemize}
 
-Im Rahmen der vorliegenden Bachelorarbeit werden verschiedene Arten von Speichersystemen untersucht, um die Forschungsfragen zu beantworten. Dabei erfolgt eine Analyse der aktuell verfügbaren Speichertechnologien auf dem Markt hinsichtlich ihrer Eigenschaften wie Sicherheit, Verfügbarkeit, Performance und Kosten. Bei der Berücksichtigung der Integration des Speichersystems in Software-Produkten wird auch die API-Anbindung des Speichersystems betrachtet. Zur sicheren Bereitstellung von Dateien werden zudem geeignete Cloud-Provider miteinander verglichen. Kosten-, und Performance-Kalkulationen werden durchgeführt, um eine geeignete Speicherlösung zu empfehlen. Die Ergebnisse werden anschließend ausgewertet.\\
+Im Rahmen der vorliegenden Bachelorarbeit werden verschiedene Arten von Speichersystemen untersucht, um die gestellten Fragen zu beantworten. Dabei erfolgt eine Analyse der aktuell verfügbaren Speichertechnologien auf dem Markt hinsichtlich ihrer Eigenschaften wie Sicherheit, Verfügbarkeit, Performance und Kosten. Bei der Berücksichtigung der Integration des Speichersystems in Software-Produkten wird auch die API-Anbindung des Speichersystems betrachtet. Zur sicheren Bereitstellung der Dateien werden zudem geeignete Cloud-Provider miteinander verglichen. Kosten-, und Performance-Kalkulationen werden durchgeführt. Die Ergebnisse werden anschließend ausgewertet und interpretiert, um eine geeignete Speicherlösung mit den gewonnen Daten zu empfehlen.\\
 
 Im Zuge der prototypischen Umsetzung werden die ausgewählten Technologien von den Cloud Providern implementiert und Testdateien zur Verfügung gestellt. Nach der Durchführung von Messungen zur Performance auf Testdaten erfolgt eine Zusammenfassung der Implementierung.\\
 
-Abschließend werden die Ergebnisse nochmals dargestellt und interpretiert sowie Schwächen und Grenzen des Prototyps aufgezeigt. Zur Einhaltung des roten Fadens der Arbeit werden die gestellten Forschungsfragen beantwortet und potenzielle Anwendungen des Prototyps aufgelistet.
+Zum Abschluss werden die Ergebnisse erneut präsentiert, interpretiert und eine Bewertung des Prototyps vorgenommen. Zur Einhaltung des roten Fadens der Arbeit werden die am Anfang gestellten Fragen der Arbeit beantwortet und potenzielle Anwendungen des Prototyps aufgelistet.
 
