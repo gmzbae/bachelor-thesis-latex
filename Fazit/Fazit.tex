@@ -1,7 +1,25 @@
 \chapter{Fazit}
 
+In diesem Kapitel werden auf die gestellten Fragen zurückgegriffen und beantwortet, sodass der rote Faden der Arbeit nochmal deutlich wird. Anschließend wird die potenzielle Anwendung des Prototyps diskutiert.
+
 \section{Beantwortung der Forschungsfrage}
 
+Um die gestellten Fragen zu beantworten, werden sie zunächst aufgegriffen. Folgenden Fragen wurden am Anfang der Arbeit gestellt:
+
+\begin{itemize}
+	\item Welches Speichersystem ist im Hinblick auf Kosten, Performance und Verfügbarkeit für die Persistenz von Binärdaten besonders geeignet? 
+	\item Wie können Daten durch sichere, zeitlich begrenzte URL's bereitgestellt werden?
+\end{itemize}
+
+Um die erste Frage zu beantworten, werden die Punkte vom theoretischen Teil aufgegriffen. Es wurden verschiedene Speicherarten wie Objekt-, Block-, und File Storage untersucht. Dabei stellte sich heraus, dass Objekt Storage als Speichersystem für die Anforderungen von leoticket geeignet ist. Einige Cloud Provider stellen Objekt Storage zur Speicherung von Daten zur Verfügung und ist im aktuellen Markt stark vertreten. Es wurden die zwei größten Cloud Provider AWS und GCP betrachtet und eine Vergleichsbasis hergestellt in Hinblick auf Kosten, Performance, Verfügbarkeit, Sicherheit, Bereitstellung der Daten und API Anbindungen. Bei der sicheren Speicherung war es wichtig, dass die Daten vertraulich gespeichert werden und nur berechtigte Zugriff auf die Daten haben.\\
+
+ Datenverschlüsselungsmethoden wurden bei beiden Cloud Providern betrachtet und dabei festgestellt, dass die SSE C zwar die stärkste, unabhängige Sicherheit bietet, jedoch das Risiko besteht, selbstverwaltete und gespeicherte Schlüssel zu verlieren. Außerdem müssten Mitarbeiter dafür geschult werden, was extra Aufwand bedeutet. Aus diesem Grund wurde für die Implementierung des Prototyps die SSE-KMS customer-managed Methode verwendet, damit der Nutzer die Schlüssel in der KMS von den Providern selber erstellen und verwalten kann. So bleibt die Kontrolle noch und verschafft höhere Sicherheit. Bei der Verfügbarkeit versprechen beide Provider eine Verfügbarkeit von 99.9\% und hängt von den Speicherklassen ab, für die man sich entscheidet. Bei der Untersuchung der Speicherklassen in Verbindung mit Kosten und Performance stellte sich heraus, dass die Standard-IA von AWS und die Nearline von GC besser zu den Anforderungen von leoticket passt. Da die Latenz für leoticket kein Kriterium darstellt und vernachlässigt werden kann, fallen die Standard Klassen beider Provider weg. Die Speicherung der Daten steht mehr im Fokus, da auf die Daten maximal 2 mal zugegriffen werden. Die OneZone-IA fällt auch weg, da die Daten in nur einer Availability Zone gespeichert wird. Das Risiko für Datenverlust durch der Nicht-Verfügbarkeit dieser Zone steigt dadurch. Daten müssen auf Abruf schnell zugreifbar sein, deshalb sind die OneZone-IA und die Coldline nicht geeignet, da sie eher für selten abgerufen Daten angepasst sind. Die Abrufkosten dieser Speicherklassen sind am höchsten und nicht zu empfehlen.\\
+
+Insgesamt wird für die Persistenz von Binärdaten ein Object Storage mit den Speicherklassen Standard-IA von AWS und die Nearline von GC empfohlen. Sie bieten die nötigen Funktionen an, um die Anforderungen zu decken und kostengünstig Daten auf längerer Zeit zu speichern und dabei eine hohe Verfügbarkeit und eine schnelle Performance zu berücksichtigen. Die Präferenzen hängen auch mit der Entscheidung ab, was das Unternehmen braucht und präferiert. Beide Provider bieten eine gute Objektspeicherung kostengünstig und leistungsfähig an.\\
+
+Bei der zweiten gestellten Frage geht es um die Bereitstellung der Daten durch signierte zeitlich begrenzte URLs. Diese Frage wurde durch Ausprobieren der SDKs beim Prototypen untersucht und bewertet. Es stellt sich heraus, dass beide Cloud Provider die Funktionen anbieten, signierte URLs zu erstellen und zeitlich bereitzustellen. Durch den Prototypen kann man Dateien hochladen und sie durch diese URLs bereitstellen. Durch Klicken auf den generierten Link werden die Daten heruntergeladen. So kann verhindert werden, Dateien nicht direkt in Email Anhängen hinzuzufügen und diese durch die Links bereitstellen zu können. Diese Dateien werden von den Buckets entschlüsselt heruntergeladen und Nutzer können ohne AWS oder GC Credentials darauf zugreifen. Diese URLs sind zeitlich begrenzt. Über den Prototypen kann man die Minuten, in der der Link valide ist, angeben. GC und AWS stellen ausführliche Dokumentationen auf den offiziellen Seiten bereit, um diese Funktionen zu implementieren und anzuwenden in verschiedenen Programmiersprachen.\\
+
+So kann leoticket vom alten System zu der neuen empfohlenen Speicherlösung wechseln, um Daten sicher und schnell bereitzustellen und auf längerer Zeit zu speichern. Es ist zu beachten, dass diese Arbeit lediglich dem Vergleich und der Veranschaulichung beider Cloud Provider dient und das jedes Unternehmen unterschiedliche Anforderungen aufweist. Diese Arbeit dient als Stütze und zum Ausprobieren der Technologien durch den Prototypen. 
 
 
 \section{Potenzielle Anwendung des Prototyps}
