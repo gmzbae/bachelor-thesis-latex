@@ -140,7 +140,7 @@ Dateien hoch,-und herunterladen und die Zeit für die benötigte Request verwend
 GC bietet einen eigenen "gsutil" Tool für die Performance Analyse. Im Abschnitt Performance bereits erwähnt können durch die perfdiag Funktion Performance Diagnosen erstellt werden. 
 
 \begin{quote}
-	Mehrere Testdateien werden aus einem angegebenen Bucket hoch-und heruntergeladen. Nach der Analyse werden alle Testdateien wieder gelöscht nach erfolgreicher Diagnose. Die gsutil Performance kann von einigen Fakoren beeinflusst werden wie vom Client, Server oder Netzwerk. Möglich sind die CPU Geschwindigkeit, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen gsutil und den Google Servern. Die perfiag Funktion wurde dafür bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.
+	Mehrere Testdateien werden aus einem angegebenen Bucket hoch-und heruntergeladen. Nach der Analyse werden alle Testdateien wieder gelöscht nach erfolgreicher Diagnose. Die gsutil Performance kann von einigen Fakoren beeinflusst werden wie vom Client, Server oder Netzwerk. Möglich sind die CPU Dauer, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen gsutil und den Google Servern. Die perfiag Funktion wurde dafür bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.
 \end{quote}
 
 Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet werden:
@@ -157,7 +157,7 @@ Die Performance wird schrittweise gemessen. Angefangen von einer Datei bis hin z
 
 \subsection{Messungsergebnisse}
 
-In diesem Abschnitt werden die Messungsergebnisse der Performance Messung in genauen Zahlen in Millisekunden bereitgestellt. Die Speicherklassen Standard, Standard-IA und One Zone-IA von AWS wurden jeweils mit Standard, Nearline und Coldline von GC gemessen und verglichen. Im folgenden werden die Ergebnisse der Upload und Download Geschwindigkeit aller Speicherklassen präsentiert: Test
+In diesem Abschnitt werden die Messungsergebnisse der Performance Messung in genauen Zahlen in Millisekunden bereitgestellt. Die Speicherklassen Standard, Standard-IA und One Zone-IA von AWS wurden jeweils mit Standard, Nearline und Coldline von GC gemessen und verglichen. Im folgenden werden die Ergebnisse der Upload und Download Dauer aller Speicherklassen präsentiert: Test
 
 \begin{code}
 STANDARD-IA vs. NEARLINE
@@ -283,7 +283,7 @@ Der Prototyp soll einen Vergleich zwischen den beiden Cloud Providern bieten. Da
 
 Der Prototyp wurde so aufgebaut, dass man zwischen AWS und GC durch eine Environment Variable wählen kann. Die Klasse \textbf{CloudStorageServiceFactory} stellt die Auswahl zwischen AWS und GC zur Verfügung. Je nachdem welchen Cloud Provider der Nutzer angegeben hat, wird die entsprechende Klasse instanziiert und aufgerufen. Die Klassen \textbf{AWSS3StorageService} und \textbf{GoogleCloudStorageService} implementieren die Methoden des Interfaces \textbf{CloudStorageService}.\\
 
-Die bereitgestellten Tests dienen der Performance Messung. Dabei werden Dateien automatisch als 400kb große Objekte erstellt und durch die Testmethoden verwendet, um Objekte hoch-, und herunterzuladen. Sie unterstützen dabei, die Geschwindigkeit der verschiedenen Funktionen zu messen.\\
+Die bereitgestellten Tests dienen der Performance Messung. Dabei werden Dateien automatisch als 400kb große Objekte erstellt und durch die Testmethoden verwendet, um Objekte hoch-, und herunterzuladen. Sie unterstützen dabei, die Dauer der verschiedenen Funktionen zu messen.\\
 
 Da die Maven Dependencies kein Teil der Spring Cloud Release Train sind, hängt es von der Commmunity ab, die Versionen aktuell zu halten. Für AWS bedeutet dies, dass die AWS SDK 2. Version nicht komplett abgedeckt ist. Jedoch ist sie so weit, dass S3 bereits unterstützt wird. 
 
