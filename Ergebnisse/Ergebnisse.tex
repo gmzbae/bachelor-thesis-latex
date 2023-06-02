@@ -6,15 +6,15 @@ In diesem Kapitel werden die Funktionalitäten des Prototyps beschrieben. Zum Sc
 
 Der Prototyp hat die Funktionalität des Uploads und Downloads von Objekten nach S3 oder Cloud Storage. Der Nutzer kann sich zwischen AWS und GC entscheiden, indem die cloud\_provider Environment Variable vor dem Ausführen des Programms gesetzt wird. Damit das Programm erfolgreich durchlaufen kann, müssen alle Environment Variablen in der application.properties Datei gesetzt werden. Außerdem wird eine Authentifizierung für GC und AWS verlangt, sonst schlägt das Programm fehl. Die Authentifizierung für GC kann über die ADC erfolgen. In der offiziellen Dokumentation werden die verschiedenen Methoden aufgelistet. Für den Prototypen wurde die lokale Entwicklungsumgebung für die Authentifizierung durch 
 
-	\begin{lstlisting}
-	export GOOGLE\_APPLICATION\_CREDENTIALS=<jsonKeyPath>
-	\end{lstlisting}
+\begin{lstlisting}
+export GOOGLE\_APPLICATION\_CREDENTIALS=<jsonKeyPath>
+\end{lstlisting}
 	
 	oder durch den \verb|gcloud| cli Befehl 
 	
-	\begin{lstlisting}
-	gcloud auth application-default login
-	\end{lstlisting}
+\begin{lstlisting}
+gcloud auth application-default login
+\end{lstlisting}
 	
 	verwendet. Dabei ist der jsonKeyPath der Pfad zum erstellten Service Account, die Rechte für das Uploaden und Downloaden besitzt. Siehe auch: \href{https://cloud.google.com/docs/authentication/provide-credentials-adc}{Set Up ADC Credentials}.\\
 	
