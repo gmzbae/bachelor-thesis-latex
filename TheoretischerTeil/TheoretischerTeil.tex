@@ -117,17 +117,30 @@ Wenn man die SSE-KMS Variante aussucht, kann man auch die S3 Bucket Key Funktion
 
 Zuletzt gibt es noch die SSE-C (server-side encryption with customer-provided keys). Bei der SSE-C stellt der Customer seinen eigenen Schlüssel zur Verfügung. Dieser Schlüssel wird nicht von Amazon S3 gespeichert, im Gegensatz bei AWS KMS. Amazon S3 übernimmt mit dem bereitgestellten Schlüssel die Datenverschlüsselung beim Schreiben sowie die Datenentschlüsselung beim Zugriff auf Objekte. Amazon S3 entfernt anschließend den Schlüssel aus dem Speicher. Da Amazon S3 den Schlüssel nicht speichert, sepeichert er den zufällig generierten HMAC (Hash-baded Message Authentication Code) Wert vom Encryption Key um zukünftige Requests zu validieren."Note: Amazon S3 does not store the encryption key that you provide. [...]", \cite{aws-sse-c}.\\
 
-Object Ownership ist eine weitere wichtige Sicherheitsfunktion von Amazon S3. Mit Object Ownership können Benutzer oder Gruppen die Eigentümerschaft von Objekten in S3-Buckets besitzen. Dies bedeutet, dass nur autorisierte Benutzer die Berechtigung haben, Objekte zu löschen oder zu ändern, was die Sicherheit der Daten erhöht.\glqq S3 Object Ownership ist eine Einstellung auf Amazon-S3-Bucket-Ebene, mit der Sie Zugriffskontrolllisten (ACLs) deaktivieren und das Eigentum an jedem Objekt in Ihrem Bucket übernehmen können, [...]." \cite{aws-iam-s3}\\ 
+Object Ownership ist eine weitere wichtige Sicherheitsfunktion von Amazon S3. Mit Object Ownership können Benutzer oder Gruppen die Eigentümerschaft von Objekten in S3-Buckets besitzen. Dies bedeutet, dass nur autorisierte Benutzer die Berechtigung haben, Objekte zu löschen oder zu ändern, was die Sicherheit der Daten erhöht.\glqq S3 Object Ownership ist eine Einstellung auf Amazon-S3-Bucket-Ebene, mit der Sie Zugriffskontrolllisten (ACLs) deaktivieren und das Eigentum an jedem Objekt in Ihrem Bucket übernehmen können, [...]." \cite{aws-iam-s3}.
 
 \newpage
 
 AWS empfiehlt die ACL (Access Control List) auf Bucket-Ebenen deaktiviert zu lassen. Alle Objekte eines Buckets gehört so dem Bucket Owner. Laut \citeauthor{aws-iam-s3} verfügt Object Ownership über drei Einstellungen, mit denen man die Eigentümerschaft von Objekten steuern kann.
 
-\begin{figure}[h]
-\centering
-	\includegraphics[width=13cm,keepaspectratio]{Pictures/objectOwnershipTable.png}
-	\caption{Einstellungen für Object Ownership, \citeurl{aws-iam-s3}}
-\end{figure}
+\begin{table}[!h]
+\begin{tabular}{ |p{2.5cm}|p{2cm}|p{3cm}|p{3cm}|p{3cm}| }
+\hline
+\multicolumn{5}{|c|}{Einstellungen für Object Ownership} \\
+\hline
+Einstellung & Gilt für & Auswirkung auf Object Ownership & Auswirkungen auf ACLs & Hochladen akzeptiert \\
+\hline
+\cline{1-5}
+Bucket-Eigentümer erzwungen(empfohlen) & Alle neuen und bestehenden Objekte & Bucket-Eigentümer besitzt jedes Objekt. & ACLs sind deaktiviert. Bucket-Eigentümer hat das volle Eigentum und die volle Kontrolle. & Uploads mit ACL mit vollem Zugriff des Bucket-Eigentümers oder Uploads, die keine ACL angeben \\
+\cline{1-5}
+Bucket-Eigentümer bevorzugt & Neue Objekte   & Wenn ein Objekt-Upload die bucket-owner-full-control vordefinierte ACL beinhaltet, gehört dem Bucket Eigentümer das Objekt. Objekte, die mit anderen ACLs hochgeladen wurden, gehören dem Schreibkonto & ACLs können aktualisiert werden und können Berechtigungen erteilen. Wenn ein Objekt-Upload die bucket-owner-full-control vordefinierte ACL enthält, hat der Bucket-Eigentümer Vollzugriff und der Objekt-Writer hat keinen Vollzugirff mehr. & Alle Uploads \\
+\cline{1-5}
+Object-Writer(Standard) & Neue Objekte & Der Objekt-Writer besitzt das Objekt & ACLs können aktualisiert werden und können Berechtigungen erteilen. Der Objekt-Writer hat vollen Kontrollzugriff & Alle Uploads \\
+\cline{1-5}
+\end{tabular}
+\caption{Einstellungen für Object Ownership, \citeurl{aws-iam-s3}}
+\end{table}
+
 
 Laut \citeauthor{aws-iam-s3} zeigt die obige Tabelle die Auswirkungen, die jede Einstellung für Object Ownership auf ACLs, Objekte, Objekteigentümer und Objekt-Uploads hat.\\
 
@@ -173,19 +186,29 @@ Um eine hohe Verfügbarkeit bereitzustellen, stell Amazon S3 außerdem noch die 
 
 Um die Leistung von Amazon S3 zu überwachen und auf mögliche Probleme reagieren zu können wird CloudWatch bereitgestellt. Dadurch können Ausfallzeiten minimiert werden und herausfinden, an welchen Momenten die Verfügbarkeit am geringsten ist.
 
-Insgesamt bietet Amazon S3 eine hochverfügbare und zuverlässige Speicherlösung, die durch Multi-Availability Zone Architekturen und Fehlerkorrekturmechanismen eine Verfügbarkeit von 99,99 Prozent gewährleistet.
+Insgesamt bietet Amazon S3 eine hochverfügbare und zuverlässige Speicherlösung, die durch Multi-Availability Zone Architekturen und Fehlerkorrekturmechanismen eine Verfügbarkeit von 99,99 Prozent gewährleistet.\\
 
-\newpage
 
 \textbf{Google Cloud Storage}\\
 
 Laut \cite{gcp-sla} wird die Verfügbarkeit von Google Cloud Storage als Service Level Agreement (SLA) angegeben, das die garantierte Verfügbarkeit für den Dienst definiert. Gemäß dem aktuellen SLA von Google Cloud Storage beträgt die garantierte Verfügbarkeit für Multi-Regionaler Speicher 99,95 Prozent und für Regionale Speicher 99,9 Prozent. Diese Zahlen geben an, dass Google Cloud Storage darauf ausgelegt ist, eine sehr hohe Verfügbarkeit zu gewährleisten. In der folgenden Tabelle werden diese Werte nochmals belegt.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCSLA.png}
-	\caption{Verfügbarkeit der Speicherklassen gemäß Google Cloud Storage SLA \citeurl{gcp-sla} }
-\end{figure}
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |p{5cm}|p{5cm}| }
+\hline
+Cloud Service & Monthly Uptime Percentage \\
+\hline
+\cline{1-2}
+Standard storage class in a multi-region or dual-region location of Cloud Storage & $>$=99.95\% \\
+\cline{1-2}
+Standard storage class in a regional location of Cloud Storage; Nearline, Coldline, or Archive storage class in a multi-region or dual-region location of Cloud Storage & $>$=99.9\% \\
+\cline{1-2}
+Nearline, Coldline, or Archive storage class in a regional location of Cloud Storage; Durable Reduced Availability storage class in any location of Cloud Storage & $>$=99.0\% \\
+\cline{1-2}
+\end{tabular}
+\caption{Verfügbarkeit der Speicherklassen gemäß Google Cloud Storage SLA, \citeurl{gcp-sla}}
+\end{table}
 
 Es ist jedoch zu beachten, dass die tatsächliche Verfügbarkeit von Google Cloud Storage von mehreren Faktoren abhängt, einschließlich der spezifischen Konfiguration, dem Datenzugriffsmuster, der Netzwerkverfügbarkeit und anderen betrieblichen Variablen. Es ist daher möglich, dass die tatsächliche Verfügbarkeit in der Praxis leicht von der garantierten Verfügbarkeit abweicht.
 
@@ -193,11 +216,9 @@ Auch Google Cloud Storage bietet die Multi-Region Storage an. Dies ermöglicht d
 
 Object Versioning bietet wie AWS die Möglichkeit Objektversionen beizubehalten. Dadurch können vorherige Versionen von Objekten wiederhergestellt werden, falls sie versehentlich gelöscht oder überschrieben werden.\\
 
-Mit der Bucket- und Objekt Replikation können Daten automatisch in andere Regionen oder Projekte repliziert werden. Dies ermöglicht eine geografische Redundanz und verbessert die Verfügbarkeit der Daten. Google Cloud Storage verwendet verteilte Speichersysteme eine redundante Infrastruktur, um eine hohe Datensicherheit- und Verfügbarkeit zu gewährleisten. Die Daten werden in mehreren Datenzentren repliziert, um Ausfälle zu vermeiden.\\
+Mit der Bucket- und Objekt Replikation können Daten automatisch in andere Regionen oder Projekte repliziert werden. Dies ermöglicht eine geografische Redundanz und verbessert die Verfügbarkeit der Daten. Google Cloud Storage verwendet verteilte Speichersysteme eine redundante Infrastruktur, um eine hohe Datensicherheit- und Verfügbarkeit zu gewährleisten. Die Daten werden in mehreren Datenzentren repliziert, um Ausfälle zu vermeiden. Ein weiterer Punkt ist die Monitoring und Fehlererkennung wie Stackdriver Monitoring, um die Leistung und Verfügbarkeit von google Cloud Storage zu überwachen und auf potenzielle Probleme zu reagieren.
 
-Ein weiterer Punkt ist die Monitoring und Fehlererkennung wie Stackdriver Monitoring, um die Leistung und Verfügbarkeit von google Cloud Storage zu überwachen und auf potenzielle Probleme zu reagieren.
 
-\newpage
 
 \subsubsection{Kosten}
 
@@ -207,11 +228,23 @@ In diesem Abschnitt erfolgt eine Untersuchung der Kostenstruktur von Amazon S3 u
 
 Amazon S3 erhebt Gebühren für verschiedene Leistungsbereiche, darunter die Speicherung, Anfragen, Datenabrufe, Datenübertragung, Verwaltung, Analyse und die Replikation. Die Speicherungsgebühr richtet sich nach der Objektgröße, der Speicherdauer innerhalb eines Monats und der gewählten Speicherklasse. Es stehen verschiedene Speicherklassen zur Verfügung, die für unterschiedliche Anwendungsfälle geeignet sind, nämlich S3 Standard, S3 Intelligent-Tiering, S3 Standard – Infrequent Access, S3 One Zone – Infrequent Access, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval (ehemals S3 Glacier) und S3 Glacier Deep Archive. In dieser Arbeit wird S3 Glacier nicht behandelt, da leoticket keine Anwendung für diese Speicherklasse hat. Stattdessen werden die Speicherklassen S3 Standard, S3 Intelligent-Tiering, S3 Standard - Infrequent Access und S3 One Zone - Infrequent Access näher untersucht. Zur Veranschaulichung werden die Preise in der folgenden Tabelle dargestellt:
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=12cm,keepaspectratio]{Pictures/AllgKostenAWS.png}
-	\caption{Übersicht der Kosten der AWS S3 Speicherklassen}
-\end{figure}
+\begin{table}[!h]
+\begin{tabular}{ |s|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}| }
+\hline
+\rowcolor{blue!35}
+ & \textbf{Standard} & \textbf{Intelligent Tiering} & \textbf{Standard-IA} & \textbf{One Zone-IA}\\
+\hline
+\textbf{Speicher/GB im Monat} & 0.023 EUR & 0.023 EUR & 0.013 EUR & 0.010 EUR \\
+\textbf{PUT-,COPY-,POST-,LIST-Anforderungen} & 0.0050 EUR & 0.0050 EUR & 0.0093 EUR & 0.0093 EUR \\
+\textbf{GET-,SELECT und alle anderen Anforderungen}   & 0.00040 EUR & 0.00040 EUR  & 0.00093 EUR & 0.00093 EUR\\
+\textbf{Datenabrufe}  &-- & --  & 0.00093 EUR & 0.00093 EUR\\
+\textbf{Monitoring und Automation pro Objekt} & -- & 0.0000023 EUR & -- & --\\
+\hline
+\textbf{Datenübertragung aus S3 in das Internet} & \multicolumn{3}{c}{0.084 EUR pro GB} &\\
+\hline
+\end{tabular}
+\caption{Übersicht der Kosten der AWS S3 Speicherklassen}
+\end{table}
 
 In der vorliegenden Tabelle werden die Standardpreise für verschiedene Speicherklassen von Amazon S3 aufgeführt. Die Preise für PUT-, COPY-, POST- und LIST-Anforderungen basieren jeweils auf einer Staffelung von 1000 Anfragen, ähnlich wie bei GET-, SELECT- und anderen Anforderungen. Sowohl die Speicherklasse Standard als auch IA haben eine Speicherungsgebühr von 0,023 Euro und Anforderungsgebühren von 0,0050 Euro für POST und 0,00040 Euro für GET-Anforderungen. Für die Speicherklassen Standard-IA und OneZone-IA liegen die Speicherungsgebühren bei 0,013 Euro bzw. 0,010 Euro. Die Anforderungsgebühren betragen 0,0093 Euro für POST und 0,00093 Euro für GET. Zusätzlich erheben beide Speicherklassen eine Gebühr von 0,00093 Euro für Datenabrufe. Es gelten auch Datenübertragungsgebühren von Amazon S3 zum Internet in Höhe von 0,084 Euro pro GB für alle Speicherklassen. Es ist erwähnenswert, dass nur die IA-Speicherklasse zusätzliche Gebühren für das Verwalten von Objekten in Höhe von 0,084 Euro pro Objekt erhebt.\\
 
@@ -227,13 +260,25 @@ Die genauen Preise und Kostendetails für S3 können sich im Laufe der Zeit änd
 
 GC Storage setzt Preise für die Komponenten Datenspeicher, Datenverarbeitung und Netzwerknutzung. Beim Datenspeicher ist wie bei Amazon S3 die Menge der in den Buckets gespeicherten Daten bedeutend. Preise für Speicher hängen von der Speicherklasse der Daten und dem Standort der Buckets ab. Bei der Datenverarbeitung werden Gebühren für die von Cloud Storage durchgeführten Verarbeitung, einschließlich Vorgangsgebühren, anwendbarer Abrufgebühren und Replikation zwischen Regionen erhoben. Bei der Netzwerknutzung werden Gebühren für die Menge der aus den Buckets gelesenen oder zwischen diesen verschobenen Daten erhoben. Google Cloud Storage bietet vier Speicherklassen an von denen drei untersucht werden. Die Standard, Nearline und Coldline. Diese drei Speicherklassen haben unterschiedliche Leistungseigenschaften und Kosten. Die Preise variieren je nach gewählter Speicherklasse.\\
 
-Um den Vergleich zwischen Amazon S3 und Google Cloud Storage zu veranschaulichen wird eine Tabelle in der unteren Abbildung dargestellt:
+Um den Vergleich zwischen Amazon S3 und Google Cloud Storage zu veranschaulichen wird eine Tabelle in der unteren Tabelle dargestellt:
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCStorageClassKosten.png}
-	\caption{Vergleich der Kosten von Google Cloud Storage Speicherklassen}
-\end{figure}
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |s|p{2cm}|p{2cm}|p{2cm}| }
+\hline
+\rowcolor{green!25}
+ & \textbf{Standard} & \textbf{Nearline} & \textbf{Coldline}\\
+\hline
+\textbf{Speicher/GB im Monat} & 0.021 EUR & 0.012 EUR & 0.0054 EUR\\
+\textbf{Vorgänge Klasse A pro 1000 Vorgänge} & 0.0047 EUR & 0.0093 EUR & 0.0093 EUR\\
+\textbf{Vorgänge Klasse B pro 1000 Vorgänge}   & 0.00037 EUR & 0.00093 EUR  & 0.0047 EUR\\
+\textbf{Datenabrufe pro GB}  &-- & 0.0093 EUR   & 0.019 EUR\\
+\hline
+\textbf{Ausgehender Traffic von GC ins Internet monatlich} & \multicolumn{2}{c}{0.11 EUR pro 0 bis 1TB} &\\
+\hline
+\end{tabular}
+\caption{Vergleich der Kosten von Google Cloud Storage Speicherklassen}
+\end{table}
 
 Ähnlich wie bei Amazon S3 sind die Speicherkosten der Nearline und Coldline geringer als die Standard Speicherklasse. Dafür werden Gebühren für die Datenabrufe bei Nearline und Coldline erhoben. Die verschiedenen Speicherklassen sind für unterschiedliche Anwendungsfälle ähnlich wie bei Amazon S3 konzipiert. Die Standard Storage-Klasse bietet hohe Performance, niedrige Latenzzeiten und hohe Verfügbarkeit. Sie eignet sich gut für häufig genutzte Daten, bei denen schneller Zugriff und gerine Latenz von Bedeutung sind. Beispiele dafür sind aktive Anwendungen, Datenbanken oder Inhalte mit hohem Durchsatz. Die Nearline Storage-Klasse ist für seltener genutzte Daten konzipiert, auf die jedoch mit niedriger Latenzzeit zugegriffen werden muss. Es bietet niedrigere Speicherkosten als die Standard Storage, jedoch mit einer etwas längeren Zugriffszeit. Es eignet sich für Backup-Daten, Archivierung und lange Speicherung. Letztere Speicherklasse, die Coldline Storage ist für Daten ausgelegt, auf die selten zugegriffen wird und bei denen eine längere Zugriffszeit akzeptabel ist. Es bietet die niedrigsten Speicherkosten an. Sie eignet sich gut für langfristige Archivierung, Compliance-Daten und Backup-Daten.\\ 
 
@@ -279,21 +324,17 @@ Bei der Performance spielt die Request Rate auch eine bedeutsame Rolle. Das biet
  
 Cloud Storage ermöglicht den parallelen Upload und Download von Daten, um die Übertragungsgeschwindigkeit zu maximieren. Es können mehrere Threads oder Prozesse verwenden werden, um Daten gleichzeitig hochzuladen oder herunterzuladen und so die Leistung zu verbessern.\\
 
-Der Google Cloud Storage Transfer Service ermöglicht den schnellen und effizienten Transfer von großen Datenmengen. Daten können aus anderen Cloud-Speicherlösungen, On-Premise-Speichern oder öffentlichen Datensätzen in Google Cloud Storage übertragen werden, um Zeit und Bandbreite zu sparen.
-
-\newpage
+Der Google Cloud Storage Transfer Service ermöglicht den schnellen und effizienten Transfer von großen Datenmengen. Daten können aus anderen Cloud-Speicherlösungen, On-Premise-Speichern oder öffentlichen Datensätzen in Google Cloud Storage übertragen werden, um Zeit und Bandbreite zu sparen.\\
 
 Während die out-of-the-box Performance bereits stabil ist, gibt es einige Einstellungen und Empfehlungen von Google Cloud, um die Performance auf den Anwendungsfall zu optimieren. Umm die Leistung messen zu können, bietet Google Cloud die "perfdiag" Tool an. Der Autor McAnlis empfiehlt in seinem Block \citetitle{gcp-blog} dieses Tool zu verwenden, dass eine Reihe von Tests durchläuft, die die aktuelle Performance von einem Cloud Bucket protokolliert. Des Weiteren empfiehlt er die Nutzung des "gsutil" Tools von Google Cloud, um kleinere Dateien schneller hochzuladen. Wenn man 20 000 Dateien, die jeweils 1kb groß sind, hochladen möchte, dann dauert der Overhead bei jedem individuellen Upload länger als die gesamte Uploadzeit gemeinsam. Deshalb sollte man Batch Operationen verwenden, da diese den Overhead reduzieren und die Leistung verbessern. Das gsutil Tool bietet die Option an Batch Operationen durchzuführen. Auf dem folgenden Diagramm wird ein Test mit 100 mal 200 000 Dateien mit individuellem Upload und Batch Upload angezeigt, das mit "gsutil -m cp" in ein Storage Bucket hochgeladen wird.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=12cm,keepaspectratio]{Pictures/cloud-storage-performance.png}
 	\caption{GCS Dauer des Uploads, \citeurl{gcp-blog}}
 \end{figure}
 
-Hier sieht man, wie die Leistung sich dabei um das fünffache erhöht im Gegensatz zu den inidivduellen Uploads.\\
-
-Das Auto-balancing von Google Cloud sorgt für die Verteilung der Upload-Connections auf "Backend Shards". Das funktioniert durch die Name/Pfad der Datei und kann die Dauer des Uploads erhöhen, wenn sich die Dateien in unterschiedlichen Ordnern befinden oder auch verschiedene Namensgebungen haben. Falls sich die Dateien zu sehr ähneln, kann dies die Dauer des Uploads reduzieren, da die Connections alle in den gleichen Shard übergehen.\\
+Hier sieht man, wie die Leistung sich dabei um das fünffache erhöht im Gegensatz zu den inidivduellen Uploads. Das Auto-balancing von Google Cloud sorgt für die Verteilung der Upload-Connections auf "Backend Shards". Das funktioniert durch die Name/Pfad der Datei und kann die Dauer des Uploads erhöhen, wenn sich die Dateien in unterschiedlichen Ordnern befinden oder auch verschiedene Namensgebungen haben. Falls sich die Dateien zu sehr ähneln, kann dies die Dauer des Uploads reduzieren, da die Connections alle in den gleichen Shard übergehen.\\
 
 Eine weitere Methode, die die Performance steigern kann, sind Requests in Größe ab 1MB. Bei kleineren Requests sollte man die Requests versuchen zu parallelisieren, damit die fixen Latenzkosten überlappen.\\
 
@@ -311,11 +352,28 @@ Amazon S3 bietet eine RESTful API, die auf dem HTTP-Protokoll basiert. Mit diese
 
 Die AWS SDK authentifiziert Requests durch die Bereitstellung der Access Keys, so fällt das Schreiben des Codes dafür weg. Die SDK ist in verschiedenen Programmiersprachen zugänglich, darunter Java, Javascript, Python, .NET, Ruby, PHP, IOS und Android. Die folgende Tabelle zeigt alle unterstützten Programmiersprachen an.
 
-\begin{figure}[h]
+\begin{table}[!h]
 \centering
-\includegraphics[width=9cm,keepaspectratio]{Pictures/SDKProgrammiersprachen.png}
-	\caption{Unterstützte Programmiersprachen von AWS SDK, \citeurl{aws-sdk} }
-\end{figure}
+\begin{tabular}{ |p{5.5cm}|p{7cm}| }
+\hline
+\rowcolor{gray!30}
+\textbf{SDK documentation} & \textbf{Code examples}\\
+\hline
+\textbf{AWS SDK for C++} & AWS SDK for C++ code examples\\
+\textbf{AWS SDK for Go} & AWS SDK for Go code examples\\
+\textbf{AWS SDK for Java}   & AWS SDK for Java code examples\\
+\textbf{AWS SDK for Javascript}  & AWS SDK for Javascript code examples\\
+\textbf{AWS SDK for Kotlin} & AWS SDK for Kotlin code examples\\
+\textbf{AWS SDK for .NET} & AWS SDK for .NET code examples\\
+\textbf{AWS SDK for PHP} & AWS SDK for PHP code examples\\
+\textbf{AWS SDK for Python(Boto3)} & AWS SDK for Python(Boto3) code examples\\
+\textbf{AWS SDK for Ruby} & AWS SDK for Ruby code examples\\
+\textbf{AWS SDK for Rust} & AWS SDK for Rust code examples\\
+\textbf{AWS SDK for Swift} & AWS SDK for Swift code examples\\
+\hline
+\end{tabular}
+\caption{Unterstützte Programmiersprachen von AWS SDK, \citeurl{aws-sdk}}
+\end{table}
 
 Sie bietet eine abstrakte Schnittstelle, um die Entwicklung von Anwendungen zu erleichtern und die Interaktion mit Amazon S3 zu vereinfachen. Darüber hinaus gibt es auch Drittanbieter-Tools und Open-Source Bibliotheken, die die Integration mit Amazon S3 unterstützen. Spring Boot stellt eine Bibliothek für die alte und neue Version von AWS SDK zur Verfügung. IntelliJ Idea bietet einen Plugin \glqq AWS Toolkit\grqq an, mit dem man seine Amazon Credentials zur Verfügung stellen kann. Diesen Plugin gibt es auch für Eclipse und Visual Studio Code.\\
 
@@ -337,9 +395,7 @@ Die API-Anbindung von Google Cloud Storage erfordert ebenfalls eine Authentifizi
 
 \subsection{Bereitstellung der Dateien}
 
-In diesem Abschnitt werden Methoden für die Bereitstellung der Dateien durch signierte URL's von Amazon S3 und Google Cloud präsentiert. Unternehmen stehen und Organisationen stehen vor der Herausforderung, Dateien sicher und effizient für ihre Benutzer bereitzustellen. Eine häufig verwendete Methode, um diesen Anforderungen gerecht zu werden, ist die Verwendung von signierten URL's.\\
-
-Signierte URLs ermöglichen es, auf einfache Weise temporäre Zugriffsrechte für Dateien zu gewähren, ohne dass komplexe Zugriffskontrollmechanismen implementiert werden müssen. Sowohl Amazon Web Services (AWS) S3 als auch Google Cloud Storage bieten die Möglichkeit, signierte URLs für die Dateibereitstellung zu generieren.\\
+In diesem Abschnitt werden Methoden für die Bereitstellung der Dateien durch signierte URL's von Amazon S3 und Google Cloud präsentiert. Unternehmen stehen und Organisationen stehen vor der Herausforderung, Dateien sicher und effizient für ihre Benutzer bereitzustellen. Eine häufig verwendete Methode, um diesen Anforderungen gerecht zu werden, ist die Verwendung von signierten URL's. Signierte URLs ermöglichen es, auf einfache Weise temporäre Zugriffsrechte für Dateien zu gewähren, ohne dass komplexe Zugriffskontrollmechanismen implementiert werden müssen. Sowohl Amazon Web Services (AWS) S3 als auch Google Cloud Storage bieten die Möglichkeit, signierte URLs für die Dateibereitstellung zu generieren.\\
 
 \textbf{Amazon S3}\\
 
@@ -352,8 +408,6 @@ In Amazon S3 sind alle Objekte und Buckets standardmäßig privat. Durch die Ver
 Durch die Nutzung des URL können Nutzer entweder ein Objekt lesen oder ein Objekt hochladen. In dem Fall von leoticket liegt das Lesen des Objekts im Fokus. Die URL beinhaltet spezielle Parameter, welches von einer Anwendung gesetzt werden. Es gibt drei Parameter um den Zugriff für den Nutzer einzuschränken. Diese sind einmal Einschränkung des Buckets. Das bedeutet, das ein Nutzer nicht auf jeden Bucket zugreifen kann, sondern nur auf den Bucket, indem sich das Objekt befindet. Der zweite Parameter ist der Name des Objekts und zuletzt die Zeitspanne in der die URL gültig ist. Sobald die Zeit abgelaufen ist, kann der Nutzer nicht mehr auf den Link zugreifen.\\
 
 Für leoticket bedeutet das, Tickets und Rechnungen nicht mehr als Email-Anhänge bereitstellen zu müssen. Durch die Methode der presigned URLs können diese Links über die Email an die Clients versendet werden.\\
-
-\newpage
 
 \textbf{Google Cloud Storage}\\
 
@@ -400,19 +454,33 @@ Die Speichergröße ergibt sich aus den 67 000 Bestellungen pro Monat mal die 40
 \href{https://calculator.aws/}{AWS Preisrechner}\\
 \href{https://cloud.google.com/products/calculator}{GC Preisrechner}\\
 
+\newpage
+
 \textbf{Amazon S3}\\
 
 Im Folgenden wird die folgende Tabelle bereitgestellt, um die Kosten für die verschiedenen Speicherklassen darzustellen.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=12cm,keepaspectratio]{Pictures/AWSKostenOhneGesamt.png}
-\caption{Übersicht der einzelnen Kosten der Datenspeicherung in Amazon S3}	
-\end{figure}
+\begin{table}[!h]
+\begin{tabular}{ |s|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}| }
+\hline
+\rowcolor{blue!35}
+ & \textbf{Standard} & \textbf{Intelligent Tiering} & \textbf{Standard-IA} & \textbf{One Zone-IA}\\
+\hline
+\textbf{Monatliche Speicherkosten} & 70.27 EUR & 70.27 EUR & 38.72 EUR & 30.98  EUR \\
+\textbf{Vorauszahlung} & 162.42 EUR & 162.42 EUR & 300.76 EUR & 300.76 EUR \\
+\textbf{PUT Requests}   & 1.35 & 1.35 EUR  & 2.50 EUR & 2.50 EUR\\
+\textbf{GET Requests}  & 0.22 EUR & 0.22 EUR  & 0.50 EUR & 0.50 EUR\\
+\textbf{Datenabrufe} & -- & -- & 0.47 EUR & 0.47 EUR\\
+\hline
+\textbf{Data Transfer} & \multicolumn{3}{c}{4.20 EUR} &\\
+\hline
+\textbf{Monitoring und Automation objects} & -- & 75.19 EUR & -- & --\\
+\hline
+\end{tabular}
+\caption{Übersicht der einzelnen Kosten der Datenspeicherung in Amazon S3}
+\end{table}
 
 Zuerst werden die Einheitsumwandlungen durchgeführt. Dabei werden die angegebenen 3TB im Monat mal die 1024GB multipliziert, um die exakte Menge an GB auszurechnen. Dies ist bei 3072GB. Danach wird die Objektgröße von 100kb in GB umgerechnet, was 0.000095367432 GB ergibt. Anschließend werden die Preise kalkuliert. 
-
-\newpage
 
 \begin{align}
 	\frac{3072 \text{ GB per Month}}{0.000095367432 \text{ GB average item size}} = 32.212.255 \text{ number of objects}\\
@@ -424,16 +492,29 @@ Zuerst werden die Einheitsumwandlungen durchgeführt. Dabei werden die angegeben
 	32.212.255 \text{ number of objects} \times 0.00001 \text{ USD} \\ = \text{322.12 USD (Cost for PUT, COPY, POST requests for initial data)}
 \end{align}
 
-Die obigen Formeln sind ähnlich wie bei der Standard und One Zone-IA, wenn man dabei die jeweiligen Gebühren aus dem Kosten Abschnitt übernimmt. Bei der Intelligent Tiering gibt es noch den Unterschied, dass die Kosten für Monitoring und Automation dazu kommt und die Einteilung des Speichers in Prozent auf drei Speicherklassen. In der letzten Zeile der abgebildeten Tabelle werden die Gesamtkosten gemeinsam mit den Kosten des Datentransfers, Vorauszahlung und die puren monatlichen Speicherkosten der jeweiligen Speicherklassen addiert.\\
+Die obigen Formeln sind ähnlich wie bei der Standard und One Zone-IA, wenn man dabei die jeweiligen Gebühren aus dem Kosten Abschnitt übernimmt. Bei der Intelligent Tiering gibt es noch den Unterschied, dass die Kosten für Monitoring und Automation dazu kommt und die Einteilung des Speichers in Prozent auf drei Speicherklassen. In der letzten Zeile der abgebildeten Tabelle werden die Gesamtkosten gemeinsam mit den Kosten des Datentransfers, Vorauszahlung und die puren monatlichen Speicherkosten der jeweiligen Speicherklassen addiert.
 
+\newpage
 \textbf{Google Cloud Storage}\\
 
 In der folgenden Tabelle werden die Kosten von Google Cloud Storage für drei Speicherklassen zusammengefasst:
 
-\begin{figure}[h]
+\begin{table}[!h]
 \centering
-	\includegraphics[width=12cm,keepaspectratio]{Pictures/GCKostenOhneGesamt.png}
-	\caption{Übersicht der einzelnen Kosten der Datenspeicherung in GC Storage}
-\end{figure}
+\begin{tabular}{ |s|p{2cm}|p{2cm}|p{2cm}| }
+\hline
+\rowcolor{green!25}
+ & \textbf{Standard} & \textbf{Nearline} & \textbf{Coldline}\\
+\hline
+\textbf{Monatliche Speicherkosten} & 63.75 EUR & 36.03 EUR & 16.63 EUR\\
+\textbf{Datenabrufe} & -- & 0.45 EUR & 0.90 EUR\\
+\textbf{Klasse A Operationen}   & 1.21 EUR & 2.42 EUR  & 4.84 EUR\\
+\textbf{Klasse B Operationen}  & 0.19 EUR & 0.48 EUR   & 4.84 EUR\\
+\hline
+\textbf{Internet Egress monatlich} & \multicolumn{2}{c}{3.83 EUR pro 0 bis 1TB} &\\
+\hline
+\end{tabular}
+\caption{Übersicht der einzelnen Kosten der Datenspeicherung in GC Storage}
+\end{table}
 
 Die teuerste Speicherklasse mit 64.10 Euro ist die Standard Klasse. Die billigste mit 16.63 Euro ist die Coldline Klasse. Die Nearline Speicherklasse ist mit 36.03 Euro teurer als die Coldline. Bei der Standard Klasse gibt es keine Gebühren für die Daten Retrieval.
