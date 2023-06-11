@@ -45,6 +45,8 @@
 \newcommand{\thesisType}{Bachelor}
 
 
+\usepackage[all]{nowidow}
+
 %******************************************************************************	
 % Ebenen Einstellungen
 %1.section, 2.subsection, 3.subsubsection, 4.paragraph, 5.subparagraph
@@ -103,7 +105,6 @@
 }
 
 \lstset{style=mystyle}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Helfer während der Texterstellung
@@ -264,6 +265,10 @@
 
 %************************************************************************************************
 \begin{document}
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
 
 %\linenumbers 			%Zeilennummern; zum Korrekturlesen einkommentieren
 
