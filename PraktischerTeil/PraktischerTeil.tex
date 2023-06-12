@@ -253,120 +253,80 @@ Die Performance wird in Zehner-Vielfachen gemessen, beginnend mit einer Datei bi
 
 In diesem Abschnitt werden die Messungsergebnisse der Performance Messung in Millisekunden-Zahlen präsentiert. Die Speicherklassen Standard, Standard-IA und One Zone-IA von AWS wurden jeweils mit Standard, Nearline und Coldline von GC verglichen. Im Folgenden werden die Ergebnisse der Upload und Download Dauer aller Speicherklassen präsentiert: 
 
-%TODO Tabellen erstellen anstatt diese Logfiles
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |s|p{3cm}|p{3cm}| }
+\hline
+\rowcolor{pink!35}
+ & \textbf{Standard-IA} & \textbf{Nearline}\\
+\hline
+\textbf{1 Datei} &  &  \\
+Upload & 705 & 841 \\
+Download   &  18 & 26 \\
+\textbf{10 Dateien}  & &  \\
+Upload & 1862 & 3217\\
+Download   &  35 & 94 \\
+\textbf{100 Dateien}  & &  \\
+Upload & 16681 & 22683\\
+Download   &  129 & 269 \\
+\textbf{1000 Dateien}  & & \\
+Upload & 71175 & 185134\\
+Download   &  663 & 1489 \\
+\hline
+\end{tabular}
+\caption{Ergebnisse der Upload und Download Dauer der Speicherklassen Standard-IA und Nearline}
+\end{table}
 
-\begin{code}
-STANDARD-IA vs. NEARLINE
 
-1 File---------------------------------------------------------------------------
-
-Elapsed Time for 1  Object Upload in S3:-------------------------------705ms.
-Elapsed Time for 1 Object Upload in Cloud Storage:---------------------841ms.
-
-Elapsed Time for 1 Object Download in S3:------------------------------18ms.
-Elapsed Time for 1 Object Download in Cloud Storage:-------------------26ms.
-
-10 Files-------------------------------------------------------------------------
-
-Elapsed Time for 10  Object Uploads in S3:-----------------------------1862ms.
-Elapsed Time for 10 Object Uploads in Cloud Storage:-------------------3217ms.
-
-Elapsed Time for 10 Object Downloads in S3:-----------------------------35ms.
-Elapsed Time for 10 Object Downloads in Cloud Storage:------------------94ms.
-
-100 Files------------------------------------------------------------------------
-
-Elapsed Time for 100  Object Uploads in S3:-----------------------------16681ms.
-Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------22683ms.
-
-Elapsed Time for 100 Object Downloads in S3:----------------------------129ms.
-Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------269ms.
-
-1000 Files-----------------------------------------------------------------------
-
-Elapsed Time for 1000  Object Uploads in S3:----------------------------71175ms.
-Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------1851348ms.
-
-Elapsed Time for 1000 Object Downloads in S3:---------------------------663ms.
-Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1489ms.
-\end{code}
-
-\newpage
-
-\begin{code}
-STANDARD vs. STANDARD
-
-1 File---------------------------------------------------------------------------
-
-Elapsed Time for 1  Object Upload in S3:--------------------------------585ms.
-Elapsed Time for 1 Object Upload in Cloud Storage:----------------------660ms.
-
-Elapsed Time for 1 Object Download in S3:-------------------------------28ms.
-Elapsed Time for 1 Object Download in Cloud Storage:--------------------19ms.
-
-10 Files-------------------------------------------------------------------------
-
-Elapsed Time for 10  Object Uploads in S3:------------------------------1369ms.
-Elapsed Time for 10 Object Uploads in Cloud Storage:--------------------3002ms.
-
-Elapsed Time for 10 Object Downloads in S3:-----------------------------70ms.
-Elapsed Time for 10 Object Downloads in Cloud Storage:------------------108ms.
-
-100 Files------------------------------------------------------------------------
-
-Elapsed Time for 100  Object Uploads in S3:-----------------------------8110ms.
-Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------20750ms.
-
-Elapsed Time for 100 Object Downloads in S3:----------------------------180ms.
-Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------396ms.
-
-1000 Files-----------------------------------------------------------------------
-
-Elapsed Time for 1000  Object Uploads in S3:----------------------------73992ms.
-Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------176004ms.
-
-Elapsed Time for 1000 Object Downloads in S3:---------------------------650ms.
-Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1619ms.
-
-\end{code}
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |s|p{3cm}|p{3cm}| }
+\hline
+\rowcolor{pink!35}
+ & \textbf{Standard S3} & \textbf{Standard GCS}\\
+\hline
+\textbf{1 Datei} &  &  \\
+Upload & 585 & 660 \\
+Download   &  28 & 19 \\
+\textbf{10 Dateien}  & &  \\
+Upload & 1369 & 3002\\
+Download   &  70 & 108 \\
+\textbf{100 Dateien}  & &  \\
+Upload & 8110 & 20750\\
+Download   &  180 & 396 \\
+\textbf{1000 Dateien}  & & \\
+Upload & 73992 & 176004\\
+Download   &  650 & 1619 \\
+\hline
+\end{tabular}
+\caption{Ergebnisse der Upload und Download Dauer der Speicherklassen Standard S3 und Standard GCS}
+\end{table}
 
 \newpage
 
-\begin{code}
-ONEZONE-IA vs. COLDLINE
-
-1 File---------------------------------------------------------------------------
-
-Elapsed Time for 1  Object Upload in S3:--------------------------------505ms.
-Elapsed Time for 1 Object Upload in Cloud Storage:----------------------636ms.
-
-Elapsed Time for 1 Object Download in S3:------------------------------28ms.
-Elapsed Time for 1 Object Download in Cloud Storage:-------------------18ms.
-
-10 Files-------------------------------------------------------------------------
-
-Elapsed Time for 10  Object Uploads in S3:------------------------------1105ms.
-Elapsed Time for 10 Object Uploads in Cloud Storage:--------------------2855ms.
-
-Elapsed Time for 10 Object Downloads in S3:-----------------------------65ms.
-Elapsed Time for 10 Object Downloads in Cloud Storage:------------------89ms.
-
-100 Files------------------------------------------------------------------------
-
-Elapsed Time for 100  Object Uploads in S3:-----------------------------7539ms.
-Elapsed Time for 100 Object Uploads in Cloud Storage:-------------------20391ms.
-
-Elapsed Time for 100 Object Downloads in S3:----------------------------187ms.
-Elapsed Time for 100 Object Downloads in Cloud Storage:-----------------250ms.
-
-1000 Files-----------------------------------------------------------------------
-
-Elapsed Time for 1000  Object Uploads in S3:----------------------------73086ms.
-Elapsed Time for 1000 Object Uploads in Cloud Storage:------------------163661ms.
-
-Elapsed Time for 1000 Object Downloads in S3:---------------------------701ms.
-Elapsed Time for 1000 Object Downloads in Cloud Storage:----------------1559ms.
-\end{code}
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |s|p{3cm}|p{3cm}| }
+\hline
+\rowcolor{pink!35}
+ & \textbf{OneZone-IA} & \textbf{Coldline}\\
+\hline
+\textbf{1 Datei} &  &  \\
+Upload & 505 & 636 \\
+Download   &  28 & 18 \\
+\textbf{10 Dateien}  & &  \\
+Upload & 1105 & 2855\\
+Download   &  65 & 89 \\
+\textbf{100 Dateien}  & &  \\
+Upload & 7539 & 20391\\
+Download   &  187 & 250 \\
+\textbf{1000 Dateien}  & & \\
+Upload & 73086 & 163661\\
+Download   &  701 & 1559 \\
+\hline
+\end{tabular}
+\caption{Ergebnisse der Upload und Download Dauer der Speicherklassen OneZone-IA und Coldline}
+\end{table}
 
 Die Ergebnisse werden im Kapitel Zusammenfassung der Ergebnisse untersucht und dargestellt.
 
