@@ -18,7 +18,7 @@ gcloud auth application-default login
 	
 	verwendet. Dabei ist der \verb|jsonKeyPath| der Pfad zum erstellten Service Account, welche Rechte für das Uploaden und Downloaden besitzt. Unter \url{https://cloud.google.com/docs/authentication/provide-credentials-adc} können die ADC Credentials Methoden eingesehen werden.\\
 	
-Für die Authentifizierung mit AWS benötigt es lediglich das AWS Toolkit Plugin. Dieses stellt AWS für einige IDEs zur Verfügung. Unter anderem für Visual Studio, Eclipse und JetBrains Idea. Falls das AWS Toolkit nicht zur Verfügung steht, kann die Authentifizierung auch über die \verb|aws cli| erfolgen. Durch \verb|aws configure| können die Credentials gesetzt werden. Unter \url{https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup-basics.html} können die AWS Credentials Methoden eingesehen werden. Nachdem die Authentifizierungseinstellungen und die Umgebungsvariablen gesetzt wurden, kann das Programm gestartet werden. Damit die Dateien in der richtigen Speicherklasse hochgeladen werden, muss für GC der korrekte Bucket Name angegeben werden. In AWS muss jedoch die gewünschte Speicherklasse angegeben werden, damit das Objekt in diese geschrieben wird. Dieser Unterschied besteht, da in GC die Speicherklasse über die GC Konsole für ein Bucket ausgewählt werden kann. In AWS ist dies jedoch nicht möglich, deshalb haben alle Buckets in AWS bei Erstellung die Standard Speicherklasse eingestellt. Die Objektklasse muss speziell durch den Parameter \verb|storageClass| beim Hochladen angegeben werden. Das Objekt wird durch die SSE KMS verschlüsselt hochgeladen. Die Verschlüsselung wird automatisch von beiden Cloud Providern durchgeführt. Dabei muss der entsprechende KMS Schlüssel des ausgewählten Cloud Providers der Environment Variable \verb|sse_kms_key_id_arn| übergeben werden. Beim Herunterladen des Objekts muss dieser Schlüssel erneut mitgegeben werden, damit das Objekt entschlüsselt werden kann. Die Hauptklasse \verb|HandsonAwsGcApplication| ruft die entsprechende Klasse für AWS oder GC auf und initialisiert diese. Vorher müssen die Parameter für die \verb|.uploadObject(bucketName, key, filePath, encryptionKey, storageClass)| und \verb|.getPresignedUrl(bucketName, key, minutes, encryptionKey)| übergeben werden. Die Minuten stellen die Zeit ein, in der die generierte signierte URL gültig ist. Der \verb|storageClass| Parameter gilt nur für die AWS Funktion und kann die Werte \verb|STANDARD, STANDARD_IA| und \verb|ONEZONE_IA| annehmen.\\
+Für die Authentifizierung mit AWS benötigt es lediglich das AWS Toolkit Plugin. Dieses stellt AWS für einige IDEs zur Verfügung. Unter anderem für Visual Studio, Eclipse und Intellij Idea. Falls das AWS Toolkit nicht zur Verfügung steht, kann die Authentifizierung auch über die \verb|aws cli| erfolgen. Durch \verb|aws configure| können die Credentials gesetzt werden. Unter \url{https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup-basics.html} können die AWS Credentials Methoden eingesehen werden. Nachdem die Authentifizierungseinstellungen und die Umgebungsvariablen gesetzt wurden, kann das Programm gestartet werden. Damit die Dateien in der richtigen Speicherklasse hochgeladen werden, muss für GC der korrekte Bucket Name angegeben werden. In AWS muss jedoch die gewünschte Speicherklasse angegeben werden, damit das Objekt in diese geschrieben wird. Dieser Unterschied besteht, da in GC die Speicherklasse über die GC Konsole für ein Bucket ausgewählt werden kann. In AWS ist dies jedoch nicht möglich, deshalb haben alle Buckets in AWS bei Erstellung die Standard Speicherklasse eingestellt. Die Objektklasse muss speziell durch den Parameter \verb|storageClass| beim Hochladen angegeben werden. Das Objekt wird durch die SSE KMS verschlüsselt hochgeladen. Die Verschlüsselung wird automatisch von beiden Cloud Providern durchgeführt. Dabei muss der entsprechende KMS Schlüssel des ausgewählten Cloud Providers der Environment Variable \verb|sse_kms_key_id_arn| übergeben werden. Beim Herunterladen des Objekts muss dieser ARN Schlüssel erneut mitgegeben werden, damit das Objekt entschlüsselt werden kann. Die Hauptklasse \verb|HandsonAwsGcApplication| ruft die entsprechende Klasse für AWS oder GC auf und initialisiert diese. Vorher müssen die Parameter für die \verb|.uploadObject(bucketName, key, filePath, encryptionKey, storageClass)| und \verb|.getPresignedUrl(bucketName, key, minutes, encryptionKey)| übergeben werden. Die Minuten stellen die Zeit ein, in der die generierte signierte URL gültig ist. Der \verb|storageClass| Parameter gilt nur für die AWS Funktion und kann die Werte \verb|STANDARD, STANDARD_IA| und \verb|ONEZONE_IA| annehmen.\\
 
 Über Terraform werden die Buckets erstellt und die Konfigurationen eingestellt. Diese Konfigurationen sind an die Anforderungen an leoticket angepasst. Die Buckets müssen vor dem Programmstart bereits existieren, deshalb muss die Terraform Datei am Anfang durchlaufen. Die Terraform Dateien werden im entsprechenden Ordner bereitgestellt. Diese werden vor dem Programmstart als erstes ausgeführt, um die benötigten Ressourcen zu erstellen.\\
 
@@ -50,7 +50,7 @@ Im folgenden werden die Gesamtkosten der Speicherklasse von beiden Cloud Provide
 \textbf{Monitoring und Automation objects} & -- & 75.19 EUR & -- & --\\
 \textbf{Gesamtkosten pro Monat(ohne Vorauszahlung)} & 76.04 EUR & 151.23 EUR & 46.39 EUR & 38.65 EUR\\
 \hline
-\textbf{Vorauszahlung} & 162.42 EUR & 162.42 EUR & 300.76 EUR & 300.76 EUR \\
+\textbf{Vorabzahlung} & 162.42 EUR & 162.42 EUR & 300.76 EUR & 300.76 EUR \\
 \hline
 \hline
 \textbf{Gesamtkosten im ersten Monat} & \textbf{238.46 EUR} & \textbf{313.65 EUR} & \textbf{347.15 EUR} & \textbf{339.41 EUR}\\
@@ -59,11 +59,11 @@ Im folgenden werden die Gesamtkosten der Speicherklasse von beiden Cloud Provide
 \caption{Zusammenfassung der Gesamtkosten für AWS S3 pro Speicherklasse}
 \end{table}
 
-In dieser Abbildung werden in der letzten Zeile der Tabelle die Gesamtkosten der Speicherklassen pro Monat veranschaulicht. Die Gesamtkosten im ersten Monat der Speicherklasse Standard beträgt 123.67 USD. In diesen Kosten stecken die Vorauszahlungskosten, die PUT und GET Request Gebühren und die Datenübertragungsgebühren. Im Intelligent Tiering und Standard sind die Datenabrufgebühren nicht enthalten, da dafür keine Gebühren abgezogen werden. Die Gesamtkosten des Intelligent Tiering pro Monat beträgt 120.15 USD. Die Kosten des Intelligent Tiering hängen jedoch von der Speicherverteilung ab. Die Kosten sind grobe Werte und können von der Verteilung des Speichers in verschiedene Speicherklassen in Prozent abhängen. Bei der Standard-IA Speicherklasse sind es mit 127.81 USD Kosten die teuersten Kosten im Vergleich zu den anderen Speicherklassen. Die One Zone-IA ist mit 119.51 USD die billigste Speicherklasse.
+In dieser Tabelle werden in der letzten Zeile# die Gesamtkosten der Speicherklassen pro Monat veranschaulicht. Die Gesamtkosten im ersten Monat der Speicherklasse Standard beträgt 238.46 EUR. In diesen Kosten stecken die Vorabzahlung, die PUT und GET Request Gebühren und die Datenübertragungsgebühren. Im Intelligent Tiering und Standard sind die Datenabrufgebühren nicht enthalten, da dafür keine Gebühren abgezogen werden. Die Gesamtkosten des Intelligent Tiering pro Monat beträgt 313.65 EUR. Die Kosten des Intelligent Tiering hängen jedoch von der Speicherverteilung ab. Die Kosten sind grobe Werte und können von der Verteilung des Speichers in verschiedene Speicherklassen in Prozent abhängen. Bei der Standard-IA Speicherklasse sind es mit 347.15 EUR die teuersten Kosten im Vergleich zu den anderen Speicherklassen. Die One Zone-IA ist mit 339.41 EUR die billigste Speicherklasse.
 
 \newpage        
 
-In Google Cloud gibt es keine Vorauszahlungen im Vergleich zu AWS. Hier unterscheiden sich die Gesamtkosten der verschiedenen Speicherklassen zu AWS. In der folgenden Tabelle werden die Gesamtkosten zusammengefasst:
+In Google Cloud gibt es keine Vorabzahlungen im Gegensatz zu AWS. Hier unterscheiden sich die Gesamtkosten der verschiedenen Speicherklassen zu AWS. In der folgenden Tabelle werden die Gesamtkosten zusammengefasst:
 
 \begin{table}[!h]
 \centering
@@ -86,7 +86,7 @@ In Google Cloud gibt es keine Vorauszahlungen im Vergleich zu AWS. Hier untersch
 \caption{Zusammenfassung der Gesamtkosten für GC Storage pro Speicherklasse}
 \end{table}
 
-Die Gesamtkosten bilden sich hauptsächlich aus den Datenabrufen, Class A und Class B Operationen, welche PUT und GET Operationen beinhalten und die Internet Egress, ausgehend von GC zum Internet, beispielsweise beim Abrufen von Dateien. Es fallen keine Gebühren für die Datenabrufe der Standard Speicherklasse an. Die Gesamtkosten des Standards beträgt 69.86 Euro, der Nearline 42.61 Euro und des Coldline 25.36 Euro. 
+Die Gesamtkosten bestehen laut Tabelle hauptsächlich aus den Speicherkosten und die Internet Egress, ausgehend von GC zum Internet, beispielsweise beim Abrufen von Dateien. Es fallen keine Gebühren für die Datenabrufe der Standard Speicherklasse an. Die Gesamtkosten des Standards beträgt 68.98 Euro, der Nearline 43.21 Euro und des Coldline 31.04 Euro. 
 
 \newpage
 \subsection{Messergebnisse}
@@ -103,7 +103,7 @@ Die X-Achse beschreibt die Objektanzahl, die für jede Speicherklasse hochgelade
 
 \newpage
 
-Bei der Dauer des Downloads unterscheiden sich die Werte vom Upload stärker, denn die Zahlen für den Download bewegen sich in Bereichen von 16 bis hin zu 1556 Millisekunden. Hier steigen die Werte nicht höher als 2 Sekunden. In der folgenden Abbildung wird dies veranschaulicht:
+Die Unterschied sind beim Download weniger stark ausgeprägt als beim Upload45, denn die Zahlen für den Download bewegen sich in Bereichen von 16 bis hin zu 1556 Millisekunden. Hier steigen die Werte nicht höher als 2 Sekunden. In der folgenden Abbildung wird dies veranschaulicht:
 
 \begin{figure}[h]
 	\centering
