@@ -53,7 +53,7 @@ Als Spring Cloud GCP Version wird die 4.2.0 verwendet. Beide Spring Cloud Abhän
 
 \section{Speicherung von Binärdaten}
 
-Um Daten in S3 oder Cloud Storage speichern zu können, wurde der Prototyp so implementiert, dass der Nutzer sich zwischen S3 oder Cloud Storage entscheiden kann. Dies geschieht über die Klasse \verb|CloudStorageServiceFactory|. Hier kann der Nutzer über die Umgebungsvariable \verb|cloud_provider| den gewünschten Provider mit \verb|aws| oder \verb|google cloud| angeben. Dabei wird die Groß-, und Kleinschreibung nicht berücksichtigt. Die Umgebungsvariablen können unter Linux, OSX und Unix im System durch \verb|export <EnvironmentVariable>=<value>| exportiert werden. Wenn eine IDE wie Intellij verwendet wird, kann dies unter den Run-Einstellungen als Umgebungsvariablen eingefügt werden. Nach der Eingabe des Cloud Providers wird das Programm die entsprechende Klasse aufrufen. Für AWS die Klasse \verb|AWSS3StorageService| und für GC die Klasse \verb|GCStorageService|. Beide Klassen implementieren das Interface \verb|CloudStorageService|. Dieses definiert zwei Methoden und eine davon ist für die Speicherung der Daten zuständig:
+Um Daten in S3 oder Cloud Storage speichern zu können, wurde der Prototyp so implementiert, dass der Nutzer sich zwischen S3 oder Cloud Storage entscheiden kann. Dies geschieht über die Klasse \verb|CloudStorageServiceFactory|. Hier kann der Nutzer über die Umgebungsvariable \verb|cloud_provider| den gewünschten Provider mit \verb|aws| oder \verb|google cloud| angeben. Dabei wird die Groß-, und Kleinschreibung nicht berücksichtigt. Die Umgebungsvariablen können unter Linux, OSX und Unix im System durch \verb|export <EnvironmentVariable>=<value>| exportiert werden. Wenn eine IDE wie Intellij verwendet wird, können sie unter den Run-Einstellungen eingefügt werden. Nach der Eingabe des Cloud Providers wird das Programm die entsprechende Klasse aufrufen. Für AWS die Klasse \verb|AWSS3StorageService| und für GC die Klasse \verb|GCStorageService|. Beide Klassen implementieren das Interface \verb|CloudStorageService|. Dieses definiert zwei Methoden und eine davon ist für die Speicherung der Daten zuständig:
 
 \begin{lstlisting}[language=Java]
 void uploadObject(String bucketName, String key, String file, String encryptionKey, String storageClass) throws IOException;
@@ -128,7 +128,7 @@ public void uploadObject(String bucketName, String key, String file, String encr
 Dabei werden ähnliche Parameter der Methode wie in AWS S3 übergeben. Um ein Objekt in einen Bucket hochladen zu können, wird eine Referenz zu diesem erstellt. Dies geschieht durch die \verb|BlobId|, welche den Bucket Namen und den Namen des Objekts beinhaltet (1). 
 Anschließend wird diese blobId dem \verb|BlobInfo| Objekt übergeben und der Encryption Key über die Metadaten \verb|kmsKeyName| gesetzt (2). Nachdem überprüft worden ist, ob das Objekt bereits im Bucket existiert, wird das Objekt hochgeladen (3).\\
 
-Um das Programm auszuführen, wird die Hauptklasse \verb|CloudGcStorageAwsS3Application| gestartet. Damit das Programm erfolgreich läuft, müssen die Umgebungsvariablen im System exportiert werden. Alle Umgebungsvariablen sind in der \verb|application.properties| hinterlegt. Diese werden beim Start des Programms gelesen und angewendet. Außerdem müssen die AWS und GC Credentials hinterlegt werden. Dies kann entweder über die AWS Toolkit Plugin gesteuert werden oder in der Kommandozeile mit dem Befehl \verb|aws configure|. Für GC Credentials kann mit dem Befehl:\\ \verb|export GOOGLE_APPLICATION_CREDENTIALS=<service-account-json-file>| der Service Account hinterlegt werden oder durch Ausführen des Befehls \verb|gcloud auth application-default login| in der Kommandozeile, was die Credentials lokal speichert und für ADC verwendet wird.
+Um das Programm auszuführen, wird die Hauptklasse \verb|CloudGcStorageAwsS3Application| gestartet. Damit das Programm erfolgreich läuft, müssen die Umgebungsvariablen im System exportiert werden. Alle Umgebungsvariablen sind in der \verb|application.properties| hinterlegt. Diese werden beim Start des Programms gelesen und angewendet. Außerdem müssen die AWS und GC Credentials hinterlegt werden. Dies kann entweder über das AWS Toolkit Plugin gesteuert werden oder in der Kommandozeile mit dem Befehl \verb|aws configure|. Für GC Credentials kann mit dem Befehl:\\ \verb|export GOOGLE_APPLICATION_CREDENTIALS=<service-account-json-file>| der Service Account hinterlegt werden oder durch Ausführen des Befehls \verb|gcloud auth application-default login| in der Kommandozeile, was die Credentials lokal speichert und für ADC verwendet wird.
 
 \newpage
 
@@ -209,9 +209,9 @@ public URL getPresignedUrl(String bucketName, String key, Integer minutes, Strin
 }
 \end{lstlisting}
 
-Ähnlich wie bei S3 wird eine Referenz zum Objekt erstellt, indem der Bucket Name und der Name des Objekts dem \verb|BlobInfo| Objekt mitgegeben wird (1). Anschließend kann die URL durch Aufrufen der Methode \verb|.signUrl()| erstellt werden (2). Hier werden die \verb|BlobInfo| Objekt (3), die Minuten (4) und die Signatur Methode (5) übergeben. Zuletzt wird die URL ausgegeben (6).\\
+Ähnlich wie bei S3 wird eine Referenz zum Objekt erstellt, indem der Bucket Name und der Name des Objekts dem \verb|BlobInfo| Objekt mitgegeben wird (1). Anschließend kann die URL durch Aufrufen der Methode \verb|.signUrl()| erstellt werden (2). Hier werden das \verb|BlobInfo| Objekt (3), die Minuten (4) und die Signatur Methode (5) übergeben. Zuletzt wird die URL ausgegeben (6).\\
 
-Mit signierten URLs können die Anforderungen von leoticket an die sichere Speicherung und Bereitstellung der Daten über signierte URLs berücksichtigt werden. Dies bedeutet, Kunden können über diese Links die Dateien für Tickets und Rechnungen herunterladen ohne das Problem von zu großen Email-Anhängen zu haben.\\
+Mit signierten URLs können die Anforderungen von leoticket an die sichere Speicherung und Bereitstellung der Daten berücksichtigt werden. Dies bedeutet, Kunden können über diese Links, die durch Emails versendet werden, die Dateien für Tickets und Rechnungen herunterladen. Die Herausforderung von leoticket, große Email-Anhänge zu versenden, kann vermieden werden.\\
 
 \newpage
 
@@ -227,7 +227,7 @@ AWS bietet Dienste für die Performance Analyse. Unter anderem die Amazon CloudW
 	aws s3 cp <lokaler_pfad> s3://<Bucket_Name>/<Ziel_Dateipfad>
 \end{lstlisting}
 
-Dateien hoch,-und herunterladen und die Zeit für die benötigte Request messen. Auch mit dem AWS SDK können Performance Test Skripte geschrieben werden. Diese Methode wird für den Prototypen angewendet. Dabei werden Tests bereitgestellt, die mehrere Dateien automatisch hoch-, und herunterladen und dabei die vergangene Zeit messen.\\ 
+Dateien hoch- und herunterladen und die Zeit für die benötigte Request messen. Auch mit dem AWS SDK können Performance Test Skripte geschrieben werden. Diese Methode wird für den Prototypen angewendet. Dabei werden Tests bereitgestellt, die mehrere Dateien automatisch hoch-, und herunterladen und dabei die vergangene Zeit messen.\\ 
 
 \textbf{GC Storage}\\
 
@@ -243,7 +243,7 @@ Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet wer
 
 Die \verb|-o| Option schreibt den Output des Ergebnisses in eine Datei. Die Output Datei ist eine JSON Datei mit System Informationen und enthält die Performance Diagnose Ergebnisse. Die -n Option setzt die Anzahl der Objekte, die heruntergeladen und hochgeladen werden sollen während des Tests. Mit der \verb|-s| Option kann man die Objektgröße angeben. Zum Schluss wird der Name des Buckets angegeben.\\
 
-Um die Performance der SDKs zu analysieren, werden Objekte mit jeweils 100kb Objektgröße in verschiedenen Speicherklassen hoch-, und heruntergeladen. Anschließend wird die Performance über das SDK von Cloud Storage ähnlich wie bei AWS getestet. Der Test wird ebenfalls auf einer virtuellen Maschine von Hetzner ausgeführt.\\
+Um die Performance der SDKs zu analysieren, werden Objekte mit jeweils 100 KB Objektgröße in verschiedenen Speicherklassen hoch- und heruntergeladen. Anschließend wird die Performance über das SDK von Cloud Storage ähnlich wie bei AWS getestet. Der Test wird ebenfalls auf einer virtuellen Maschine von Hetzner ausgeführt.\\
 
 Die Performance wird in Zehner-Vielfachen gemessen, beginnend mit einer Datei bis hin zu 1000 Dateien. Dies bedeutet, dass Messungen für eine Datei, zehn Dateien, 100 Dateien und 1000 Dateien durchgeführt werden. Zur Durchführung der Messung wird eine Java Jar-Datei des Prototyps erstellt, in der die Testmethoden ausgeführt werden. Diese Testmethoden generieren zunächst Testdaten, die mit zufälligen String-Werten der Größe 100 KB gefüllt sind. Anschließend werden die Testmethoden in der Kommandozeile ausgeführt.
 
@@ -334,12 +334,12 @@ Die Ergebnisse werden im Kapitel Zusammenfassung der Ergebnisse untersucht und d
 
 \section{Zusammenfassung der Implementierung}
 
-Der Prototyp soll einen Vergleich zwischen den beiden Cloud Providern bieten. Das Ziel dabei ist es, ähnliche Technologien von beiden Providern zu verwenden und die Performance mit Testdaten messen zu können. 
+Der Prototyp soll einen Vergleich zwischen den beiden Cloud Providern bieten. Das Ziel dabei ist es, ähnliche Technologien von beiden Providern zu verwenden und die Performance mit Testdaten messen zu können.\\ 
 
 Der Prototyp implementiert zwei wichtige Funktionen: Das Hochladen und Herunterladen von Dateien unter Berücksichtigung der Anforderungen von leoticket. Dabei werden signierte URLs zur Bereitstellung der Dateien verwendet und die SSE KMS von beiden Providern für die Datenverschlüsselung angewendet. Der Prototyp soll auch als externe Bibliothek für eigene Anwendungen integriert werden können. Bei der Implementierung wurden die offiziellen Dokumentationen von AWS und Google Cloud verwendet, um die aktuellsten Versionen zum Zeitpunkt der Arbeit zu verwenden. Auf Wunsch von Leomedia wurde Spring Boot als Framework gewählt, um eine Enterprise-Anwendung bereitzustellen. Java wurde aus Präferenzgründen als Programmiersprache gewählt, obwohl beide Provider viele weitere Sprachen, die bereits im Kapitel zur API-Anbindung erwähnt wurden, unterstützen.\\
 
-Der Prototyp umfasst eine Implementierung, die es ermöglicht, über eine Umgebungsvariable zwischen AWS und GC zu wählen. Die Klasse \verb|CloudStorageServiceFactory| stellt die Auswahl zwischen AWS und GC zur Verfügung. Je nachdem welchen Cloud Provider der Nutzer angegeben hat, wird die entsprechende Klasse instanziert und aufgerufen. Die Klassen \verb|AWSS3StorageService| und \verb|GCStorageService| implementieren die Methoden des Interfaces \verb|CloudStorageService|.\\
+Der Prototyp umfasst eine Implementierung, die es ermöglicht, über eine Umgebungsvariable zwischen AWS und GC zu wählen. Die Klasse \verb|CloudStorageServiceFactory| stellt diese zwischen AWS und GC zur Verfügung. Je nachdem welchen Cloud Provider der Nutzer angegeben hat, wird die entsprechende Klasse instanziiert und aufgerufen. Die Klassen \verb|AWSS3StorageService| und \verb|GCStorageService| implementieren die Methoden des Interfaces \verb|CloudStorageService|.\\
 
-Die bereitgestellten Tests dienen der Performance Messung. Dabei werden Dateien automatisch als 100kb große Objekte erstellt und durch die Testmethoden verwendet, um Objekte hoch-, und herunterzuladen. Sie unterstützen dabei, die Dauer der verschiedenen Funktionen zu messen.\\
+Die bereitgestellten Tests dienen der Performance Messung. Dabei werden Dateien automatisch als 100 KB große Objekte erstellt und durch die Testmethoden verwendet, um Objekte hoch-, und herunterzuladen. Sie unterstützen dabei, die Dauer der verschiedenen Funktionen zu messen.\\
 
 Da die Maven Abhängigkeiten kein Teil der Spring Cloud Release Train sind, hängt es von der Community ab, die Versionen aktuell zu halten. Für AWS bedeutet dies, dass die AWS SDK 2.0 Version nicht komplett abgedeckt ist. Jedoch ist sie so weit, dass S3 bereits unterstützt wird. 
