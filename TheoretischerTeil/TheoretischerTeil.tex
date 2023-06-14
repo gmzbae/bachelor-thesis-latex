@@ -1,6 +1,6 @@
 \chapter{Speichersysteme}
 
-Speichersysteme sind eine entscheidende Komponente der IT Infrastruktur eines Unternehmens. In der heutigen Zeit kann von Speichersystemen kaum abgesehen werden, da Big Data mehr an Wichtigkeit gewinnt. Big Data ist ein Begriff, der sich auf große Mengen an strukturierten, semi-strukturierten und unstrukturierten Daten bezieht, die mit hoher Geschwindigkeit und in unterschiedlichen Formaten generiert, gespeichert und analysiert werden. Diese umfasst Daten, die aus verschiedenen Quellen stammen, wie beispielsweise soziale Medien, Sensoren, Maschinenprotokolle, Transaktionsdaten und Textdokumente. Laut \citeauthor{oracle-bigdata} fallen die bekannten drei V-Begriffe Variety, Volume und Velocity darunter, die im Artikel \glqq Was versteht man unter Big Data?\grqq\ erwähnt werden. Sie bieten eine Möglichkeit, große Mengen an Daten zu speichern und zu verwalten, um den Zugriff und die Nutzung zu erleichtern. Es gibt eine Vielzahl an Speichersystemen, die für verschiedene Zwecke konzipiert sind. Durch die große Auswahl in der IT und die stetig anwachsende Innovation stellt sich die Frage, welche Speichersysteme sich für bestimmte Zwecke eignen. Die Wahl des richtigen Speichersystems hängt von den Anforderungen der Applikation ab, beispielsweise der Art der zu speichernden Daten, dem benötigten Zugriff und der Skalierbarkeit. Eine gründliche Analyse der Anforderungen und Kosten ist entscheidend, um die beste Lösung zu finden, die den Bedürfnissen des Unternehmens entspricht.\\
+Speichersysteme sind eine entscheidende Komponente der IT Infrastruktur eines Unternehmens. In der heutigen Zeit kann von Speichersystemen kaum abgesehen werden, da Big Data mehr an Wichtigkeit gewinnt. Big Data ist ein Begriff, der sich auf große Mengen an strukturierten, semi-strukturierten und unstrukturierten Daten bezieht, die mit hoher Geschwindigkeit und in unterschiedlichen Formaten generiert, gespeichert und analysiert werden. Diese umfasst Daten, die aus verschiedenen Quellen stammen, wie beispielsweise soziale Medien, Sensoren, Maschinenprotokolle, Transaktionsdaten und Textdokumente. Laut \citeauthor{orcl-bigdata} fallen die bekannten drei V-Begriffe Variety, Volume und Velocity darunter, die im Artikel \glqq Was versteht man unter Big Data?\grqq\ erwähnt werden. Sie bieten eine Möglichkeit, große Mengen an Daten zu speichern und zu verwalten, um den Zugriff und die Nutzung zu erleichtern. Es gibt eine Vielzahl an Speichersystemen, die für verschiedene Zwecke konzipiert sind. Durch die große Auswahl in der IT und die stetig anwachsende Innovation stellt sich die Frage, welche Speichersysteme sich für bestimmte Zwecke eignen. Die Wahl des richtigen Speichersystems hängt von den Anforderungen der Applikation ab, beispielsweise der Art der zu speichernden Daten, dem benötigten Zugriff und der Skalierbarkeit. Eine gründliche Analyse der Anforderungen und Kosten ist entscheidend, um die beste Lösung zu finden, die den Bedürfnissen des Unternehmens entspricht.\\
 
 Im folgenden Kapitel werden die unterschiedlichen Typen von Speichersystemen vorgestellt, wobei der Fokus auf den drei Speicherarten File-, Object- und Block Storage liegt. Im Anschluss daran erfolgt ein Vergleich von zwei Cloud Providern in Bezug auf sichere Speicherung, Hochverfügbarkeit, Performance, Kosten, Integration in Software-Produkte sowie der Dateibereitstellung. Auf Basis dieser Kriterien wird eine Entscheidung darüber getroffen, welcher Provider den Bedürfnissen von leoticket am besten entspricht. Hierbei fließen die Kosten- und Performance-Analysen mit in die Entscheidung ein.
 
@@ -12,10 +12,10 @@ Die heutige IT-Landschaft bietet eine Vielzahl von Speichersystemen, die je nach
  
 \subsection{File Storage}
 
-File Storage, auch dateiebenen- oder dateibasierter Storage genannt \footcite{redHat-storage}, ist eine Speicherlösung bei der Dateien auf einem Dateisystem gespeichert werden. 
+File Storage, auch dateiebenen- oder dateibasierter Storage genannt \footcite{rH-storage}, ist eine Speicherlösung bei der Dateien auf einem Dateisystem gespeichert werden. 
 
 \begin{quote}
-	Dieses System wird auch als hierarchischer Storage bezeichnet und gilt als das älteste und am weitesten verbreitete Datenspeichersystem für Direct und Network-Attached Storage. Dateisysteme organisieren Daten in hierarchischen Ordnern und Unterverzeichnissen, beispielsweise auf einem Computer. Dateien werden in der Regel auf einem Server oder einer Festplatte gespeichert und können von mehreren Benutzern gleichzeitig gelesen und geschrieben werden. Hierbei werden die Informationen in einzelnen Verzeichnissen abgelegt und können über den entsprechenden Pfad aufgerufen werden. Um dies zu ermöglichen, werden Metadaten genutzt, die dem System den Standort der Dateien mitteilen, vgl. \citeauthor{redHat-storage}.
+	Dieses System wird auch als hierarchischer Storage bezeichnet und gilt als das älteste und am weitesten verbreitete Datenspeichersystem für Direct und Network-Attached Storage. Dateisysteme organisieren Daten in hierarchischen Ordnern und Unterverzeichnissen, beispielsweise auf einem Computer. Dateien werden in der Regel auf einem Server oder einer Festplatte gespeichert und können von mehreren Benutzern gleichzeitig gelesen und geschrieben werden. Hierbei werden die Informationen in einzelnen Verzeichnissen abgelegt und können über den entsprechenden Pfad aufgerufen werden. Um dies zu ermöglichen, werden Metadaten genutzt, die dem System den Standort der Dateien mitteilen, vgl. \citeauthor{rH-storage}.
 \end{quote}
 
 In der folgenden Abbildung wird die hierarchische Struktur des Dateispeichers visualisiert.
@@ -23,7 +23,7 @@ In der folgenden Abbildung wird die hierarchische Struktur des Dateispeichers vi
 \begin{figure}[h]
 \centering
 	\includegraphics[width=8cm,keepaspectratio]{Pictures/FileStorageHierarchy.png}
-	\caption{File Storage: Aufbau des Hierarchiesystems, \citeurl{redHat-storage}}
+	\caption{File Storage: Aufbau des Hierarchiesystems, \citeurl{rH-storage}}
 \end{figure}
 
 File Storage wird häufig in Unternehmen und Organisationen eingesetzt, um gemeinsame Dateiserver bereitzustellen oder Daten in Cloud-Speicherdiensten wie Dropbox oder Google Drive zu speichern.
@@ -64,7 +64,7 @@ Object Storage hat sich als Speichertechnologie in den letzten Jahren immer stä
 
 Im Gegensatz zu hierarchischen Systemen wie beim File Storage ist das Speichersystem flach strukturiert. Durch die einfache API Anbindung kann es mit vorhandenen Anwendungen integriert werden. Nutzer können detaillierte Informationen wie beispielsweise Erstellerangaben, Schlüsselwörter sowie Sicherheit-und Datenschutzrichtlinien hinterlegen. Diese Daten bezeichnet man als Metadaten. Laut \citeauthor{nx-fileScala}, 2022 ist Skalierbarkeit der Hauptvorteil, da bei der Speicherung von Petabyte und Exabyte alle Objekte in einem Namespace abgelegt werden. Selbst wenn dieser Namespace auf Hunderten von Hardwaregeräten und Standorten verteilt ist, können alle Objekte schnell abgerufen werden. Ein weiterer Vorteil von Objekt Storage beinhaltet die Fehlercodierung bzw. Fehlerkorrekturverfahren, im Englischen bekannt als \glqq Erasure Coding\grqq.\\
 
-Auch Object Storage hat Nachteile. Laut \citeauthor{redHat-storage} muss das Objekt nach der Speicherung bei Veränderung komplett neu überschrieben werden. Sie sind für traditionelle Datenbanken nicht geeignet, da das Schreiben von Objekten Zeit beansprucht und die Implementierung einer Applikation für die Nutzung der Object Storage API ist aufwendiger als die Nutzung von File Storage, vgl. \citeauthor{redHat-storage}.\\
+Auch Object Storage hat Nachteile. Laut \citeauthor{rH-storage} muss das Objekt nach der Speicherung bei Veränderung komplett neu überschrieben werden. Sie sind für traditionelle Datenbanken nicht geeignet, da das Schreiben von Objekten Zeit beansprucht und die Implementierung einer Applikation für die Nutzung der Object Storage API ist aufwendiger als die Nutzung von File Storage, vgl. \citeauthor{rH-storage}.\\
 
 Insgesamt bietet Object Storage eine skalierbare und flexible Methode zur Speicherung von unstrukturierten Daten. Organisationen sollten jedoch die Vor- und Nachteile von Object Storage im Kontext ihrer spezifischen Anwendungsfälle abwägen, um eine fundierte Entscheidung über die beste Speichermethode zu treffen.\\
 
@@ -172,7 +172,7 @@ Für das Object Logging in GC Storage stehen verschiedene Methoden zur Verfügun
 
 \textbf{Amazon S3}\\
 
-Amazon S3 ist ein skalierbarer und hochverfügbarer Object Storage, der eine Verfügbarkeit von 99.99\% garantiert. \glqq Designed to provide 99.999999999\% durability and 99.99\% availability of objects over a given year.\grqq, \cite{aws-availability}\\
+Amazon S3 ist ein skalierbarer und hochverfügbarer Object Storage, der eine Verfügbarkeit von 99.99\% garantiert. \glqq Designed to provide 99.999999999\% durability and 99.99\% availability of objects over a given year.\grqq, \cite{aws-avail}\\
 
 Dies wird durch die Verwendung von Multi-Availability Zone Architekturen erreicht, die eine automatische Replikation von Daten in verschiedenen physischen Standorten ermöglichen. Die Multi-Availability Zone Architektur von Amazon S3 basiert auf der Aufteilung von Daten in mehrere geografisch getrennte Verfügbarkeitszonen (AZ). Jede AZ besteht aus mehreren physischen Rechenzentren, die sich in einem geografisch getrennten Gebiet befinden. Jede AZ ist vollständig unabhängig und bietet eine hohe Redundanz und Verfügbarkeit. Wenn ein Benutzer ein Objekt in Amazon S3 hochlädt, wird es automatisch in mehrere AZs repliziert, um sicherzustellen, dass das Objekt auch bei Ausfällen in einer AZ weiterhin verfügbar ist. Im Falle eines Ausfalls einer AZ wird Amazon S3 automatisch die Anfragen auf eine andere AZ umleiten, um eine ununterbrochene Verfügbarkeit des Objekts sicherzustellen. Durch die Cross-Region Replikation (CRR) werden Daten automatisch in andere AWS-Regionen repliziert. Dadurch kann eine hohe Verfügbarkeit der Daten im Falle eines Ausfalls einer gesamten AWS-Region gewährleistet werden. Die Same-Region-Replikation (SRR) funktioniert, ähnlich wie die CRR, nur das hier die Daten in einer einzelnen Region auf die verfügbaren AZs repliziert werden.\\
 
@@ -302,11 +302,11 @@ Auch bei GC fallen Kosten für die Objektversionierung an. Die Kosten setzen sic
 
 \textbf{Amazon S3}\\
 
-Amazon S3 bietet Funktionen und Dienste, welche Performance und Skalierbarkeit der Datenzugriffe verbessern. In der offiziellen Dokumentation \cite{performance-guide} werden Best Practices Guidelines empfohlen, welche die Leistung erhöhen können. Es wird empfohlen, HTTP Analyse Tools zu verwenden, um die Leistung von DNS lookup times, Latenzen und die Datentransfer-Geschwindigkeiten zu messen.\\
+Amazon S3 bietet Funktionen und Dienste, welche Performance und Skalierbarkeit der Datenzugriffe verbessern. In der offiziellen Dokumentation \cite{perf-guide} werden Best Practices Guidelines empfohlen, welche die Leistung erhöhen können. Es wird empfohlen, HTTP Analyse Tools zu verwenden, um die Leistung von DNS lookup times, Latenzen und die Datentransfer-Geschwindigkeiten zu messen.\\
 
 Das Amazon CloudFront ist ein Content-Delivery-Network-Service (CDN), welche die Bereitstellung von statischen und dynamischen Webinhalten wie .html, .css, .js und Bilder auf Nutzer beschleunigt. Dadurch kann die Leistung von Webanwendungen verbessert werden, vgl. \cite{aws-cdn}.\\
 
-Eine andere Methode, welche die Leistung erhöhen kann, ist die horizontale Skalierung von Connections. Da Amazon S3 als ein sehr großes verteiltes System gilt, können Requests über getrennte Verbindungen verteilt werden, um die Bandbreite zu maximieren. \glqq Amazon S3 doesn't have any limits for the number of connections made to your bucket.\grqq, \cite{performance-guide}. Außerdem verspricht Amazon S3, dass Requests beim wiederholten Mal schneller sind, da sie einen anderen Pfad als beim ersten Request nehmen. \glqq[...] if the first request is slow, a retried request is likely to take a different path and quickly succeed.\grqq, \cite{performance-guide}.\\
+Eine andere Methode, welche die Leistung erhöhen kann, ist die horizontale Skalierung von Connections. Da Amazon S3 als ein sehr großes verteiltes System gilt, können Requests über getrennte Verbindungen verteilt werden, um die Bandbreite zu maximieren. \glqq Amazon S3 doesn't have any limits for the number of connections made to your bucket.\grqq, \cite{perf-guide}. Außerdem verspricht Amazon S3, dass Requests beim wiederholten Mal schneller sind, da sie einen anderen Pfad als beim ersten Request nehmen. \glqq[...] if the first request is slow, a retried request is likely to take a different path and quickly succeed.\grqq, \cite{perf-guide}.\\
 
 Weitere Funktionen, die zur Leistungserhöhung beitragen, sind S3 Transfer Acceleration, S3 Select und die S3 Cross-Replication. Die S3 Transfer Acceleration ermöglicht schnelle, einfache und sichere Übertragungen von Dateien über große geografische Distanzen hinweg zwischen dem Client und S3 Buckets. Die Daten werden über eine optimierte Route an Amazon S3 weitergeleitet. Diese Funktion ist für Daten in Größe von Gigabytes zu Terabytes geeignet, die regelmäßig verschickt werden müssen. Um die Dauer der Anfragen zu messen, bietet Amazon S3 das S3 Transfer Acceleration Speed Comparison Tool an, um beschleunigte und nicht-beschleunigte Uploads zu messen. Unter \href{https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html}{S3 Accelerate Speedtest} kann der Vergleich zwischen aktivierter und deaktivierter Transfer Acceleration beobachtet werden. S3 Select ermöglicht das effiziente Abrufen von spezifischen Daten aus Objekten in Amazon S3. Anstatt ein gesamtes Objekt herunterladen zu müssen, können mit S3 Select nur die benötigten Daten abgefragt werden. Dies reduziert den Datenverkehr und beschleunigt den Abrufvorgang erheblich, insbesondere bei großen Daten.\\
 
@@ -322,10 +322,10 @@ Auch GC Storage ermöglicht (analog zu CRR und SRR von AWS) die Auswahl des geei
 
 Das Pendant von CloudFront von GCP ist der Cloud CDN (Content Delivery Network). Diese bietet einen ähnlichen Service wie CloudFront von AWS. Durch die Integration mit Content Delivery Networks (CDNs) kann die globale Verteilung von Daten optimiert und die Bereitstellung beschleunigt werden. Die CDN stellt eine Zwischenspeicherung von Inhalten in Edge-Servern weltweit bereit, um den Zugriff auf Daten schneller zu gestalten.\\
 
-Bei der Performance hat die Request Rate eine relevante Rolle. Das bietet das Auto-Scaling von GCP an. Cloud Storage ist ein multi-tenant Service, was bedeutet, dass Benutzer die zugrunde liegenden Ressourcen gemeinsam nutzen. Um gemeinsame Ressourcen optimal zu nutzen, haben Buckets eine anfängliche I/O Kapazität.\\ \glqq Cloud Storage is a multi-tenant service, meaning that users share the same set of underlying resources.[...]", \cite{gcp-autoscale} (Übersetzung aus Google Cloud)
+Bei der Performance hat die Request Rate eine relevante Rolle. Das bietet das Auto-Scaling von GCP an. Cloud Storage ist ein multi-tenant Service, was bedeutet, dass Benutzer die zugrunde liegenden Ressourcen gemeinsam nutzen. Um gemeinsame Ressourcen optimal zu nutzen, haben Buckets eine anfängliche I/O Kapazität.\\ \glqq Cloud Storage is a multi-tenant service, meaning that users share the same set of underlying resources.[...]", \cite{gcp-req} (Übersetzung aus Google Cloud)
 
  \begin{quote}
- 	Diese I/O Kapazitäten betragen etwa 1000 Schreibzugriffsanfragen pro Sekunde für Objekte, einschließlich Hochladen, Aktualisieren und Löschen von Objekten. Es ist zu beachten, dass Cloud Storage auch eine kleinere Begrenzung für wiederholte Schreibvorgänge mit demselben Objektnamen hat. Auf Lesezugriffe betragen die Kapazitäten etwa 5000 Anfragen pro Sekunde, einschließlich Auflisten von Objekten, Lesen von Objektdaten und Lesen von Objektmetadaten, vgl. \cite{gcp-autoscale}.
+ 	Diese I/O Kapazitäten betragen etwa 1000 Schreibzugriffsanfragen pro Sekunde für Objekte, einschließlich Hochladen, Aktualisieren und Löschen von Objekten. Es ist zu beachten, dass Cloud Storage auch eine kleinere Begrenzung für wiederholte Schreibvorgänge mit demselben Objektnamen hat. Auf Lesezugriffe betragen die Kapazitäten etwa 5000 Anfragen pro Sekunde, einschließlich Auflisten von Objekten, Lesen von Objektdaten und Lesen von Objektmetadaten, vgl. \cite{gcp-req}.
  \end{quote}
  
  Wenn die Anfragehäufigkeit für ein bestimmtes Bucket steigt, skaliert Cloud Storage automatisch und erhöht die I/O Kapazität für diesen Bucket, indem die Anfragelast auf mehrere Server verteilt wird.\\
@@ -412,10 +412,10 @@ In diesem Abschnitt werden Methoden für die Bereitstellung der Dateien durch si
 
 \textbf{Amazon S3}\\
 
-In Amazon S3 sind alle Objekte und Buckets standardmäßig privat. Durch die Verwendung von presigned URLs können Objekte bereitgestellt werden, ohne die Voraussetzung, ein AWS Konto zu besitzen. \glqq All objects and buckets are private by default. However, you can use a presigned URL to share objects with others.\grqq, \cite{aws-signed-urls}. 
+In Amazon S3 sind alle Objekte und Buckets standardmäßig privat. Durch die Verwendung von presigned URLs können Objekte bereitgestellt werden, ohne die Voraussetzung, ein AWS Konto zu besitzen. \glqq All objects and buckets are private by default. However, you can use a presigned URL to share objects with others.\grqq, \cite{aws-url}. 
 
 \begin{quote}
-	Presigned URLs werden für die Generierung von Links verwendet, um auf S3 Buckets und Objekte zugreifen zu können. Bei der Erstellung solcher URLs können andere Nutzer von außerhalb AWS ohne Credentials auf die gewünschten Daten zugreifen. Jeder, der diesen Link hat, kann darauf zugreifen und Aktionen ausführen. Der Link verliert je nach Konfiguration nach einer bestimmten Zeit die Gültigkeit. Amazon S3 überprüft das Verfallsdatum des Links während des HTTP Requests, vgl. \cite{aws-signed-urls}. 
+	Presigned URLs werden für die Generierung von Links verwendet, um auf S3 Buckets und Objekte zugreifen zu können. Bei der Erstellung solcher URLs können andere Nutzer von außerhalb AWS ohne Credentials auf die gewünschten Daten zugreifen. Jeder, der diesen Link hat, kann darauf zugreifen und Aktionen ausführen. Der Link verliert je nach Konfiguration nach einer bestimmten Zeit die Gültigkeit. Amazon S3 überprüft das Verfallsdatum des Links während des HTTP Requests, vgl. \cite{aws-url}. 
 \end{quote}
 
 Durch die Nutzung der URL können Nutzer Objekte lesen oder hochladen. In Fall von leoticket liegt das Lesen des Objekts im Fokus. Die URL beinhaltet spezielle Parameter, welche von einer Anwendung gesetzt werden. Es gibt drei Parameter, um den Zugriff für den Nutzer einzuschränken. Diese sind einmal Einschränkung des Buckets. Das bedeutet, das ein Nutzer nicht auf jeden Bucket zugreifen kann, sondern nur auf den Bucket, indem sich das Objekt befindet. Der zweite Parameter ist der Name des Objekts und zuletzt die Zeitspanne in der die URL gültig ist. Sobald die Zeit abgelaufen ist, kann der Nutzer nicht mehr auf den Link zugreifen.\\
@@ -462,7 +462,7 @@ Die Speichergröße wird durch die Multiplikation der Anzahl von 67.000 Bestellu
 
 \textbf{Amazon S3}\\
 
-Im Folgenden stellt die Tabelle die monatlichen Kosten der verschiedenen Speicherklassen dar. Die Vorabkosten, die unten berechnet werden, müssen an AWS gezahlt werden:
+Im Folgenden stellt die Tabelle die monatlichen Kosten der verschiedenen Speicherklassen dar. Die Vorauszahlungen, die unten berechnet werden, dienen der \glqq Reserved Capacity Savings\grqq\ Option. Durch den Kauf von reservierter Kapazität für eine bestimmte Zeitspanne können Kunden von AWS spezielle Preisnachlässe auf die Speicherkosten erhalten. Mit Reserved Capacity Savings können Kunden ihre Gesamtkosten für den Speicherbetrieb in S3 senken, insbesondere wenn sie eine langfristige Nutzung oder Vorhersagbarkeit ihres Speicherbedarfs haben:
 
 \begin{table}[!h]
 \begin{tabular}{ |s|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}| }
@@ -471,7 +471,7 @@ Im Folgenden stellt die Tabelle die monatlichen Kosten der verschiedenen Speiche
  & \textbf{Standard} & \textbf{Intelligent Tiering} & \textbf{Standard-IA} & \textbf{One Zone-IA}\\
 \hline
 \textbf{Speicherkosten} & 70,27 EUR & 70,27 EUR & 38,72 EUR & 30,98  EUR \\
-\textbf{Vorabzahlung} & 162,42 EUR & 162,42 EUR & 300,76 EUR & 300,76 EUR \\
+\textbf{Vorauszahlung} & 162,42 EUR & 162,42 EUR & 300,76 EUR & 300,76 EUR \\
 \textbf{PUT Requests}   & 1,35 EUR & 1,35 EUR  & 2,50 EUR & 2,50 EUR\\
 \textbf{GET Requests}  & 0,22 EUR & 0,22 EUR  & 0,50 EUR & 0,50 EUR\\
 \textbf{Datenabrufe} & -- & -- & 0,47 EUR & 0,47 EUR\\
@@ -496,9 +496,10 @@ Zunächst werden die Einheitsumwandlungen durchgeführt. Hierbei wird die angege
 	32.212.255 \text{ number of objects} \times 0,0000093 \text{ EUR} \\ = \text{300,76 EUR (Cost for PUT, COPY, POST requests for initial data)}
 \end{align}
 
-Die oben genannten Formeln ähneln denen für die Speicherklassen Standard und One Zone-IA, wobei die entsprechenden Gebühren aus dem Kostenabschnitt übernommen wurden. Bei der Intelligent Tiering gibt es jedoch einen Unterschied: Es fallen zusätzliche Kosten für Überwachung und Automatisierung an, und der Speicher wird in drei Klassen prozentual aufgeteilt. In der letzten Zeile der Tabelle werden die Gesamtkosten zusammen mit den Kosten für den Datentransfer, eventuelle Vorauszahlungen (zusätzlich in 3.8) und die reinen monatlichen Speicherkosten für die jeweiligen Speicherklassen addiert.
+Die aufgelisteten Formeln ähneln denen der Speicherklassen Standard und One Zone-IA, wobei die entsprechenden Gebühren aus dem Kostenabschnitt übernommen wurden. Bei der Intelligent Tiering gibt es jedoch einen Unterschied: Es fallen zusätzliche Kosten für Überwachung und Automatisierung an, und der Speicher wird in drei Klassen prozentual aufgeteilt. 
 
-\newpage
+In der letzten Zeile der Tabelle werden die Gesamtkosten mit den Kosten für den Datentransfer, eventuelle Vorauszahlungen (zusätzlich in (3.8)) und die reinen monatlichen Speicherkosten für die jeweiligen Speicherklassen addiert.\\
+
 \textbf{GC Storage}\\
 
 Die nachstehende Tabelle stellt eine Zusammenfassung der monatlichen Kosten für drei Speicherklassen von GC Storage dar:
