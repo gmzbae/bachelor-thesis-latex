@@ -24,7 +24,7 @@ Für die Umsetzung des Prototyps werden die folgenden Technologien eingesetzt:
 	\item gcloud cli
 \end{itemize}
 
-Für die Implementierung wurde die Entwicklungsumgebung IntelliJ IDEA Ultimate verwendet. IntelliJ bietet ein Plugin namens \verb|AWS Toolkit| an. Als Framework wurde die aktuellste Version von Spring Boot (Version 3) zum Zeitpunkt der Erstellung des Prototyps verwendet. Spring Boot stellt SDKs beider Cloud-Anbieter als Maven-Abhängigkeiten zur Verfügung.
+Für die Implementierung wurde die Entwicklungsumgebung IntelliJ IDEA Ultimate verwendet. IntelliJ bietet ein Plugin namens \verb|AWS Toolkit| an. Als Framework wurde die aktuellste Version von Spring Boot (Version 3) zum Zeitpunkt der Erstellung des Prototyps verwendet. Spring Boot stellt SDKs beider Cloud-Provider als Maven-Abhängigkeiten zur Verfügung.
 
 \begin{quote}
 	Am 17. März 2021 wurde die neue Version des Spring Cloud AWS 2.3 veröffentlicht. Spring Cloud GCP und Spring Cloud AWS sind nicht mehr Teil des Spring Cloud Releases. Nicht Teil des Releases zu sein bedeutet auch, dass sie aus der Spring Cloud Organisation auf Github herausgenommen worden sind und dadurch neue Maven Package Namen haben. Das neue Package für Spring Cloud AWS heißt nun \glqq io.awspring.cloud\grqq, vgl. \cite{spring-cloud-announce}. 
@@ -47,19 +47,25 @@ Die unten aufgeführten Maven Abhängigkeiten werden für AWS S3 und Cloud Stora
     </dependency>
 \end{lstlisting}
 
-Als Spring Cloud GCP Version wird die 4.2.0 verwendet. Beide Spring Cloud Abhängigkeien werden von der Community auf Github verwaltet und aktualisiert. Für die Erstellung des Spring Boot Projekts wurde der Spring Initializier von Spring selbst verwendet (\url{https://start.spring.io/}). Zudem wird das Java SDK Version 17 verwendet. Für Apache Maven wird die Version 3.9.1 verwendet. Für die Authentifizierung wird das \verb|gloud| cli verwendet. Dieses wird über die offizielle Dokumentation installiert. Siehe \url{https://cloud.google.com/sdk/docs/install?hl=de}. Das AWS Toolkit wird für die Authentifizierung mit AWS angewendet. Um sich mit GC zu verbinden wird eine Methode des ADC verwendet, welches im nächsten Abschnitt genauer erläutert wird.
+Als Spring Cloud GCP Version wird die 4.2.0 verwendet. Beide Spring Cloud Abhängigkeien werden von der Community auf Github verwaltet und aktualisiert. Für die Erstellung des Spring Boot Projekts wurde der Spring Initializier von Spring selbst verwendet (\url{https://start.spring.io/}). Zudem wird das Java SDK Version 17 verwendet. Für Apache Maven wird die Version 3.9.1 verwendet. Das Listing 8.1 im Anhang beinhaltet die vollständige pom.xml Datei, in der die Abhängigkeiten des Prototyps dargestellt werden.
+
+Für die Authentifizierung wird das \verb|gloud| cli verwendet. Dieses wird über die offizielle Dokumentation installiert. Siehe \url{https://cloud.google.com/sdk/docs/install?hl=de}. Das AWS Toolkit wird für die Authentifizierung mit AWS angewendet. Um sich mit GC zu verbinden wird eine Methode des ADC verwendet, welches im nächsten Abschnitt genauer erläutert wird.
 
 \newpage
 
 \section{Speicherung von Binärdaten}
 
-Um Daten in S3 oder Cloud Storage speichern zu können, wurde der Prototyp so implementiert, dass der Nutzer sich zwischen S3 oder Cloud Storage entscheiden kann. Dies geschieht über die Klasse \verb|CloudStorageServiceFactory|. Hier kann der Nutzer über die Umgebungsvariable \verb|cloud_provider| den gewünschten Provider mit \verb|aws| oder \verb|google cloud| angeben. Dabei wird die Groß-, und Kleinschreibung nicht berücksichtigt. Die Umgebungsvariablen können unter Linux, OSX und Unix im System durch \verb|export <EnvironmentVariable>=<value>| exportiert werden. Wenn eine IDE wie Intellij verwendet wird, können sie unter den Run-Einstellungen eingefügt werden. Nach der Eingabe des Cloud Providers wird das Programm die entsprechende Klasse aufrufen. Für AWS die Klasse \verb|AWSS3StorageService| und für GC die Klasse \verb|GCStorageService|. Beide Klassen implementieren das Interface \verb|CloudStorageService|. Dieses definiert zwei Methoden und eine davon ist für die Speicherung der Daten zuständig:
+Um Daten in S3 oder Cloud Storage speichern zu können, wurde der Prototyp so implementiert, dass der Nutzer sich zwischen S3 oder Cloud Storage entscheiden kann. Dies geschieht über die Klasse \verb|CloudStorageServiceFactory|, (siehe Listing 8.3 im Anhang). Hier kann der Nutzer über die Umgebungsvariable \verb|cloud_provider| den gewünschten Provider mit \verb|aws| oder \verb|google cloud| angeben. Dabei wird die Groß-, und Kleinschreibung nicht berücksichtigt. Die Umgebungsvariablen können unter Linux, OSX und Unix im System durch \verb|export <EnvironmentVariable>=<value>| exportiert werden. Wenn eine IDE wie Intellij verwendet wird, können sie unter den Run-Einstellungen eingefügt werden. Nach der Eingabe des Cloud Providers wird das Programm die entsprechende Klasse aufrufen. Für AWS die Klasse \verb|AWSS3StorageService| und für GC die Klasse \verb|GCStorageService|. Beide Klassen implementieren das Interface \verb|CloudStorageService|. Dieses definiert zwei Methoden, die zum Hoch- und Herunterladen der Daten zuständig sind:
 
 \begin{lstlisting}[language=Java]
 void uploadObject(String bucketName, String key, String file, String encryptionKey, String storageClass) throws IOException;
 \end{lstlisting}
+
+\begin{lstlisting}[language=Java]
+URL getPresignedUrl(String bucketName, String key, Integer minutes, String encryptionKey);
+\end{lstlisting}
 	
-Dieser Methode wird der Bucket Name, der Name des Objekts, der Pfad des Objekts und der Encryption Key übergeben. Der Encryption Key kann dabei der Schlüssel sein, der in AWS KMS oder GC KMS generiert wurde. Die Implementierung dieser Methode ist für beide Cloud Provider ähnlich gestaltet.
+Der \verb|uploadObject| Methode wird der Bucket Name, der Name des Objekts, der Pfad des Objekts und der Encryption Key übergeben. Der Encryption Key kann dabei der Schlüssel sein, der in AWS KMS oder GC KMS generiert wurde. Die Implementierung dieser Methode ist für beide Cloud Provider ähnlich gestaltet.
 
 \begin{lstlisting}[language=Java, caption=Prototyp Code Snippet - Hochladen eines Objekts nach S3]
 @Override
@@ -128,7 +134,7 @@ public void uploadObject(String bucketName, String key, String file, String encr
 Dabei werden ähnliche Parameter der Methode wie in AWS S3 übergeben. Um ein Objekt in einen Bucket hochladen zu können, wird eine Referenz zu diesem erstellt. Dies geschieht durch die \verb|BlobId|, welche den Bucket Namen und den Namen des Objekts beinhaltet (1). 
 Anschließend wird diese blobId dem \verb|BlobInfo| Objekt übergeben und der Encryption Key über die Metadaten \verb|kmsKeyName| gesetzt (2). Nachdem überprüft worden ist, ob das Objekt bereits im Bucket existiert, wird das Objekt hochgeladen (3).\\
 
-Um das Programm auszuführen, wird die Hauptklasse \verb|CloudGcStorageAwsS3Application| gestartet. Damit das Programm erfolgreich läuft, müssen die Umgebungsvariablen im System exportiert werden. Alle Umgebungsvariablen sind in der \verb|application.properties| hinterlegt. Diese werden beim Start des Programms gelesen und angewendet. Außerdem müssen die AWS und GC Credentials hinterlegt werden. Dies kann entweder über das AWS Toolkit Plugin gesteuert werden oder in der Kommandozeile mit dem Befehl \verb|aws configure|. Für GC Credentials kann mit dem Befehl:\\ \verb|export GOOGLE_APPLICATION_CREDENTIALS=<service-account-json-file>| der Service Account hinterlegt werden oder durch Ausführen des Befehls \verb|gcloud auth application-default login| in der Kommandozeile, was die Credentials lokal speichert und für ADC verwendet wird.
+Um das Programm auszuführen, wird die Hauptklasse \verb|CloudGcStorageAwsS3Application| gestartet. Damit das Programm erfolgreich läuft, müssen die Umgebungsvariablen im System exportiert werden. Alle Umgebungsvariablen sind in der \verb|application.properties| hinterlegt, (siehe Listing 8.2 im Anhang). Diese werden beim Start des Programms gelesen und angewendet. Außerdem müssen die AWS und GC Credentials hinterlegt werden. Dies kann entweder über das AWS Toolkit Plugin gesteuert werden oder in der Kommandozeile mit dem Befehl \verb|aws configure|. Für GC Credentials kann mit dem Befehl:\\ \verb|export GOOGLE_APPLICATION_CREDENTIALS=<service-account-json-file>| der Service Account hinterlegt werden oder durch Ausführen des Befehls \verb|gcloud auth application-default login| in der Kommandozeile, was die Credentials lokal speichert und für ADC verwendet wird.
 
 \newpage
 
@@ -217,7 +223,7 @@ Mit signierten URLs können die Anforderungen von leoticket an die sichere Speic
 
 \section{Messung der Performance}
 
-In diesem Abschnitt erfolgt die Messung der Performance für die Dienste von AWS und GC. Dabei werden bis zu 1000 generierte Dateien sowohl für den Upload als auch für den Download betrachtet. Die Performance Analyse wird auf einer virtuellen Maschine in der Hetzner Cloud ausgeführt, um eine isolierte Umgebung zu gewährleisten. Die Performance-Messung beim Hoch- und Herunterladen kann jedoch von verschiedenen Faktoren wie Netzwerklatenz, verfügbarer Bandbreite, Serverkapazität, Datenmenge und der Auslastung der Server beeinflusst werden. Außerdem kann der Hetzner Server näher an AWS oder GC liegen und dies könnte dazu führen, dass die Dauer des Hoch-, und Herunterladens aus diesem Grund kürzer ist. Die Messungen dienen lediglich dem groben Vergleich beider Cloud Provider. Die Performance-Messung wird auf verschiedene Speicherklassen durchgeführt, um einen Vergleich zwischen diesen zu ermöglichen und eine Grundlage für die Bewertung ihrer Leistungsfähigkeit zu schaffen.\\
+In diesem Abschnitt erfolgt die Messung der Performance für die Dienste von AWS und GC. Dabei werden bis zu 1000 generierte Dateien sowohl für den Upload als auch für den Download betrachtet. Die Performance Analyse wird auf einer virtuellen Maschine in der Hetzner Cloud ausgeführt, um eine isolierte Umgebung zu gewährleisten. Die Performance-Messung beim Hoch- und Herunterladen kann jedoch von verschiedenen Faktoren wie Netzwerklatenz, verfügbarer Bandbreite, Serverkapazität, Datenmenge und der Auslastung der Server beeinflusst werden. Außerdem kann der Hetzner Server näher an AWS oder GC liegen und dies könnte dazu führen, dass die Dauer des Hoch- und Herunterladens aus diesem Grund kürzer ist. Die Messungen dienen lediglich dem groben Vergleich beider Cloud Provider. Die Performance-Messung wird auf verschiedene Speicherklassen durchgeführt, um einen Vergleich zwischen diesen zu ermöglichen und eine Grundlage für die Bewertung ihrer Leistungsfähigkeit zu schaffen.\\
 
 \textbf{AWS}\\
 
@@ -227,13 +233,13 @@ AWS bietet Dienste für die Performance Analyse. Unter anderem die Amazon CloudW
 	aws s3 cp <lokaler_pfad> s3://<Bucket_Name>/<Ziel_Dateipfad>
 \end{lstlisting}
 
-Dateien hoch- und herunterladen und die Zeit für die benötigte Request messen. Auch mit dem AWS SDK können Performance Test Skripte geschrieben werden. Diese Methode wird für den Prototypen angewendet. Dabei werden Tests bereitgestellt, die mehrere Dateien automatisch hoch-, und herunterladen und dabei die vergangene Zeit messen.\\ 
+Dateien hoch- und herunterladen und die Zeit für die benötigte Request messen. Auch mit dem AWS SDK können Performance Test Skripte geschrieben werden. Diese Methode wird für den Prototypen angewendet. Dabei werden Tests bereitgestellt, die mehrere Dateien automatisch hoch- und herunterladen und dabei die vergangene Zeit messen.\\ 
 
 \textbf{GC Storage}\\
 
 GC bietet ein eigenes \verb|gsutil| Tool für die Performance Analyse. Wie im Abschnitt Performance bereits erwähnt, können durch die \verb|perfdiag| Funktion Performance Diagnosen erstellt werden.\\ 
 
-Mehrere Testdateien werden aus einem angegebenen Bucket hoch-, und heruntergeladen. Nach der Analyse werden alle Testdateien nach erfolgreicher Diagnose gelöscht. Die \verb|gsutil| Performance kann von einigen Faktoren wie vom Client, Server oder Netzwerk beeinflusst werden. Möglich sind die Leistung, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen \verb|gsutil| und den Google Servern. Die \verb|perfiag| Funktion wurde bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.\\
+Mehrere Testdateien werden aus einem angegebenen Bucket hoch- und heruntergeladen. Nach der Analyse werden alle Testdateien nach erfolgreicher Diagnose gelöscht. Die \verb|gsutil| Performance kann von einigen Faktoren wie vom Client, Server oder Netzwerk beeinflusst werden. Möglich sind die Leistung, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen \verb|gsutil| und den Google Servern. Die \verb|perfiag| Funktion wurde bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.\\
 
 Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet werden:
 
@@ -245,7 +251,7 @@ Die \verb|-o| Option schreibt den Output des Ergebnisses in eine Datei. Die Outp
 
 Um die Performance der SDKs zu analysieren, werden Objekte mit jeweils 100 KB Objektgröße in verschiedenen Speicherklassen hoch- und heruntergeladen. Anschließend wird die Performance über das SDK von Cloud Storage ähnlich wie bei AWS getestet. Der Test wird ebenfalls auf einer virtuellen Maschine von Hetzner ausgeführt.\\
 
-Die Performance wird in Zehner-Vielfachen gemessen, beginnend mit einer Datei bis hin zu 1000 Dateien. Dies bedeutet, dass Messungen für eine Datei, zehn Dateien, 100 Dateien und 1000 Dateien durchgeführt werden. Zur Durchführung der Messung wird eine Java Jar-Datei des Prototyps erstellt, in der die Testmethoden ausgeführt werden. Diese Testmethoden generieren zunächst Testdaten, die mit zufälligen String-Werten der Größe 100 KB gefüllt sind. Anschließend werden die Testmethoden in der Kommandozeile ausgeführt.
+Die Performance wird in Zehner-Vielfachen gemessen, beginnend mit einer Datei bis hin zu 1000 Dateien. Dies bedeutet, dass Messungen für eine Datei, zehn Dateien, 100 Dateien und 1000 Dateien durchgeführt werden. Zur Durchführung der Messung wird eine Jar Datei des Prototyps erstellt, in der die Testmethoden (siehe Listing 8.4 bis 8.8 im Anhang) ausgeführt werden. Diese generieren zunächst Testdaten, die mit zufälligen String-Werten der Größe 100 KB gefüllt werden, (siehe Listing 8.9 und 8.10 im Anhang). Anschließend werden die Testmethoden in der Kommandozeile ausgeführt. 
 
 \newpage
 

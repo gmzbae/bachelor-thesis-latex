@@ -15,8 +15,270 @@ HTTPS: \url{https://github.com/gmzbae/bachelor-thesis-latex.git}
 
 \begin{verbatim}SSH: git clone git@github.com:gmzbae/bachelor-thesis-latex.git \end{verbatim}
 
+\newpage
+
 \subsection{Code Snippets}
 
-% TODO Performance Test Funktionen und im Text andeuten
+\begin{lstlisting}[language=XML, caption=pom.xml - Abhängigkeiten des Prototyps]
+	<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.7</version>
+        <relativePath/>
+    </parent>
+    <groupId>de.leomedia</groupId>
+    <artifactId>cloud_gcStorage_AwsS3</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>cloud_gcStorage_AwsS3</name>
+    <description>cloud_gcStorage_AwsS3</description>
+    <properties>
+        <java.version>17</java.version>
+        <spring-cloud-gcp.version>4.3.1</spring-cloud-gcp.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-storage</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-s3</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>spring-cloud-gcp-dependencies</artifactId>
+                <version>${spring-cloud-gcp.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption=application.properties Datei - Umgebungsvariablen des Prototyps]
+CLOUD_PROVIDER=${cloud_provider}
+PROJECT_ID=${GOOGLE_PROJECT_ID}
+BUCKET_NAME=${bucket_name}
+GC_JSON_KEY_PATH=${GOOGLE_SERVICE_ACCOUNT_FILEPATH}
+ENCRYPTION_KEY=${sse_kms_key_id_arn}
+STORAGE_CLASS=${storage_class}
+
+TEST_BUCKET_NAME=${test_bucket_name}
+TEST_FILES_PATH=${test_files_path}
+TEST_OBJECT_KEY_PATTERN=${test_object_key_pattern}
+TEST_FILE_COUNT=${test_file_count}
+TEST_GC_ENCRYPTION_KEY=${test_gc_encryption_key}
+TEST_AWS_ENCRYPTION_KEY=${test_aws_encryption_key}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=getCloudStorageService() Methode der Klasse CloudStorageServiceFactory]
+public static CloudStorageService getCloudStorageService(String cloudProvider, String projectId, String jsonKeyPath, S3Presigner presigner, S3Client s3Client) throws IOException {
+     if ("AWS".equalsIgnoreCase(cloudProvider)) {
+         return new AWSS3StorageService(s3Client, presigner);
+     } else if ("Google Cloud".equalsIgnoreCase(cloudProvider)) {
+         return new GCStorageService(projectId, jsonKeyPath);
+     } else {
+         throw new IllegalArgumentException("Invalid cloud provider: " + cloudProvider);
+     }
+ }	
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=performanceRunner() Methode der Klasse PerformanceTest]
+/**
+* This test method calls the given methods and starts the performance runner.
+*
+*/
+@Test
+public void performanceRunner() throws IOException {
+
+    generateFiles();
+
+    calculateUploadObjectsToS3_TimeMeasure();
+    calculateUploadObjectsToCloudStorage_TimeMeasure();
+
+    calculateDownloadObjectsFromS3_TimeMeasure();
+    calculateDownloadObjectsFromCloudStorage_TimeMeasure();
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=calculateUploadObjectsToS3\_TimeMeasure() Methode der Klasse PerformanceTest]
+/**
+ * This method uploads multiple objects to S3
+ * and measures the current time it took in milliseconds.
+ */
+public void calculateUploadObjectsToS3_TimeMeasure() {
+
+    AWSS3StorageService awss3StorageService = new AWSS3StorageService(s3Client, S3Presigner.builder().build());
+
+    long startTime = System.currentTimeMillis();
+
+    for(int i = 1; i <= fileCount; i++){
+        awss3StorageService.uploadObject(bucketName, key + i + ".txt", filePath + key + i + ".txt", aws_encryption_key, storageClass);
+    }
+
+    long endTime = System.currentTimeMillis();
+    long elapsedTime = endTime - startTime;
+
+    logger.info("Elapsed Time for " + fileCount + "  Object Uploads in S3: " + elapsedTime +  " ms.");
+
+}	
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=calculateDownloadObjectsFromS3\_TimeMeasure() Methode der Klasse PerformanceTest]
+/**
+ * This method downloads multiple objects from S3
+ * and measures the current time it took in milliseconds.
+ */
+public void calculateDownloadObjectsFromS3_TimeMeasure(){
+
+    AWSS3StorageService awss3StorageService = new AWSS3StorageService(s3Client, S3Presigner.builder().build());
+
+    long startTime = System.currentTimeMillis();
+
+    for(int i = 1; i <= fileCount; i++){
+        awss3StorageService.getPresignedUrl(bucketName, key + i + ".txt", 60, aws_encryption_key);
+    }
+
+    long endTime = System.currentTimeMillis();
+    long elapsedTime = endTime - startTime;
+
+    logger.info("Elapsed Time for " + fileCount + " Object Downloads in S3: " + elapsedTime +  " ms.");
+
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Java, caption=calculateUploadObjectsToCloudStorage\_TimeMeasure() Methode der Klasse PerformanceTest]
+/**
+ * This method uploads multiple objects to Cloud Storage
+ * and measures the current time it took in milliseconds.
+ */
+public void calculateUploadObjectsToCloudStorage_TimeMeasure() throws IOException {
+    GCStorageService googleCloudStorageService = new GCStorageService(projectId, gcJsonKeyPath);
+
+    long startTime = System.currentTimeMillis();
+
+    for(int i = 1; i <= fileCount; i++){
+        googleCloudStorageService.uploadObject(bucketName, key + i + ".txt", filePath + key + i + ".txt", gc_encryption_key, storageClass);
+    }
+
+    long endTime = System.currentTimeMillis();
+    long elapsedTime = endTime - startTime;
+
+    logger.info("Elapsed Time for " + fileCount + " Object Uploads in Cloud Storage: " + elapsedTime +  " ms.");
+
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=calculateDownloadObjectsFromCloudStorage\_TimeMeasure() Methode der Klasse PerformanceTest]
+/**
+ * This method downloads multiple objects from Cloud Storage
+ * and measures the current time it took in milliseconds.
+ */
+public void calculateDownloadObjectsFromCloudStorage_TimeMeasure() throws IOException {
+
+    GCStorageService googleCloudStorageService = new GCStorageService(projectId, gcJsonKeyPath);
+
+    long startTime = System.currentTimeMillis();
+
+    for(int i = 1; i <= fileCount; i++){
+        googleCloudStorageService.getPresignedUrl(bucketName, key + i + ".txt", 60, gc_encryption_key);
+    }
+
+    long endTime = System.currentTimeMillis();
+    long elapsedTime = endTime - startTime;
+
+    logger.info("Elapsed Time for " + fileCount + " Object Downloads in Cloud Storage: " + elapsedTime +  " ms.");
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=generateFiles() Methode der Klasse PerformanceTest]
+/**
+ * This method writes the generated content into the generated file.
+ */
+public void generateFiles(){
+
+    for(int i = 1; i <= fileCount; i++){
+        String filename = filePath + key + i + ".txt";
+        String content = generateContent();
+
+        try {
+            FileOutputStream fos = new FileOutputStream(filename);
+            fos.write(content.getBytes(StandardCharsets.UTF_8));
+            fos.close();
+            logger.info("File generated: " + filename);
+        } catch (IOException e) {
+            logger.error("An error occurred while generating the file: " + e.getMessage());
+        }
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=generateContent() Methode der Klasse PerformanceTest]
+/**
+ * This method generates random string content in size  of 100kb.
+ * @return a random generated string content
+ */
+public String generateContent() {
+    StringBuilder sb = new StringBuilder();
+    int contentSize = 100 * 1024; // Convert KB to bytes
+
+    while (sb.length() < contentSize) {
+        sb.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
+    }
+
+    logger.info("Generated string content");
+
+    return sb.substring(0, contentSize);
+}
+\end{lstlisting}
+
+\newpage
+
 
 \clearpage

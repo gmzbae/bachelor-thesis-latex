@@ -216,7 +216,7 @@ Zuletzt bietet Object Versioning die Möglichkeit, Objektversionen beizubehalten
 
 \subsubsection{Kosten}
 
-In diesem Abschnitt erfolgt eine Untersuchung der Kostenstruktur von Amazon S3 und GC Storage. Dabei werden die generellen Kostenfaktoren betrachtet, für die Cloud-Anbieter Gebühren erheben.\\
+In diesem Abschnitt erfolgt eine Untersuchung der Kostenstruktur von Amazon S3 und GC Storage. Dabei werden die generellen Kostenfaktoren betrachtet, für die Cloud-Anbieter Gebühren erheben. Die Angebote der Free Tier Kontingenten werden dabei nicht betrachtet.\\
 
 \textbf{Amazon S3}\\
 
@@ -399,8 +399,6 @@ Google Cloud Storage bietet sowohl JSON- als auch XML-APIs für die Interaktion 
 
 Die API-Anbindung von GC Storage erfordert ebenfalls eine Authentifizierung und Autorisierung. Dies wird mithilfe von GC IAM (Identity and Access Management) verwaltet, das Zugriffsrichtlinien und Rollenverwaltung bietet, ähnlich wie bei AWS.\\
 
-%TODO Terraform aufteilen nach AWS Abschnitt und GC Abschnitt
-
 Mit Terraform können Konfigurationen von GC Storage Buckets und Amazon S3-Buckets und die dazugehörigen Einstellungen in einer Terraform-Konfigurationsdatei spezifiziert werden. Diese Konfigurationsdatei enthält Informationen wie den Bucket-Namen, Zugriffsrechte, Verschlüsselungs-optionen und andere relevante Parameter. Terraform ist ein sogenanntes Infrastructure-as-Code-Tool, mit dem Infrastrukturressourcen in verschiedenen Cloud-Umgebungen, einschließlich GC und AWS, automatisiert erstellt und verwaltet werden können. Terraform sendet erforderliche API-Anfragen an GC oder AWS um den Bucket entsprechend der Konfiguration zu erstellen oder zu aktualisieren. Durch die Verwendung von Terraform für beide Cloud Provider kann die Infrastruktur als Code behandelt werden, wodurch die Konfiguration wiederholbar, versionierbar und leicht reproduzierbar wird. Auch können die Vorteile der Funktionen von Terraform genutzt werden, wie z.B. die Verwaltung von Abhängigkeiten zwischen Ressourcen, die Verwendung von Variablen und Modulen sowie die Integration in CI/CD-Pipelines.
 
 \newpage
@@ -551,7 +549,7 @@ x-amz-server-side-encryption-customer-key-MD5 & Use this header to provide the b
 
 \newpage
 
-Die Verbindung von customer-supplied encryption keys und signierten URLs in GCP ist in der offiziellen Dokumentation nicht enthalten.\\
+Die Implementierung von signierten URLs in Verbindung mit customer-supplied Encryption Keys ist in der offiziellen Dokumentation von GCP nicht enthalten.\\
 
 Beide Cloud-Anbieter bieten die Möglichkeit, ACLs auf Objekte und Buckets anzuwenden. Es wird jedoch empfohlen, ACLs auf Objektebene standardmäßig deaktiviert zu lassen und nur in Fällen zu verwenden, in denen der Uploader eines Objekts die vollständige Kontrolle über diese und auf andere Objekte eingeschränkten Zugriff in einem Bucket hat.\\
 
