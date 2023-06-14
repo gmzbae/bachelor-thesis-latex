@@ -178,9 +178,9 @@ public URL getPresignedUrl(String bucket, String key, Integer minutes, String en
 }
 \end{lstlisting}
 
-Die Methode erhält ähnlich wie beim Hochladen des Objekts die Parameter Bucket-Name und Objektname. Zudem wird eine Zeitdauer in Minuten übergeben, die festlegt, wie lange der generierte Link gültig sein soll. Für die Entschlüsselung der Daten muss der gleiche Encryption Key wie beim Hochladen verwendet werden. Das \verb|GetObjectRequest| Objekt wird erstellt (1) und mit dem Bucket-Namen (2) und dem Objektnamen (3) versehen. Anschließend wird dieses Objekt an das \verb|GetObjectPresignRequest| Objekt übergeben (4) und die Gültigkeitsdauer der Signatur angegeben (5). Die Gültigkeitsdauer bestimmt, wie lange die signierte URL valide ist. Um die signierte URL zu generieren, wird das \verb|GetObjectPresignRequest| Objekt an den \verb|S3Presigner| übergeben (6), auf welche die Methode \verb|presignGetObject()| aufgerufen wird (6). 
+Die Methode erhält ähnlich wie beim Hochladen des Objekts die Parameter Bucket-Name und Objektname. Zudem wird eine Zeitdauer in Minuten übergeben, die festlegt, wie lange der generierte Link gültig sein soll. Für die Entschlüsselung der Daten muss der gleiche Encryption Key wie beim Hochladen verwendet werden. Das \verb|GetObjectRequest| Objekt wird erstellt (1) und mit dem Bucket-Namen (2) und dem Objektnamen (3) versehen. Anschließend wird dieses Objekt an das \verb|GetObjectPresignRequest| Objekt übergeben (4) und die Gültigkeitsdauer der Signatur angegeben (5). Diese bestimmt, wie lange die signierte URL valide ist.\\
 
-Das generierte \verb|PresignedGetObjectRequest| wird als URL gespeichert (7) und ausgegeben.\\
+Um die signierte URL zu generieren, wird das \verb|GetObjectPresignRequest| Objekt an den \verb|S3Presigner| übergeben (6), auf welche die Methode \verb|presignGetObject()| aufgerufen wird (6). Das generierte \verb|PresignedGetObjectRequest| wird als URL gespeichert (7) und ausgegeben.\\
 
 Folgende Abbildung zeigt die Methode zur Generierung einer signierten URL der \\Klasse \verb|GCStorageService|:
 
@@ -239,7 +239,9 @@ Dateien hoch- und herunterladen und die Zeit für die benötigte Request messen.
 
 GC bietet ein eigenes \verb|gsutil| Tool für die Performance Analyse. Wie im Abschnitt Performance bereits erwähnt, können durch die \verb|perfdiag| Funktion Performance Diagnosen erstellt werden.\\ 
 
-Mehrere Testdateien werden aus einem angegebenen Bucket hoch- und heruntergeladen. Nach der Analyse werden alle Testdateien nach erfolgreicher Diagnose gelöscht. Die \verb|gsutil| Performance kann von einigen Faktoren wie vom Client, Server oder Netzwerk beeinflusst werden. Möglich sind die Leistung, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen \verb|gsutil| und den Google Servern. Die \verb|perfiag| Funktion wurde bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.\\
+Mehrere Testdateien werden aus einem angegebenen Bucket hoch- und heruntergeladen. Nach der Analyse werden alle Testdateien nach erfolgreicher Diagnose gelöscht. Die \verb|gsutil| Performance kann von einigen Faktoren wie vom Client, Server oder Netzwerk beeinflusst werden. Möglich sind die Leistung, der verfügbare Speicher, die Netzwerk Bandbreite, Firewalls und Fehlerraten zwischen \verb|gsutil| und den Google Servern. Die \verb|perfiag| Funktion wurde bereitgestellt, damit Nutzer Messungen durchführen können, die beim Troubleshooting von Performance Problemen helfen, vgl. \cite{gc-perfdiag}.
+
+\newpage
 
 Um die Performance Diagnose auszuführen, kann der folgende Befehl verwendet werden:
 
@@ -334,7 +336,7 @@ Download   &  701 & 1559 \\
 \caption{Ergebnisse der Upload und Download Dauer der Speicherklassen OneZone-IA und Coldline}
 \end{table}
 
-Die Ergebnisse werden im Kapitel Zusammenfassung der Ergebnisse untersucht und dargestellt.
+Die Ergebnisse werden im Kapitel 4.2 Zusammenfassung der Ergebnisse untersucht und dargestellt.
 
 \newpage
 
