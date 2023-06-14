@@ -51,6 +51,7 @@
 \widowpenalty = 10000
 \displaywidowpenalty = 10000
 
+
 %******************************************************************************	
 % Ebenen Einstellungen
 %1.section, 2.subsection, 3.subsubsection, 4.paragraph, 5.subparagraph
@@ -265,8 +266,6 @@
 \renewcommand*{\glspostdescription}{} %Punkt am Ende jeder Beschreibung deaktivieren
 \makeglossaries % Glossar erstellen
 
-
-
 %************************************************************************************************
 \begin{document}
 
@@ -276,7 +275,7 @@
 
 %\linenumbers 			%Zeilennummern; zum Korrekturlesen einkommentieren
 
-\pagestyle{empty}		% Keine Kopf-/Fusszeilen auf den ersten Seiten.
+%\pagestyle{empty}		% Keine Kopf-/Fusszeilen auf den ersten Seiten.
 
 %****************************************
 %Include
@@ -285,8 +284,10 @@
 \include{./Erklaerung/Erklaerung} 	% Erklärung
 \include{./Abstract/Abstract} 		% Abstract
 \include{./Inhaltsverzeichnis/Inhaltsverzeichnis}
-
+\thispagestyle{empty}
 \include{./Abkuerzungsverzeichnis/Abkuerzungsverzeichnis}	
+\pagenumbering{arabic}
+\setcounter{page}{3}
 \glsaddall[types={\acronymtype}] % damit auch nicht benutzte Abkürzungen erscheinen
 \begin{singlespacing}	% Zeilenabstand 1.0
 \printglossary[type=\acronymtype,style=mylist,nonumberlist]
