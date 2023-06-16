@@ -26,18 +26,41 @@ Insgesamt war die Dauer des Uploads und Downloads der Speicherklassen von AWS in
 
 \section{Bewertung des Prototyps}
 
-Für die Bewertung des Prototyps wurden die Anforderungen von leoticket herangezogen. Dabei war es entscheidend, den Prototypen so zu bauen, dass die sichere Speicherung gedeckt war. Für die Deckung der sicheren Speicherung wurden Methoden betrachtet, die beide Cloud Provider anboten. Dabei implementiert der Prototyp die SSE-KMS Methode beider Provider. Durch die eigene Erstellung des Schlüssels im KMS von AWS und GC hat der Nutzer mehr Kontrolle, da die Schlüssel von ihm selbst erstellt werden. Der Schlüssel wird vom KMS gespeichert und muss daher nicht vom Nutzer extern gespeichert und verwaltet werden. Der Prototyp kann jedoch so umgebaut werden, dass auch eine andere Methode wie die SSE-C verwendet werden kann. Die SSE-C bietet eine höhere Sicherheit, da der Nutzer den Schüssel selbst generieren und speichern muss. Dies führt aber auch zum Risiko, den Schlüssel zu verlieren. In diesem Fall kann auf die Objekte im Bucket nicht mehr zugegriffen werden. Noch ein Kriterium von leoticket war die hohe Verfügbarkeit der Daten. Der Prototyp wurde so gebaut, dass der Nutzer die Speicherklasse für AWS selbst wählen kann. In GC funktioniert das, indem das Bucket die richtige Speicherklasse bereits eingestellt hat. Für die Verfügbarkeit sind jedoch die Cloud Provider verantwortlich. Hier versprechen beide Provider eine Verfügbarkeit von mindestens 99.5\%. Diese Verfügbarkeit hängt von den verschiedenen Speicherklassen ab. Über Terraform werden Buckets automatisch mit den Einstellungen konform zu den Anforderungen von leoticket erstellt. Diese beinhalten die Konfigurationen von:
+Für die Bewertung des Prototyps wurden die Anforderungen von leoticket herangezogen. Dabei war es entscheidend, den Prototypen so zu bauen, dass die sichere Speicherung gedeckt war. Für die Deckung der sicheren Speicherung wurden Methoden betrachtet, die beide Cloud Provider anboten. Dabei implementiert der Prototyp die SSE-KMS Methode beider Provider. Durch die eigene Erstellung des Schlüssels im KMS von AWS und GC hat der Nutzer mehr Kontrolle, da die Schlüssel von ihm selbst erstellt werden. Der Schlüssel wird vom KMS gespeichert und muss daher nicht vom Nutzer extern gespeichert und verwaltet werden. Der Prototyp kann jedoch so umgebaut werden, dass auch eine andere Methode wie die SSE-C verwendet werden kann. Die SSE-C bietet eine höhere Sicherheit, da der Nutzer den Schüssel selbst generieren und speichern muss. Dies führt aber auch zum Risiko, den Schlüssel zu verlieren. In diesem Fall kann auf die Objekte im Bucket nicht mehr zugegriffen werden. Noch ein Kriterium von leoticket war die hohe Verfügbarkeit der Daten. Der Prototyp wurde so gebaut, dass der Nutzer die Speicherklasse für AWS selbst wählen kann. In GC funktioniert das, indem das Bucket die richtige Speicherklasse bereits eingestellt hat. Für die Verfügbarkeit sind jedoch die Cloud Provider verantwortlich. Hier versprechen beide Provider eine Verfügbarkeit von mindestens 99.5\%. Diese Verfügbarkeit hängt von den verschiedenen Speicherklassen ab. Über Terraform können Buckets automatisch mit den Einstellungen konform zu den Anforderungen von leoticket erstellt werden. Diese beinhalten folgende Konfigurationen:\\
 
-\begin{itemize}
-	\item Object Versioning
-	\item Lifecycle Rules
-	\item Object Ownership
-	\item Data Encryption
-	\item Object Logging
-	\item Bucket ACL
-	\item Public Access Block
-\end{itemize}
+\begin{table}[!h]
+\centering
+\begin{tabular}{ |p{5cm}|p{5cm}| }
+\hline
+AWS & GCP \\
+\hline
+\cline{1-2}
+Create Bucket & Create Bucket \\
+\cline{1-2}
+Create Log Bucket & Create Log Bucket\\
+\cline{1-2}
+Bucket Versioning & Bucket Versioning \\
+\cline{1-2}
+Bucket Ownership Controls &  Public Access Prevention \\
+\cline{1-2}
+Bucket ACL & Uniform Bucket Level Access \\
+\cline{1-2}
+Bucket Logging & Bucket Logging \\
+\cline{1-2}
+Create KMS & Create KMS Key Ring \\
+\cline{1-2}
+Bucket Privacy & Storage Class\\
+\cline{1-2}
+Bucket Lifecycle & Bucket Lifecycle \\
+\cline{1-2}
+Create KMS Alias & Create KMS Crypto Key \\
+\cline{1-2}
+\end{tabular}
+\caption{Konfigurationen der Terraform Dateien}
+\end{table}
 
-Die Objekt Versionierung dient zur Steigerung der Verfügbarkeit, falls Daten unerwünscht gelöscht oder überschrieben werden. Für die Anforderung der Integration in Software-Produkte wie leoticket sorgen die SDKs der beiden Provider. Diese unterstützen mehrere Programmiersprachen. Sie werden durch Spring Boot unterstützt und können auch mit Maven oder Gradle gebaut werden. Die Anbindung verläuft gemäß der offiziellen Dokumentation der beiden Cloud Provider. Die Dokumentationen sind verständlich und auf dem aktuellsten Stand und beschreiben deren API. AWS und GC bieten auch neue Versionen an und updaten die SDKs. Die Generierung der signierten URLs ist für die Bereitstellung der Dateien zuständig. Diese Anforderung war das Hauptmerkmal von leoticket. Dabei ist es bei beiden Providern möglich, signierte, zeitlich begrenzte URLs zu generieren und diese Nutzern bereitzustellen. Empfänger der URL können so ihre Tickets und Rechnungen herunterladen. Für die Performance Analyse wird eine Methode zur Verfügung gestellt, die Testdateien in der Größe von 100 KB erstellen und in Buckets hoch- und herunterladen kann.\\
+Die Objekt Versionierung dient zur Steigerung der Verfügbarkeit, falls Daten unerwünscht gelöscht oder überschrieben werden. Für die Anforderung der Integration in Software-Produkte wie leoticket sorgen die SDKs der beiden Provider. Diese unterstützen mehrere Programmiersprachen. Sie werden durch Spring Boot unterstützt und können auch mit Maven oder Gradle gebaut werden. Die Anbindung verläuft gemäß der offiziellen Dokumentation der beiden Cloud Provider. Die Dokumentationen sind verständlich und auf dem aktuellsten Stand und beschreiben deren API. AWS und GC bieten auch neue Versionen an und updaten die SDKs.\\ 
+
+Die Generierung der signierten URLs ist für die Bereitstellung der Dateien zuständig. Diese Anforderung war das Hauptmerkmal von leoticket. Dabei ist es bei beiden Providern möglich, signierte, zeitlich begrenzte URLs zu generieren und diese Nutzern bereitzustellen. Empfänger der URL können so ihre Tickets und Rechnungen herunterladen. Für die Performance Analyse wird eine Methode zur Verfügung gestellt, die Testdateien in der Größe von 100 KB erstellen und in Buckets hoch- und herunterladen kann.\\
 
 Insgesamt ist der Prototyp ausbaufähig und stellt für diese Arbeit einen Vergleich zwischen beiden Cloud Providern dar. Für den besseren Vergleich beider Cloud Provider wurden die Technologien ausprobiert und genutzt. Durch Änderungen an der Terraform Konfiguration, der Speicherklassen Variable für AWS und an der Methode der Datenverschlüsselung kann der Prototyp angepasst werden. Eine Schwäche des Prototyps besteht darin, dass keine genauen Performance Messungen durchgeführt werden können aufgrund genannter Einflüsse, welche die Ergebnisse beeinflussen können. Er dient lediglich dem groben Vergleich. Eine weitere Schwäche des Prototyps besteht darin, dass Entwickler bei der Integration des Prototyps in eigenen Anwendungen Anpassungen durchführen müssen, indem die Hauptklasse des Prototyps so umgebaut werden muss, dass sie dem gewünschten Verhalten entspricht.
